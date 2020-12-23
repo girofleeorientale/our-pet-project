@@ -17,7 +17,7 @@ public class Plateau {
         this.largeur = largeur;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
-        this.couleurs = new int[hauteur][largeur];
+        this.couleurs = new int[hauteur+2][largeur+2];
         this.valeurs = new int[hauteur][largeur];
     }
 
@@ -336,8 +336,8 @@ public class Plateau {
     }
 
     public void displayColors() {
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
+        for (int i = 1; i <=hauteur; i++) {
+            for (int j = 1; j <=largeur; j++) {
                 System.out.print(couleurs[i][j]);
             }
             System.out.println();
@@ -354,15 +354,110 @@ public class Plateau {
     }
 
     public void displayValues() {
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
+        for (int i = 0; i <hauteur; i++) {
+            for (int j = 0; j <largeur; j++) {
                 System.out.print(valeurs[i][j]);
             }
             System.out.println();
         }
     }
+/*************************************************/
+  //Normally it has to be colors
+  	public boolean Voisine_Left(int i , int j) {
+  		if(j==1)return false;
+  		if(couleurs[i][j]==couleurs[i][j-1])return true;
+  		return false;
+  	}
 
+  	public boolean Voisine_Right(int i , int j) {
+  		if(j==largeur) {return false;}
+  		if(couleurs[i][j]==couleurs[i][j+1])return true;
+  		return false;
+  	}
+  	
+  	
+  	public boolean Voisine_Up(int i , int j) {
+  		if(i==1)return false;
+  		if(couleurs[i][j]==couleurs[i-1][j])return true;
+  		return false;
+  	}
+  	
+  	public boolean Voisine_Down(int i , int j) {
+  		if(i==hauteur)return false;
+  		if(couleurs[i][j]==couleurs[i+1][j])return true;
+  		return false;
+  	}
+  	
+  	
+  	public void eliminer_Voisines(int i, int j) {
+		if(i<1 || j<1 || i>largeur || j>hauteur ) return ;
+		
+		if(Voisine_Left(i,j)) {couleurs[i][j-1]=-1;eliminer_Voisines(i,j-1);}
+		if(Voisine_Right(i,j)) {couleurs[i][j+1]=-1;eliminer_Voisines(i,j+1);}
+		if(Voisine_Up(i,j)) {couleurs[i-1][j]=-1;eliminer_Voisines(i-1,j);}
+	    if(Voisine_Down(i,j)) {couleurs[i+1][j]=-1;eliminer_Voisines(i+1,j);}
 
+		couleurs[i][j]=-1;}
+  	
+  	public void reorganisation()
+	{ 
+		for(int i=1;i<=largeur;i++) {
+			for(int j=0;j<=hauteur;j++) {
+			if(couleurs[i][j]==-1) {couleurs[i][j]=0;}
+		}
+	}
+	}
+	
+  	public boolean NoGaps(int col) {
+		for(int i=2;i<hauteur;i++)
+		{ if(couleurs[i-1][col]!= 0 && couleurs[i][col]==0)return false;}
+		return true;
+	}
+  	
+  	public void reorganiser_down(int col) {
+		int i=1;
+		if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
+		while(i<hauteur) {
+		if(couleurs[i][col]==0 ) {i++;}
+		else if(couleurs[i][col]!=0 && couleurs[i+1][col]==0) {System.out.println(i); reorganiser_bas_bis(i,col);i++;}
+		else i++;
+		}
+		while (!NoGaps(col))reorganiser_down(col);}
+		
+  public void reorganiser_bas_bis(int ligne,int col) {
+		
+		if(ligne<hauteur && couleurs[ligne+1][col]==0) {
+		System.out.println("here ! "+ligne);
+		couleurs[ligne+1][col]=couleurs[ligne][col];
+		couleurs[ligne][col]=0;}
+  }
+  
+  public boolean colonne_estVide(int col) {
+		int i=1;
+		while(i<=hauteur && couleurs[i][col]==0)i++;
+		if( couleurs[i][col]!=0) return false;
+		return true;
+	}
+		
+		
+		
+  public void reorganiser_Àgauche(int col) {
+		if(col >=2 && col<=largeur && colonne_estVide(col-1))
+		{System.out.println("here !");
+		for(int i=1;i<=hauteur;i++) {
+		couleurs[i][col-1]=couleurs[i][col];
+		couleurs[i][col]=0;
+		reorganiser_Àgauche(col+1);
+		}
+		}}
+		
+	
+  	
+  	
+  	
+  	
+	
+/******************************************************/
     public static void main(String[] args) {
         Plateau p = new Plateau(8, 8);
         System.out.println("START");
@@ -370,6 +465,12 @@ public class Plateau {
         p.displayValues();
         System.out.println(" ");
         p.displayColors();
+        p.eliminer_Voisines(2, 2);
+        p.reorganisation();
+        p.displayColors();
+        p.reorganiser_down(2);
+        p.displayColors();
+/**********/
     }
 }
     
