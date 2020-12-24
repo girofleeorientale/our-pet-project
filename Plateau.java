@@ -34,6 +34,7 @@ public class Plateau {
         int color = r.nextInt(3) + 1;
 
         Carre carre = new Carre(this, x0, y0);
+//        System.out.println("CARRE x: " + x0 + "y :" + y0);
 
         if (carre.notOutOfBoundsLeft(x0, y0) && carre.notOutOfBoundsRight(this, x0, y0)
                 && carre.notOutOfBoundsUp(x0, y0) && carre.notOutOfBoundsDown(this, x0, y0)) {
@@ -71,10 +72,11 @@ public class Plateau {
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
 
-        LetterL letterL = new LetterL(this, x0, y0);
+        LetterL1 letterL1 = new LetterL1(this, x0, y0);
+//        System.out.println("Letter L1 x: " + x0 + " y :" + y0);
 
-        if (letterL.notOutOfBoundsLeft(x0, y0) && letterL.notOutOfBoundsRight(this, x0, y0)
-                && letterL.notOutOfBoundsUp(x0, y0) && letterL.notOutOfBoundsDown(this, x0, y0)) {
+        if (letterL1.notOutOfBoundsLeft(x0, y0) && letterL1.notOutOfBoundsRight(this, x0, y0)
+                && letterL1.notOutOfBoundsUp(x0, y0) && letterL1.notOutOfBoundsDown(this, x0, y0)) {
             if (
                     this.cases[x0][y0] == false &&
                             this.cases[x0 + 1][y0] == false &&
@@ -106,10 +108,12 @@ public class Plateau {
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
 
-        LetterL letterL = new LetterL(this, x0, y0);
+        LetterL2 letterL2 = new LetterL2(this, x0, y0);
+//        System.out.println("Letter L2 x: " + x0 + " y :" + y0);
 
-        if (letterL.notOutOfBoundsLeft(x0, y0) && letterL.notOutOfBoundsRight(this, x0, y0)
-                && letterL.notOutOfBoundsUp(x0, y0) && letterL.notOutOfBoundsDown(this, x0, y0)) {
+
+        if (letterL2.notOutOfBoundsLeft(x0, y0) && letterL2.notOutOfBoundsRight(this, x0, y0)
+                && letterL2.notOutOfBoundsUp(x0, y0) && letterL2.notOutOfBoundsDown(this, x0, y0)) {
             if (
                     this.cases[x0][y0] == false &&
                             this.cases[x0 + 1][y0] == false &&
@@ -251,10 +255,16 @@ public class Plateau {
     }
 
     public void placeShapes() {
+        // on met des 0 a la premiere ligne
+        for (int i = 0; i< largeur; i++) {
+            cases[0][i] = true;
+            couleurs[0][i] = 0;
+        }
+
         int all = 0;
         Random r = new Random();
 
-        while (all < 12) {
+        while (all < 10) {
             int choice = r.nextInt(6);
 
             if (choice == 0) {
@@ -296,6 +306,17 @@ public class Plateau {
                 }
             }
         }
+
+//      on rajoute 4 animaux
+        all = 0;
+        while (all < 4) {
+            int animal = r.nextInt(largeur-1);
+            if (couleurs[0][animal]!=9) {
+                couleurs[0][animal] = 9;
+                all++;
+        }
+        }
+
     }
 
     public boolean existsEmptyCell() {
@@ -327,8 +348,8 @@ public class Plateau {
 
 
     public void display() {
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
+        for (int i = 0; i < hauteur-1; i++) {
+            for (int j = 0; j < largeur-1; j++) {
                 if (cases[i][j]) {
                     System.out.print("*");
                 } else {
@@ -471,7 +492,7 @@ public void use_tab() {
   
   public boolean colonne_estVide(int col) {
 		int i=0;
-		while(i<hauteur && couleurs[i][col]==0)i++;
+		while(i<hauteur-1 && couleurs[i][col]==0)i++;
 		if( couleurs[i][col]!=0) return false;
 		return true;
 	}
@@ -501,15 +522,19 @@ public void use_tab() {
         System.out.println("START");
         p.placeShapes();
         p.displayValues();
-        System.out.println(" ");
+        System.out.println(" couleurs : ");
         p.displayColors();
+//        p.placeShapes();
+//        System.out.println(" ");
+//        p.displayValues();
+
         p.eliminer_Voisines(1, 1);
         p.use_tab();
         p.reorganisation();
         System.out.println(" ");
         System.out.println("voila après la supression :");
         p.displayColors();
-        
+
        System.out.println("Après réorganisation ");
         p.reorganiser_down(2);
         System.out.println(" ");

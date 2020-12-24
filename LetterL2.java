@@ -1,23 +1,14 @@
-import java.util.Random;
-
-public class Carre extends Shape {
+public class LetterL2 extends Shape {
     int x;
     int y;
-    int val = 1;
 
-    public Carre () {
+    public LetterL2() {
 
     }
 
-    public Carre (Plateau p, int x, int y) {
+    public LetterL2(Plateau p, int x, int y) {
         this.x = x;
         this. y = y;
-//        if (okToPlace()) {
-//            p.valeurs[x][y] = 1;
-//            p.valeurs[x][y+1] = 1;
-//            p.valeurs[x+1][y] = 1;
-//            p.valeurs[x+1][y+1] = 1;
-//        }
     }
 
     public boolean notOutOfBoundsUp (int x, int y) {
@@ -51,5 +42,4 @@ public class Carre extends Shape {
         }
         return res;
     }
-
 }

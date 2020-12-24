@@ -1,12 +1,12 @@
-public class LetterL extends Shape {
+public class LetterL1 extends Shape {
     int x;
     int y;
 
-    public LetterL() {
+    public LetterL1() {
 
     }
 
-    public LetterL (Plateau p, int x, int y) {
+    public LetterL1 (Plateau p, int x, int y) {
         this.x = x;
         this. y = y;
     }
@@ -21,7 +21,7 @@ public class LetterL extends Shape {
 
     public boolean notOutOfBoundsDown (Plateau p, int x, int y) {
         boolean res = true;
-        if (x >= p.largeur) {
+        if (x >= p.hauteur-1) {
             res = false;
         }
         return res;
@@ -37,7 +37,7 @@ public class LetterL extends Shape {
 
     public boolean notOutOfBoundsRight (Plateau p, int x, int y) {
         boolean res = true;
-        if (y >= p.hauteur-1) {
+        if (y >= p.largeur-2) {
             res = false;
         }
         return res;
