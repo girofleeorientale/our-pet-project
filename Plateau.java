@@ -461,7 +461,7 @@ public void use_tab() {
 	{ 
 		for(int i=0;i<largeur;i++) {
 			for(int j=0;j<hauteur;j++) {
-			if(tab[i][j]==7 || tab[i][j]==2) {couleurs[i][j]=0;}
+			if(tab[i][j]==7 ) {couleurs[i][j]=0;}
 		}
 	}
 	}
@@ -500,7 +500,7 @@ public void use_tab() {
 		
 		
   public void reorganiser_Àgauche(int col) {
-		if(col >0 && col<largeur && colonne_estVide(col-1))
+		if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
 		{
 		for(int i=0;i<hauteur;i++) {
 		couleurs[i][col-1]=couleurs[i][col];
@@ -509,9 +509,54 @@ public void use_tab() {
 		}
 		}}
 		
-	
-  	
-  	
+/******Fonctions de jeu ****/
+  /* Fonction qui regarde si il y'a des colonnes vide*/
+   /*  (pousser à gauche) par conséquent*/
+  
+  public void pushToLeft() {
+	  for(int j=0;j<largeur;j++) {
+		  if(this.colonne_estVide(j)) 
+		  {this.reorganiser_Àgauche(j);}
+	  }
+	  }
+  /* descendre */
+ public void goDown() {
+	 for(int j=0;j<largeur;j++)
+		 //Si cette colonne a des vides(mal rangée)(faut descendre)
+	 { if(! this.NoGaps(j))this.reorganiser_down(j);}
+ }
+  
+ /*****poser l'animal***/
+ 
+ public void poser_animal(int i, int j) { couleurs[i][j]=9;}
+ //(i,j) la case ou l'animal es posé
+ /** deplacer l'animal suite à des supressions**/
+ /*** 1 bas ***/
+ public void deplacer_animal_bas(int i , int j) {
+	 int parcours=i+1;
+	while(parcours<hauteur-1 && couleurs[parcours][j]==0){
+	parcours++;}
+   if (couleurs[parcours][j]!=0) {poser_animal(parcours-1,j);}
+   if(couleurs[hauteur-1][j]==0) {poser_animal(hauteur-1,j);}}
+	/*** 2  gauche***/ 		
+	public void deplacer_animal_gauche(int i, int j) {
+		// parcours horizontal
+		int parcours=j-1;
+		while(parcours>0 && parcours<largeur && couleurs[i][parcours]==0) {
+			parcours--;
+		}
+		if(couleurs[i][parcours]!=0) {poser_animal(i,parcours+1);}
+		if(couleurs[i][0]==0) {poser_animal(i,0);}
+	}
+ /* l'animal a t il été sauvé ? */
+public boolean animal_sauvé(int i, int j) {
+	if (i==hauteur-1) {couleurs[i][j]=0;return true;}
+	return false;
+}
+	/* à faire */
+ public void jeuGagné() {
+
+ }
   	
   	
 	
@@ -542,6 +587,7 @@ public void use_tab() {
     }
 }
     
+
 
 
 
