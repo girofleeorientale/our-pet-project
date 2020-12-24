@@ -361,103 +361,103 @@ public class Plateau {
             System.out.println();
         }
     }
-/*************************************************/
-  //Normally it has to be colors
-  	public boolean Voisine_Left(int i , int j) {
-  		if(j==1)return false;
-  		if(couleurs[i][j]==couleurs[i][j-1])return true;
-  		return false;
-  	}
+    /*************************************************/
+    //Normally it has to be colors
+    public boolean Voisine_Left(int i , int j) {
+        if(j==1)return false;
+        if(couleurs[i][j]==couleurs[i][j-1])return true;
+        return false;
+    }
 
-  	public boolean Voisine_Right(int i , int j) {
-  		if(j==largeur) {return false;}
-  		if(couleurs[i][j]==couleurs[i][j+1])return true;
-  		return false;
-  	}
-  	
-  	
-  	public boolean Voisine_Up(int i , int j) {
-  		if(i==1)return false;
-  		if(couleurs[i][j]==couleurs[i-1][j])return true;
-  		return false;
-  	}
-  	
-  	public boolean Voisine_Down(int i , int j) {
-  		if(i==hauteur)return false;
-  		if(couleurs[i][j]==couleurs[i+1][j])return true;
-  		return false;
-  	}
-  	
-  	
-  	public void eliminer_Voisines(int i, int j) {
-		if(i<1 || j<1 || i>largeur || j>hauteur ) return ;
-		
-		if(Voisine_Left(i,j)) {couleurs[i][j-1]=-1;eliminer_Voisines(i,j-1);}
-		if(Voisine_Right(i,j)) {couleurs[i][j+1]=-1;eliminer_Voisines(i,j+1);}
-		if(Voisine_Up(i,j)) {couleurs[i-1][j]=-1;eliminer_Voisines(i-1,j);}
-	    if(Voisine_Down(i,j)) {couleurs[i+1][j]=-1;eliminer_Voisines(i+1,j);}
+    public boolean Voisine_Right(int i , int j) {
+        if(j==largeur) {return false;}
+        if(couleurs[i][j]==couleurs[i][j+1])return true;
+        return false;
+    }
 
-		couleurs[i][j]=-1;}
-  	
-  	public void reorganisation()
-	{ 
-		for(int i=1;i<=largeur;i++) {
-			for(int j=0;j<=hauteur;j++) {
-			if(couleurs[i][j]==-1) {couleurs[i][j]=0;}
-		}
-	}
-	}
-	
-  	public boolean NoGaps(int col) {
-		for(int i=2;i<hauteur;i++)
-		{ if(couleurs[i-1][col]!= 0 && couleurs[i][col]==0)return false;}
-		return true;
-	}
-  	
-  	public void reorganiser_down(int col) {
-		int i=1;
-		if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
-		while(i<hauteur) {
-		if(couleurs[i][col]==0 ) {i++;}
-		else if(couleurs[i][col]!=0 && couleurs[i+1][col]==0) {System.out.println(i); reorganiser_bas_bis(i,col);i++;}
-		else i++;
-		}
-		while (!NoGaps(col))reorganiser_down(col);}
-		
-  public void reorganiser_bas_bis(int ligne,int col) {
-		
-		if(ligne<hauteur && couleurs[ligne+1][col]==0) {
-		System.out.println("here ! "+ligne);
-		couleurs[ligne+1][col]=couleurs[ligne][col];
-		couleurs[ligne][col]=0;}
-  }
-  
-  public boolean colonne_estVide(int col) {
-		int i=1;
-		while(i<=hauteur && couleurs[i][col]==0)i++;
-		if( couleurs[i][col]!=0) return false;
-		return true;
-	}
-		
-		
-		
-  public void reorganiser_Àgauche(int col) {
-		if(col >=2 && col<=largeur && colonne_estVide(col-1))
-		{System.out.println("here !");
-		for(int i=1;i<=hauteur;i++) {
-		couleurs[i][col-1]=couleurs[i][col];
-		couleurs[i][col]=0;
-		reorganiser_Àgauche(col+1);
-		}
-		}}
-		
-	
-  	
-  	
-  	
-  	
-	
-/******************************************************/
+
+    public boolean Voisine_Up(int i , int j) {
+        if(i==1)return false;
+        if(couleurs[i][j]==couleurs[i-1][j])return true;
+        return false;
+    }
+
+    public boolean Voisine_Down(int i , int j) {
+        if(i==hauteur)return false;
+        if(couleurs[i][j]==couleurs[i+1][j])return true;
+        return false;
+    }
+
+
+    public void eliminer_Voisines(int i, int j) {
+        if(i<1 || j<1 || i>largeur || j>hauteur ) return ;
+
+        if(Voisine_Left(i,j)) {couleurs[i][j-1]=-1;eliminer_Voisines(i,j-1);}
+        if(Voisine_Right(i,j)) {couleurs[i][j+1]=-1;eliminer_Voisines(i,j+1);}
+        if(Voisine_Up(i,j)) {couleurs[i-1][j]=-1;eliminer_Voisines(i-1,j);}
+        if(Voisine_Down(i,j)) {couleurs[i+1][j]=-1;eliminer_Voisines(i+1,j);}
+
+        couleurs[i][j]=-1;}
+
+    public void reorganisation()
+    {
+        for(int i=1;i<=largeur;i++) {
+            for(int j=0;j<=hauteur;j++) {
+                if(couleurs[i][j]==-1) {couleurs[i][j]=0;}
+            }
+        }
+    }
+
+    public boolean NoGaps(int col) {
+        for(int i=2;i<hauteur;i++)
+        { if(couleurs[i-1][col]!= 0 && couleurs[i][col]==0)return false;}
+        return true;
+    }
+
+    public void reorganiser_down(int col) {
+        int i=1;
+        if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
+        while(i<hauteur) {
+            if(couleurs[i][col]==0 ) {i++;}
+            else if(couleurs[i][col]!=0 && couleurs[i+1][col]==0) {System.out.println(i); reorganiser_bas_bis(i,col);i++;}
+            else i++;
+        }
+        while (!NoGaps(col))reorganiser_down(col);}
+
+    public void reorganiser_bas_bis(int ligne,int col) {
+
+        if(ligne<hauteur && couleurs[ligne+1][col]==0) {
+            System.out.println("here ! "+ligne);
+            couleurs[ligne+1][col]=couleurs[ligne][col];
+            couleurs[ligne][col]=0;}
+    }
+
+    public boolean colonne_estVide(int col) {
+        int i=1;
+        while(i<=hauteur && couleurs[i][col]==0)i++;
+        if( couleurs[i][col]!=0) return false;
+        return true;
+    }
+
+
+
+    public void reorganiser_Àgauche(int col) {
+        if(col >=2 && col<=largeur && colonne_estVide(col-1))
+        {System.out.println("here !");
+            for(int i=1;i<=hauteur;i++) {
+                couleurs[i][col-1]=couleurs[i][col];
+                couleurs[i][col]=0;
+                reorganiser_Àgauche(col+1);
+            }
+        }}
+
+
+
+
+
+
+
+    /******************************************************/
     public static void main(String[] args) {
         Plateau p = new Plateau(8, 8);
         System.out.println("START");
@@ -473,5 +473,5 @@ public class Plateau {
 /**********/
     }
 }
-    
+
 
