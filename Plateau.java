@@ -14,6 +14,8 @@ public class Plateau {
     // valeurs pour les shapes (carre - 1, L - 2, T - 3, I horizontal/vertical - 4)
     int[][] valeurs;
     int[][] tab ;
+    Case[][] colors;
+
     public Plateau(int hauteur, int largeur) {
         this.hauteur = hauteur;
         this.largeur = largeur;
@@ -21,9 +23,26 @@ public class Plateau {
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
         this.valeurs = new int[hauteur][largeur];
+        this.colors = new Case[hauteur][largeur];
     }
     
     public void init() { tab = new int [this.hauteur][this.largeur];}
+
+    public String chooseColor (int color) {
+        String res = "";
+
+        switch (color) {
+            case 1: res = "red";
+            break;
+            case 2: res = "green";
+            break;
+            case 3: res = "blue";
+            break;
+            case 4: res = "yellow";
+            break;
+        }
+        return res;
+    }
 
     public boolean placeSquare() {
         boolean res = false;
@@ -32,6 +51,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         Carre carre = new Carre(this, x0, y0);
 //        System.out.println("CARRE x: " + x0 + "y :" + y0);
@@ -48,10 +68,14 @@ public class Plateau {
                 this.valeurs[x0 + 1][y0] = 1;
                 this.valeurs[x0 + 1][y0 + 1] = 1;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0][y0 + 1] = color;
-                this.couleurs[x0 + 1][y0] = color;
-                this.couleurs[x0 + 1][y0 + 1] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0][y0 + 1] = new Case();
+                this.colors[x0][y0 + 1].setColor(color2);
+                this.colors[x0 + 1][y0] = new Case();
+                this.colors[x0 + 1][y0].setColor(color2);
+                this.colors[x0 + 1][y0 + 1] = new Case();
+                this.colors[x0 + 1][y0 + 1].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0][y0 + 1] = true;
@@ -71,6 +95,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         LetterL1 letterL1 = new LetterL1(this, x0, y0);
 //        System.out.println("Letter L1 x: " + x0 + " y :" + y0);
@@ -86,9 +111,12 @@ public class Plateau {
                 this.valeurs[x0 + 1][y0] = 2;
                 this.valeurs[x0 + 1][y0 + 1] = 2;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0 + 1][y0] = color;
-                this.couleurs[x0 + 1][y0 + 1] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0 + 1][y0] = new Case();
+                this.colors[x0 + 1][y0].setColor(color2);
+                this.colors[x0 + 1][y0 + 1] = new Case();
+                this.colors[x0 + 1][y0 + 1].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0 + 1][y0] = true;
@@ -107,6 +135,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         LetterL2 letterL2 = new LetterL2(this, x0, y0);
 //        System.out.println("Letter L2 x: " + x0 + " y :" + y0);
@@ -123,9 +152,12 @@ public class Plateau {
                 this.valeurs[x0][y0 + 1] = 2;
                 this.valeurs[x0 + 1][y0] = 2;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0][y0 + 1] = color;
-                this.couleurs[x0 + 1][y0] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0][y0 + 1] = new Case();
+                this.colors[x0][y0 + 1].setColor(color2);
+                this.colors[x0 + 1][y0] = new Case();
+                this.colors[x0 + 1][y0].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0 + 1][y0] = true;
@@ -144,6 +176,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         LetterIHorizontal letterIH = new LetterIHorizontal(this, x0, y0);
 
@@ -160,10 +193,14 @@ public class Plateau {
                 this.valeurs[x0][y0 + 2] = 4;
                 this.valeurs[x0][y0 + 3] = 4;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0][y0 + 1] = color;
-                this.couleurs[x0][y0 + 2] = color;
-                this.couleurs[x0][y0 + 3] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0][y0 + 1] = new Case();
+                this.colors[x0][y0 + 1].setColor(color2);
+                this.colors[x0][y0 + 2] = new Case();
+                this.colors[x0][y0 + 2].setColor(color2);
+                this.colors[x0][y0 + 3] = new Case();
+                this.colors[x0][y0 + 3].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0][y0 + 1] = true;
@@ -183,6 +220,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         LetterIVertical letterIV = new LetterIVertical(this, x0, y0);
 
@@ -199,10 +237,14 @@ public class Plateau {
                 this.valeurs[x0 + 2][y0] = 4;
                 this.valeurs[x0 + 3][y0] = 4;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0 + 1][y0] = color;
-                this.couleurs[x0 + 2][y0] = color;
-                this.couleurs[x0 + 3][y0] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0 + 1][y0] = new Case();
+                this.colors[x0 + 1][y0].setColor(color2);
+                this.colors[x0 + 2][y0] = new Case();
+                this.colors[x0 + 2][y0].setColor(color2);
+                this.colors[x0 + 3][y0] = new Case();
+                this.colors[x0 + 3][y0].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0 + 1][y0] = true;
@@ -222,6 +264,7 @@ public class Plateau {
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
         int color = r.nextInt(3) + 1;
+        String color2 = chooseColor(color);
 
         LetterTHorizontal letterTHorizontal = new LetterTHorizontal(this, x0, y0);
 
@@ -238,10 +281,14 @@ public class Plateau {
                 this.valeurs[x0][y0 + 2] = 3;
                 this.valeurs[x0 + 1][y0 + 1] = 3;
 
-                this.couleurs[x0][y0] = color;
-                this.couleurs[x0][y0 + 1] = color;
-                this.couleurs[x0][y0 + 2] = color;
-                this.couleurs[x0 + 1][y0 + 1] = color;
+                this.colors[x0][y0] = new Case();
+                this.colors[x0][y0].setColor(color2);
+                this.colors[x0][y0 + 1] = new Case();
+                this.colors[x0][y0 + 1].setColor(color2);
+                this.colors[x0][y0 + 2] = new Case();
+                this.colors[x0][y0 + 2].setColor(color2);
+                this.colors[x0 + 1][y0 + 1] = new Case();
+                this.colors[x0 + 1][y0 + 1].setColor(color2);
 
                 this.cases[x0][y0] = true;
                 this.cases[x0][y0 + 1] = true;
@@ -258,7 +305,8 @@ public class Plateau {
         // on met des 0 a la premiere ligne
         for (int i = 0; i< largeur; i++) {
             cases[0][i] = true;
-            couleurs[0][i] = 0;
+            colors[0][i] = new Case();
+            colors[0][i].setColor("white");
         }
 
         int all = 0;
@@ -296,11 +344,14 @@ public class Plateau {
 
         while (existsEmptyCell()) {
             int color = r.nextInt(3) + 1;
+            String color2 = chooseColor(color);
+
             for (int i = 0; i < this.largeur; i++) {
                 for (int j = 0; j < this.hauteur; j++) {
                     if (this.cases[i][j] == false) {
                         valeurs[i][j] = r.nextInt(4);
-                        couleurs[i][j] = color;
+                        colors[i][j] = new Case();
+                        colors[i][j].setColor(color2);
                         cases[i][j] = true;
                     }
                 }
@@ -363,7 +414,7 @@ public class Plateau {
     public void displayColors() {
         for (int i = 0; i <hauteur; i++) {
             for (int j = 0; j <largeur; j++) {
-                System.out.print(couleurs[i][j]);
+                System.out.print(colors[i][j]);
             }
             System.out.println();
         }
@@ -390,27 +441,31 @@ public class Plateau {
   //Normally it has to be colors
   	public boolean Voisine_Left(int i , int j) {
   		if(j==0)return false;
-  		if(couleurs[i][j]==couleurs[i][j-1])return true;
-  		return false;
+//  		if(couleurs[i][j]==couleurs[i][j-1])return true;
+        if(colors[i][j].getColor().equals(colors[i][j-1].getColor()))return true;
+        return false;
   	}
 
   	public boolean Voisine_Right(int i , int j) {
   		if(j==largeur-1) {return false;}
-  		if(couleurs[i][j]==couleurs[i][j+1])return true;
-  		return false;
+//  		if(couleurs[i][j]==couleurs[i][j+1])return true;
+        if(colors[i][j].getColor().equals(colors[i][j+1].getColor()))return true;
+        return false;
   	}
   	
   	
   	public boolean Voisine_Up(int i , int j) {
   		if(i==0)return false;
-  		if(couleurs[i][j]==couleurs[i-1][j])return true;
-  		return false;
+//  		if(couleurs[i][j]==couleurs[i-1][j])return true;
+        if(colors[i][j].getColor().equals(colors[i-1][j].getColor()))return true;
+        return false;
   	}
   	
   	public boolean Voisine_Down(int i , int j) {
   		if(i==hauteur-1)return false;
-  		if(couleurs[i][j]==couleurs[i+1][j])return true;
-  		return false;
+//  		if(couleurs[i][j]==couleurs[i+1][j])return true;
+        if(colors[i][j].getColor().equals(colors[i+1][j].getColor()))return true;
+        return false;
   	}
   	
   	
@@ -461,33 +516,47 @@ public void use_tab() {
 	{ 
 		for(int i=0;i<largeur;i++) {
 			for(int j=0;j<hauteur;j++) {
-			if(tab[i][j]==7 ) {couleurs[i][j]=0;}
+			if(tab[i][j]==7 ) {
+//			    couleurs[i][j]=0;
+			    colors[i][j] = new Case();
+			    colors[i][j].setColor("white");
+			}
 		}
 	}
 	}
 	
   	public boolean NoGaps(int col) {
 		for(int i=1;i<hauteur;i++)
-		{ if(couleurs[i-1][col]!= 0 && couleurs[i][col]==0)return false;}
+		{ if(
+//		        couleurs[i-1][col]!= 0 && couleurs[i][col]==0
+        !colors[i-1][col].getColor().equals("white") && !colors[i][col].getColor().equals("white")
+        )
+		    return false;}
 		return true;
 	}
   	
   	public void reorganiser_down(int col) {
 		int i=0;
+//		colors[i][col] = new Case();
 		if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
 		while(i<hauteur-1) {
-		if(couleurs[i][col]==0 ) {i++;}
-		else if(couleurs[i][col]!=0 && couleurs[i+1][col]==0) { reorganiser_bas_bis(i,col);i++;}
+		if(/*couleurs[i][col]==0*/ colors[i][col].getColor().equals("white") ) {i++;}
+		else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
+            !colors[i][col].getColor().equals("white") && !colors[i+1][col].getColor().equals("white")
+        ) { reorganiser_bas_bis(i,col);i++;}
 		else i++;
 		}
 		while (!NoGaps(col))reorganiser_down(col);}
 		
   public void reorganiser_bas_bis(int ligne,int col) {
 		
-		if(ligne<hauteur && couleurs[ligne+1][col]==0) {
+		if(ligne<hauteur && /*couleurs[ligne+1][col]==0*/ colors[ligne+1][col].getColor().equals("white")) {
 		
-		couleurs[ligne+1][col]=couleurs[ligne][col];
-		couleurs[ligne][col]=0;}
+//		couleurs[ligne+1][col]=couleurs[ligne][col];
+		colors[ligne+1][col].setColor(colors[ligne][col].getColor());
+//		couleurs[ligne][col]=0;
+		colors[ligne+1][col].setColor("white");
+		}
   }
   
   public boolean colonne_estVide(int col) {
@@ -584,6 +653,12 @@ public boolean animal_sauvé(int i, int j) {
         p.reorganiser_down(2);
         System.out.println(" ");
         p.displayColors();
+        System.out.println("*** *** *** *** *** *** ");
+        System.out.println("COLORS : " + p.colors[1][0]);
+//        Joueur j = new Joueur();
+//        Partie partie = new Partie(j, p);
+//        partie.Jouer();
+        
     }
 }
     
