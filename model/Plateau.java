@@ -2,13 +2,14 @@ package model;
 
 
 
+import java.io.Serializable;
 import java.util.*;
 
 
 
 import java.util.*;
 
-public class Plateau {
+public class Plateau implements Serializable {
     public int hauteur;
    public  int largeur;
     // si cases false la case est vide; remplie sinon

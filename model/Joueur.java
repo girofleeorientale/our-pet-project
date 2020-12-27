@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Joueur {
+public class Joueur implements Serializable {
     String nom;
-    Scanner scanReponse;
+    transient Scanner scanReponse;
 
     public Joueur () {
         nom = "Anonyme";

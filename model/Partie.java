@@ -1,5 +1,8 @@
 package model;
-public class Partie {
+
+import java.io.Serializable;
+
+public class Partie implements Serializable {
 	Plateau p;
 	Joueur J;
 	
