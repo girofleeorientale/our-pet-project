@@ -491,9 +491,7 @@ public void use_tab() {
 			if (tab[i][j]==7) {
 				
 			
-				eliminer_Voisines(i,j);/*;tab[i][j]=2;*/
-				//System.out.println("kkkkkkkkkkkkk");
-			   //affichetab();}
+				eliminer_Voisines(i,j);
 		}}
 	}
 }
@@ -529,7 +527,7 @@ public void use_tab() {
 		for(int i=1;i<hauteur;i++)
 		{ if(
 //		        couleurs[i-1][col]!= 0 && couleurs[i][col]==0
-        !colors[i-1][col].getColor().equals("white") && !colors[i][col].getColor().equals("white")
+        !colors[i-1][col].getColor().equals("white") && colors[i][col].getColor().equals("white")
         )
 		    return false;}
 		return true;
@@ -542,7 +540,7 @@ public void use_tab() {
 		while(i<hauteur-1) {
 		if(/*couleurs[i][col]==0*/ colors[i][col].getColor().equals("white") ) {i++;}
 		else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
-            !colors[i][col].getColor().equals("white") && !colors[i+1][col].getColor().equals("white")
+            !colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
         ) { reorganiser_bas_bis(i,col);i++;}
 		else i++;
 		}
@@ -561,8 +559,10 @@ public void use_tab() {
   
   public boolean colonne_estVide(int col) {
 		int i=0;
-		while(i<hauteur-1 && couleurs[i][col]==0)i++;
-		if( couleurs[i][col]!=0) return false;
+		//while(i<hauteur-1 && couleurs[i][col]==0)i++;
+		while(i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
+		//if( couleurs[i][col]!=0) return false;
+		if(!colors[i][col].getColor().equals("white"))return false;
 		return true;
 	}
 		
@@ -572,8 +572,10 @@ public void use_tab() {
 		if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
 		{
 		for(int i=0;i<hauteur;i++) {
-		couleurs[i][col-1]=couleurs[i][col];
-		couleurs[i][col]=0;
+		//couleurs[i][col-1]=couleurs[i][col];
+			colors[i][col-1].setColor(colors[i][col].getColor());
+		//   couleurs[i][col]=0;
+			colors[i][col].setColor("white");
 		reorganiser_Àgauche(col+1);
 		}
 		}}
