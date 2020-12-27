@@ -36,7 +36,7 @@ public class Plateau {
             break;
             case 2: res = "green";
             break;
-            case 3: res = "blue";
+            case 3: res = "purple";
             break;
             case 4: res = "yellow";
             break;
@@ -359,14 +359,22 @@ public class Plateau {
         }
 
 //      on rajoute 4 animaux
-        all = 0;
+      /*  all = 0;
         while (all < 4) {
             int animal = r.nextInt(largeur-1);
             if (couleurs[0][animal]!=9) {
                 couleurs[0][animal] = 9;
                 all++;
         }
-        }
+        }*/
+       all=0;
+       while(all<4) {
+    	   int animal = r.nextInt(largeur-1);
+    	   if(!colors[0][animal].getColor().equals("black")) {
+    		   colors[0][animal].setColor("black");
+    		   all++;
+    	   }
+       }
 
     }
 
@@ -438,7 +446,7 @@ public class Plateau {
         }
     }
 /*************************************************/
-  //Normally it has to be colors
+  
   	public boolean Voisine_Left(int i , int j) {
   		if(j==0)return false;
 //  		if(couleurs[i][j]==couleurs[i][j-1])return true;
@@ -473,11 +481,11 @@ public void eliminer_Voisines(int i, int j) {
 		
 		 
 		
-		if(Voisine_Left(i,j)) {tab[i][j-1]=7;}
-		if(Voisine_Right(i,j)) {tab[i][j+1]=7;}
-		if(Voisine_Up(i,j)) {tab[i-1][j]=7;}
-	    if(Voisine_Down(i,j)) {tab[i+1][j]=7;}
-	    if (Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j)) tab[i][j]=7;
+		if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j-1]=7;}
+		if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j+1]=7;}
+		if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i-1][j]=7;}
+	    if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i+1][j]=7;}
+	if ((Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j))&&!colors[i][j].getColor().equals("black") )tab[i][j]=7;
 	   
 	 
 	}
@@ -495,6 +503,22 @@ public void use_tab() {
 		}}
 	}
 }
+
+public void reinit_tab()
+{
+	 for(int i=0;i<hauteur;i++) {
+		 for(int j=0;j<largeur;j++) {
+			 tab[i][j]=0;
+		 }
+	 }
+	 
+	 
+}
+
+
+
+
+
  public void affichetab() {
 	 for(int i=0;i<8;i++) {
 			
@@ -553,16 +577,15 @@ public void use_tab() {
 //		couleurs[ligne+1][col]=couleurs[ligne][col];
 		colors[ligne+1][col].setColor(colors[ligne][col].getColor());
 //		couleurs[ligne][col]=0;
-		colors[ligne+1][col].setColor("white");
+		colors[ligne][col].setColor("white");
 		}
   }
   
   public boolean colonne_estVide(int col) {
 		int i=0;
-		//while(i<hauteur-1 && couleurs[i][col]==0)i++;
-		while(i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
-		//if( couleurs[i][col]!=0) return false;
-		if(!colors[i][col].getColor().equals("white"))return false;
+		while(/*i<hauteur-1 && couleurs[i][col]==0*/i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
+		if( /*couleurs[i][col]!=0*/
+				!colors[i][col].getColor().equals("white")) return false;
 		return true;
 	}
 		
@@ -572,10 +595,10 @@ public void use_tab() {
 		if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
 		{
 		for(int i=0;i<hauteur;i++) {
-		//couleurs[i][col-1]=couleurs[i][col];
-			colors[i][col-1].setColor(colors[i][col].getColor());
-		//   couleurs[i][col]=0;
-			colors[i][col].setColor("white");
+		/*couleurs[i][col-1]=couleurs[i][col];
+		couleurs[i][col]=0;*/
+		colors[i][col-1].setColor(colors[i][col].getColor());	
+		colors[i][col].setColor("white");
 		reorganiser_Àgauche(col+1);
 		}
 		}}
@@ -583,13 +606,12 @@ public void use_tab() {
 /******Fonctions de jeu ****/
   /* Fonction qui regarde si il y'a des colonnes vide*/
    /*  (pousser à gauche) par conséquent*/
-  
   public void pushToLeft() {
-	  for(int j=0;j<largeur;j++) {
+	  for(int j=0;j<largeur-1;j++) {
 		  if(this.colonne_estVide(j)) 
-		  {this.reorganiser_Àgauche(j);}
-	  }
-	  }
+		  {this.reorganiser_Àgauche(j+1);}
+	  }}
+  
   /* descendre */
  public void goDown() {
 	 for(int j=0;j<largeur;j++)
@@ -597,35 +619,44 @@ public void use_tab() {
 	 { if(! this.NoGaps(j))this.reorganiser_down(j);}
  }
   
- /*****poser l'animal***/
- 
- public void poser_animal(int i, int j) { couleurs[i][j]=9;}
- //(i,j) la case ou l'animal es posé
- /** deplacer l'animal suite à des supressions**/
- /*** 1 bas ***/
- public void deplacer_animal_bas(int i , int j) {
-	 int parcours=i+1;
-	while(parcours<hauteur-1 && couleurs[parcours][j]==0){
-	parcours++;}
-   if (couleurs[parcours][j]!=0) {poser_animal(parcours-1,j);}
-   if(couleurs[hauteur-1][j]==0) {poser_animal(hauteur-1,j);}}
-	/*** 2  gauche***/ 		
-	public void deplacer_animal_gauche(int i, int j) {
-		// parcours horizontal
-		int parcours=j-1;
-		while(parcours>0 && parcours<largeur && couleurs[i][parcours]==0) {
-			parcours--;
+ /* nb c le nombre des animaux posés */
+ public  boolean IfAllSaved(int nb) {
+	 int cpt=0;
+	 for(int j=0;j<largeur;j++) {
+	 if(this.justAnimal(j)) {
+	 cpt=cpt+count_animals(j);}
+	 }	
+	 if(nb==cpt)	return true;
+		return false;
+	 }
+ /* Compte le nombre d'animaux dans la colonne col*/
+ public int count_animals(int col) { 
+	 int cpt=0;
+	 for(int i=0;i<hauteur;i++) {
+		 if(/*couleurs[i][col]==9*/
+				 colors[i][col].getColor().equals("black"))cpt++;}
+	 return cpt;
+ }
+ /* dis si il y a juste des animaux et des vides dans col*/
+ public boolean justAnimal(int col) {
+		
+		for(int i=0;i<hauteur;i++) {
+		if(//couleurs[i][col]!=0 && couleurs[i][col]!=9
+	!colors[i][col].getColor().equals("white")&&!colors[i][col].getColor().equals("black"))return false;	
 		}
-		if(couleurs[i][parcours]!=0) {poser_animal(i,parcours+1);}
-		if(couleurs[i][0]==0) {poser_animal(i,0);}
+		return true;
 	}
- /* l'animal a t il été sauvé ? */
-public boolean animal_sauvé(int i, int j) {
-	if (i==hauteur-1) {couleurs[i][j]=0;return true;}
-	return false;
-}
+
+ 
+ 
 	/* à faire */
- public void jeuGagné() {
+ public boolean jeuGagne(int nb) {
+	 if (this.IfAllSaved(nb)) {
+			System.out.println("You winned !");
+			return true;
+		}
+		System.out.println("Sorry, try again !");
+		return false;
 
  }
   	
@@ -643,10 +674,11 @@ public boolean animal_sauvé(int i, int j) {
 //        p.placeShapes();
 //        System.out.println(" ");
 //        p.displayValues();
-
+        
         p.eliminer_Voisines(1, 1);
         p.use_tab();
         p.reorganisation();
+        
         System.out.println(" ");
         System.out.println("voila après la supression :");
         p.displayColors();
@@ -657,14 +689,14 @@ public boolean animal_sauvé(int i, int j) {
         p.displayColors();
         System.out.println("*** *** *** *** *** *** ");
         System.out.println("COLORS : " + p.colors[1][0]);
+        System.out.println("here" + p.colors[0][1].getColor());
 //        Joueur j = new Joueur();
 //        Partie partie = new Partie(j, p);
-//        partie.Jouer();
+//        partie.Jouer();*/
         
     }
 }
     
-
 
 
 
