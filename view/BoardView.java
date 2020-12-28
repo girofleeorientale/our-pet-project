@@ -1,5 +1,6 @@
 package view;
 
+import controller.Controller;
 import model.Case;
 import model.Plateau;
 
@@ -12,10 +13,11 @@ public class BoardView extends JFrame {
     Plateau plateau;
     GridLayout gridLayout = new GridLayout(8, 8);
     JPanel gridPanel = new JPanel(gridLayout);
-    CellView [][] cellViews = new CellView[8][8];
-    JButton [][] gridButtons = new JButton[8][8];
+    public CellView [][] cellViews = new CellView[8][8];
+//    Controller controller;
 
     public BoardView (Plateau plateau) {
+//        Controller controller = new Controller(plateau);
         plateau.placeShapes();
         this.draw(plateau);
         frame.add(gridPanel);
