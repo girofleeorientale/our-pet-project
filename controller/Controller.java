@@ -1,6 +1,8 @@
 package controller;
 //Controler le plateau;
 import model.Plateau;
+import view.Square;
+
 public class Controller {
 	 Plateau grille;
 	
@@ -8,4 +10,8 @@ public class Controller {
 		this.grille=p;
 	}
 
+
+	public void pressSquare (Square square) {
+
+	}
 }

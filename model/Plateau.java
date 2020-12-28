@@ -13,15 +13,15 @@ public class Plateau implements Serializable {
     public int hauteur;
    public  int largeur;
     // si cases false la case est vide; remplie sinon
-    boolean[][] cases;
+    public boolean[][] cases;
     // dans etats 0 = vide, 1 = couleur; 2 = animal
-    int[][] etats;
+    public int[][] etats;
     // int [][] couleurs indique les etats
     int[][] couleurs;
     // valeurs pour les shapes (carre - 1, L - 2, T - 3, I horizontal/vertical - 4)
     int[][] valeurs;
     int[][] tab ;
-    Case[][] colors;
+    public Case[][] colors;
 
     public Plateau(int hauteur, int largeur) {
         this.hauteur = hauteur;
@@ -43,7 +43,7 @@ public class Plateau implements Serializable {
             break;
             case 2: res = "green";
             break;
-            case 3: res = "purple";
+            case 3: res = "blue";
             break;
             case 4: res = "yellow";
             break;
@@ -57,7 +57,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         Carre carre = new Carre(this, x0, y0);
@@ -101,7 +101,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         LetterL letterL1 = new LetterL(this, x0, y0);
@@ -141,7 +141,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         LetterL letterL2 = new LetterL(this, x0, y0);
@@ -182,7 +182,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         LetterIHorizontal letterIH = new LetterIHorizontal(this, x0, y0);
@@ -226,7 +226,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         LetterIVertical letterIV = new LetterIVertical(this, x0, y0);
@@ -270,7 +270,7 @@ public class Plateau implements Serializable {
         Random r = new Random();
         int x0 = r.nextInt(this.largeur - 1);
         int y0 = r.nextInt(this.hauteur - 1);
-        int color = r.nextInt(3) + 1;
+        int color = r.nextInt(4) + 1;
         String color2 = chooseColor(color);
 
         LetterTHorizontal letterTHorizontal = new LetterTHorizontal(this, x0, y0);
