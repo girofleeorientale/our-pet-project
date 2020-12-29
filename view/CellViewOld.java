@@ -5,43 +5,41 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class CellView extends JPanel implements MouseListener {
+public class CellViewOld extends JPanel implements MouseListener {
     int x;
     int y;
+    public boolean isPressed;
     Color color;
 
-    public CellView (int x, int y, Color color) {
+    public CellViewOld() {
+
+    }
+
+    public CellViewOld(int x, int y, Color color) {
         this.x = x;
         this.y = y;
+        this.isPressed = false;
         this.color = color;
-        //this.addMouseListener(this);
+        this.addMouseListener(this);
         this.setSize(10,10);
         this.setBackground(color);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setVisible(true);
     }
-public int getCordX() {
-	System.out.println("la coordonnee X est " +this.x);
-	return this.x;
-}
-public int getCordY() {
-	System.out.println("la coordonnee Y est " +this.y);
-	return this.y;
-}
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("HELLO");
-        int x = e.getX();
-        int y = e.getY();
-        this.setBackground(new Color(0, 255, 0));
-        //System.out.println("X :" + x);
+//        System.out.println("HELLO");
+//        int x = e.getX();
+//        int y = e.getY();
+        isPressed = true;
+//        System.out.println("X :" + x + isPressed);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        isPressed = true;
     }
 
     @Override

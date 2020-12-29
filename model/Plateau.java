@@ -654,7 +654,13 @@ public void reinit_tab()
 		return true;
 	}
 
- 
+	public boolean isOneCell (int x, int y) {
+     return (!Voisine_Down(x, y) && !Voisine_Up(x, y) && !Voisine_Left(x, y) && !Voisine_Right(x, y));
+  }
+
+  public boolean isAnimal (int x, int y) {
+     return (colors[x][y].getColor().equals("black"));
+  }
  
 	/* à faire */
  public boolean jeuGagne(int nb) {

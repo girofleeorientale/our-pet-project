@@ -1,29 +1,31 @@
 package view;
 
-import controller.Controller;
-import model.Case;
 import model.Plateau;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class BoardView extends JFrame {
-    JFrame frame = new JFrame();
+@SuppressWarnings("serial")
+public class BoardView extends JPanel implements MouseListener{
+   // JFrame frame = new JFrame();
     Plateau plateau;
     GridLayout gridLayout = new GridLayout(8, 8);
-    JPanel gridPanel = new JPanel(gridLayout);
-    public CellView [][] cellViews = new CellView[8][8];
-//    Controller controller;
+    public JPanel gridPanel = new JPanel(gridLayout);
+    public CellView[][] cellViews = new CellView[8][8];
+  
 
     public BoardView (Plateau plateau) {
-//        Controller controller = new Controller(plateau);
+      
         plateau.placeShapes();
-        this.draw(plateau);
-        frame.add(gridPanel);
+       this.draw(plateau);
+     //  System.out.println("drawn");
+        /*frame.add(gridPanel);
         frame.setSize(400, 400);
         frame.setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);*/
     }
 
     public void draw (Plateau plateau) {
@@ -54,8 +56,38 @@ public class BoardView extends JFrame {
     return c;
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         BoardView boardView = new BoardView(new Plateau(8, 8));
         CellView cellView = new CellView(9, 9 , new Color(0,6,0));
-    }
+    }*/
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
