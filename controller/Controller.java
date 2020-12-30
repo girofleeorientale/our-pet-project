@@ -3,6 +3,9 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,7 +29,7 @@ public class Controller extends JFrame implements MouseListener {
 		this.plateau=plateau;
 	}
 
-	public Controller(Plateau p,BoardView view) {
+	public Controller(Plateau p,BoardView view) throws FileNotFoundException {
 		this.plateau=p;
 		this.view=view;
 		this.init();
@@ -37,14 +40,30 @@ public class Controller extends JFrame implements MouseListener {
 		this.view.cellViews[i][j].addMouseListener(this);}}
 
 	}
-	public void init() {
-	view = new BoardView(plateau);	
+
+	public int findLevel (int id) throws FileNotFoundException {
+		File devFile = new File("levels.txt");
+		Scanner devScanner = new Scanner(devFile);
+		int res = 0;
+		while (devScanner.hasNext()) {
+			String nextLine = devScanner.nextLine();
+			String[] devData = nextLine.split(",");
+			if (Long.parseLong(devData[0]) == id) {
+				res = id;
+				System.out.println(devData[1]);
+			}
+		}
+		return res;
+	}
+
+	public void init() throws FileNotFoundException {
+	view = new BoardView(plateau, findLevel(3));
 	this.p=view.gridPanel;
 	this.frame.getContentPane().add(p);
 	frame.setSize(400, 400);
     frame.setVisible(true);
     frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}	
+	}
 	public void ChangeColor(int i, int j) {
 		this.view.cellViews[5][5].setBackground(new Color(102,0,153));
 		//System.out.println(this.plateau.clickedOn[0][1]);

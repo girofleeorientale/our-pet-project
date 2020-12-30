@@ -22,11 +22,19 @@ public class BoardView extends JPanel implements Observer{
     Controller b = new Controller(plateau);
 
 
-    public BoardView (Plateau plateau) {
+    public BoardView (Plateau plateau, int level) {
     	this.plateau=plateau;
         this.plateau.addObserver(this);
-       plateau.placeShapes();
-       this.draw(plateau);
+        if (level == 1) {
+            plateau.placeShapes();
+        }
+        else if (level == 2) {
+            plateau.placeShapesL2();
+        }
+        else if (level == 3) {
+            plateau.placeShapesL3();
+        }
+        this.draw(plateau);
       // this.plateau.addObserver(this);
      //  System.out.println("drawn");
         /*frame.add(gridPanel);
