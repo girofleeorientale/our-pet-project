@@ -8,11 +8,11 @@ public class Case extends JFrame implements MouseListener {
 
 
     private String colorCase;
-    public boolean isPressed;
+    public boolean isAnimal;
 
     public Case() {
-        this.isPressed = false;
         this.colorCase = "white";
+        isAnimal = false;
     }
 
     public Case(String color) {
@@ -35,12 +35,10 @@ public class Case extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        this.isPressed = true;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        this.isPressed = true;
     }
 
     @Override

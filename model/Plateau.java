@@ -384,6 +384,7 @@ public class Plateau extends Observable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
+                colors[0][animal].isAnimal = true;
                 all++;
             }
         }
@@ -462,6 +463,7 @@ public class Plateau extends Observable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
+                colors[0][animal].isAnimal = true;
                 all++;
             }
         }
@@ -510,6 +512,7 @@ public class Plateau extends Observable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
+                colors[0][animal].isAnimal = true;
                 all++;
             }
         }

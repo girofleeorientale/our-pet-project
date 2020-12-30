@@ -21,6 +21,7 @@ public class BoardView extends JPanel implements Observer{
     public CellView [][] cellViews = new CellView[8][8];
     Controller b = new Controller(plateau);
 
+
     public BoardView (Plateau plateau) {
     	this.plateau=plateau;
         this.plateau.addObserver(this);
@@ -40,6 +41,11 @@ public class BoardView extends JPanel implements Observer{
                 cellViews[i][j] = new CellView(i, j, knowColor(plateau.colors[i][j].getColor()));
 //                gridButtons[i][j].setText("hi");
                 gridPanel.add(cellViews[i][j]);
+                if ((plateau.colors[i][j].getColor()).equals("black")) {
+                    ImageIcon icon = new ImageIcon("kura.png");
+                    JLabel label2 = new JLabel(icon);
+                    cellViews[i][j].add(label2);
+                }
             }
         }
     }
@@ -88,6 +94,9 @@ this.cellViews[i][j].setBackground(new Color(255,255,255));}
                 else if (couleur.equals("yellow")) {
                     c = new Color(255, 255, 0);
                 }
+                else if (couleur.equals("black")) {
+                    c = new Color(0, 0, 0);
+                }
     return c;
     }
 
@@ -105,10 +114,23 @@ this.cellViews[i][j].setBackground(new Color(255,255,255));}
 		if(o instanceof Plateau) {
 			
 			Plateau a =(Plateau)o;
+
+
 			//System.out.println(a.X);
 			for(int i=0;i<8;i++) {
 				for(int j=0;j<8;j++) {
-		this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));}
+                    if ((a.colors[i][j].isAnimal)) {
+                        ImageIcon icon = new ImageIcon("kura.png");
+                        JLabel label2 = new JLabel(icon);
+                        this.cellViews[i][j].add(label2);
+                        System.out.println("ВОТ ОНО");
+//                        this.cellViews[i][j].setBackground(new Color(0, 0, 255));
+
+                    }
+                    else {
+                        this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));
+                    }
+				}
 			}
 			/*System.out.println("kkkkkkkkkkk"+a.colors[0][0].getColor());
 			this.cellViews[0][0].setBackground(new Color(255,255,255));*/
