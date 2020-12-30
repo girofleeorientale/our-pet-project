@@ -2,28 +2,31 @@ package model;
 
 
 
-import java.io.Serializable;
 import java.util.*;
 
-
+import view.BoardView;
 
 import java.util.*;
 
-public class Plateau implements Serializable {
+public class Plateau extends Observable {
     public int hauteur;
    public  int largeur;
     // si cases false la case est vide; remplie sinon
-    public boolean[][] cases;
+    boolean[][] cases;
     // dans etats 0 = vide, 1 = couleur; 2 = animal
-    public int[][] etats;
+    int[][] etats;
     // int [][] couleurs indique les etats
     int[][] couleurs;
     // valeurs pour les shapes (carre - 1, L - 2, T - 3, I horizontal/vertical - 4)
     int[][] valeurs;
-    int[][] tab ;
+    public int[][] tab ;
     public Case[][] colors;
+    public int [][] clickedOn;
+    public int X;
+    //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
+    	//this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.cases = new boolean[hauteur][largeur];
@@ -350,12 +353,14 @@ public class Plateau implements Serializable {
         }
 
         while (existsEmptyCell()) {
-            int color = r.nextInt(3) + 1;
-            String color2 = chooseColor(color);
+
 
             for (int i = 0; i < this.largeur; i++) {
                 for (int j = 0; j < this.hauteur; j++) {
                     if (this.cases[i][j] == false) {
+                        int color = r.nextInt(3) + 1;
+                        String color2 = chooseColor(color);
+
                         valeurs[i][j] = r.nextInt(4);
                         colors[i][j] = new Case();
                         colors[i][j].setColor(color2);
@@ -374,14 +379,140 @@ public class Plateau implements Serializable {
                 all++;
         }
         }*/
-       all=0;
-       while(all<4) {
-    	   int animal = r.nextInt(largeur-1);
-    	   if(!colors[0][animal].getColor().equals("black")) {
-    		   colors[0][animal].setColor("black");
-    		   all++;
-    	   }
-       }
+        all=0;
+        while(all<4) {
+            int animal = r.nextInt(largeur-1);
+            if(!colors[0][animal].getColor().equals("black")) {
+                colors[0][animal].setColor("black");
+                all++;
+            }
+        }
+
+    }
+
+    public void placeShapesL2() {
+        // on met des 0 a la premiere ligne
+        for (int i = 0; i< largeur; i++) {
+            cases[0][i] = true;
+            colors[0][i] = new Case();
+            colors[0][i].setColor("white");
+        }
+
+        int all = 0;
+        Random r = new Random();
+
+        while (all < 5) {
+            int choice = r.nextInt(6);
+
+            if (choice == 0) {
+                if (placeSquare()) {
+                    all++;
+                }
+            } else if (choice == 1) {
+                if (placeLetterL1()) {
+                    all++;
+                }
+            } else if (choice == 2) {
+                if (placeLetterL2()) {
+                    all++;
+                }
+            } else if (choice == 3) {
+                if (placeLetterIHorizontal()) {
+                    all++;
+                }
+            } else if (choice == 4) {
+                if (placeLetterIVertical()) {
+                    all++;
+                }
+            } else if (choice == 5) {
+                if (placeLetterTHorizontal()) {
+                    all++;
+                }
+            }
+        }
+
+        while (existsEmptyCell()) {
+
+
+            for (int i = 0; i < this.largeur; i++) {
+                for (int j = 0; j < this.hauteur; j++) {
+                    if (this.cases[i][j] == false) {
+                        int color = r.nextInt(4) + 1;
+                        String color2 = chooseColor(color);
+                        valeurs[i][j] = r.nextInt(4);
+                        colors[i][j] = new Case();
+                        colors[i][j].setColor(color2);
+                        cases[i][j] = true;
+                    }
+                }
+            }
+        }
+
+//      on rajoute 4 animaux
+      /*  all = 0;
+        while (all < 4) {
+            int animal = r.nextInt(largeur-1);
+            if (couleurs[0][animal]!=9) {
+                couleurs[0][animal] = 9;
+                all++;
+        }
+        }*/
+        all=0;
+        while(all<4) {
+            int animal = r.nextInt(largeur-1);
+            if(!colors[0][animal].getColor().equals("black")) {
+                colors[0][animal].setColor("black");
+                all++;
+            }
+        }
+
+    }
+
+    public void placeShapesL3() {
+        // on met des 0 a la premiere ligne
+        for (int i = 0; i< largeur; i++) {
+            cases[0][i] = true;
+            colors[0][i] = new Case();
+            colors[0][i].setColor("white");
+        }
+
+        int all = 0;
+        Random r = new Random();
+
+        while (existsEmptyCell()) {
+
+
+            for (int i = 0; i < this.largeur; i++) {
+                for (int j = 0; j < this.hauteur; j++) {
+                    if (this.cases[i][j] == false) {
+                        int color = r.nextInt(4) + 1;
+                        String color2 = chooseColor(color);
+                        valeurs[i][j] = r.nextInt(4);
+                        colors[i][j] = new Case();
+                        colors[i][j].setColor(color2);
+                        cases[i][j] = true;
+                    }
+                }
+            }
+        }
+
+//      on rajoute 4 animaux
+      /*  all = 0;
+        while (all < 4) {
+            int animal = r.nextInt(largeur-1);
+            if (couleurs[0][animal]!=9) {
+                couleurs[0][animal] = 9;
+                all++;
+        }
+        }*/
+        all=0;
+        while(all<4) {
+            int animal = r.nextInt(largeur-1);
+            if(!colors[0][animal].getColor().equals("black")) {
+                colors[0][animal].setColor("black");
+                all++;
+            }
+        }
 
     }
 
@@ -496,6 +627,12 @@ public void eliminer_Voisines(int i, int j) {
 	   
 	 
 	}
+
+public void from() {
+	
+	System.out.println("You came here");
+	
+}
   	
 
 public void use_tab() {
@@ -541,8 +678,13 @@ public void reinit_tab()
 
 
 
-  	public void reorganisation()
+  	@SuppressWarnings("deprecation")
+	public void reorganisation()
+  	
 	{ 
+  		
+  		this.setChanged();
+  		this.notifyObservers();
 		for(int i=0;i<largeur;i++) {
 			for(int j=0;j<hauteur;j++) {
 			if(tab[i][j]==7 ) {
@@ -553,7 +695,7 @@ public void reinit_tab()
 		}
 	}
 	}
-	
+  	
   	public boolean NoGaps(int col) {
 		for(int i=1;i<hauteur;i++)
 		{ if(
@@ -565,7 +707,9 @@ public void reinit_tab()
 	}
   	
   	public void reorganiser_down(int col) {
-		int i=0;
+  		this.setChanged();
+  		this.notifyObservers();
+  		int i=0;
 //		colors[i][col] = new Case();
 		if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
 		while(i<hauteur-1) {
@@ -609,11 +753,25 @@ public void reinit_tab()
 		reorganiser_Àgauche(col+1);
 		}
 		}}
-		
+  /****For the controller ****/
+  public int[][] getTab() {
+	  
+	  for(int i=0;i<8;i++) {
+		  for(int j=0;j<8;j++) {
+if (this.colors[i][j].getColor().equals("white")) this.couleurs[i][j]=0;
+if(this.colors[i][j].getColor().equals("red")) this.couleurs[i][j]=1;
+if(this.colors[i][j].getColor().equals("green")) this.couleurs[i][j]=2;
+if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
+	  }
+  }
+	  return couleurs; 
+  }	
 /******Fonctions de jeu ****/
   /* Fonction qui regarde si il y'a des colonnes vide*/
    /*  (pousser à gauche) par conséquent*/
   public void pushToLeft() {
+	  this.setChanged();
+	  this.notifyObservers();
 	  for(int j=0;j<largeur-1;j++) {
 		  if(this.colonne_estVide(j)) 
 		  {this.reorganiser_Àgauche(j+1);}
@@ -621,6 +779,8 @@ public void reinit_tab()
   
   /* descendre */
  public void goDown() {
+	 this.setChanged();
+	this.notifyObservers();
 	 for(int j=0;j<largeur;j++)
 		 //Si cette colonne a des vides(mal rangée)(faut descendre)
 	 { if(! this.NoGaps(j))this.reorganiser_down(j);}
@@ -654,13 +814,7 @@ public void reinit_tab()
 		return true;
 	}
 
-	public boolean isOneCell (int x, int y) {
-     return (!Voisine_Down(x, y) && !Voisine_Up(x, y) && !Voisine_Left(x, y) && !Voisine_Right(x, y));
-  }
-
-  public boolean isAnimal (int x, int y) {
-     return (colors[x][y].getColor().equals("black"));
-  }
+ 
  
 	/* à faire */
  public boolean jeuGagne(int nb) {
@@ -672,7 +826,28 @@ public void reinit_tab()
 		return false;
 
  }
-  	
+  /********For the Controller ******/
+ public void initForCHange() {
+	 clickedOn=new int[1][2];
+ }
+ public void fillForChange(int i, int j) {
+	// clickedOn=new int[1][2];
+	 
+	 clickedOn[0][1]=i;
+	 clickedOn[0][1]=j;
+	
+ }
+ /***** 	Let's just try for the controller*****/
+	public void move() {
+		setChanged();
+		this.notifyObservers();
+		Random r = new Random();
+		int v= r.nextInt(8);
+		X=v;
+		//X=65;
+	}
+	/*****************************************/
+	
   	
 	
 /******************************************************/

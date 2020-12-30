@@ -14,7 +14,7 @@ public class CellView extends JPanel implements MouseListener {
         this.x = x;
         this.y = y;
         this.color = color;
-        //this.addMouseListener(this);
+        this.addMouseListener(this);
         this.setSize(10,10);
         this.setBackground(color);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -36,7 +36,7 @@ public int getCordY() {
         int x = e.getX();
         int y = e.getY();
         this.setBackground(new Color(0, 255, 0));
-        //System.out.println("X :" + x);
+        System.out.println("вот оно из селл" + x);
     }
 
     @Override
