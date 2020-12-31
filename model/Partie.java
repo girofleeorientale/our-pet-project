@@ -88,7 +88,8 @@ public class Partie implements Serializable {
 
 
 //	public static void main(String[] args) throws FileNotFoundException {
-//		Partie p = new Partie();
+//		Plateau p1 = new Plateau(8,8);
+//		Partie p = new Partie(p1);
 //		System.out.println(p.nameFill(3));
 //	}
     }

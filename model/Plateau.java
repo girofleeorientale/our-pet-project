@@ -1,3 +1,4 @@
+
 package model;
 
 
@@ -10,7 +11,7 @@ import java.util.*;
 
 public class Plateau extends Observable {
     public int hauteur;
-   public  int largeur;
+    public  int largeur;
     // si cases false la case est vide; remplie sinon
     boolean[][] cases;
     // dans etats 0 = vide, 1 = couleur; 2 = animal
@@ -26,7 +27,7 @@ public class Plateau extends Observable {
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
-    	//this.addObserver((Observer) view);
+        //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.cases = new boolean[hauteur][largeur];
@@ -35,7 +36,7 @@ public class Plateau extends Observable {
         this.valeurs = new int[hauteur][largeur];
         this.colors = new Case[hauteur][largeur];
     }
-    
+
     public void init() { tab = new int [this.hauteur][this.largeur];}
 
     public String chooseColor (int color) {
@@ -43,13 +44,13 @@ public class Plateau extends Observable {
 
         switch (color) {
             case 1: res = "red";
-            break;
+                break;
             case 2: res = "green";
-            break;
+                break;
             case 3: res = "blue";
-            break;
+                break;
             case 4: res = "yellow";
-            break;
+                break;
         }
         return res;
     }
@@ -586,274 +587,370 @@ public class Plateau extends Observable {
             System.out.println();
         }
     }
-/*************************************************/
-  
-  	public boolean Voisine_Left(int i , int j) {
-  		if(j==0)return false;
+    /*************************************************/
+
+    public boolean Voisine_Left(int i , int j) {
+        if(j==0)return false;
 //  		if(couleurs[i][j]==couleurs[i][j-1])return true;
         if(colors[i][j].getColor().equals(colors[i][j-1].getColor()))return true;
         return false;
-  	}
+    }
 
-  	public boolean Voisine_Right(int i , int j) {
-  		if(j==largeur-1) {return false;}
+    public boolean Voisine_Right(int i , int j) {
+        if(j==largeur-1) {return false;}
 //  		if(couleurs[i][j]==couleurs[i][j+1])return true;
         if(colors[i][j].getColor().equals(colors[i][j+1].getColor()))return true;
         return false;
-  	}
-  	
-  	
-  	public boolean Voisine_Up(int i , int j) {
-  		if(i==0)return false;
+    }
+
+
+    public boolean Voisine_Up(int i , int j) {
+        if(i==0)return false;
 //  		if(couleurs[i][j]==couleurs[i-1][j])return true;
         if(colors[i][j].getColor().equals(colors[i-1][j].getColor()))return true;
         return false;
-  	}
-  	
-  	public boolean Voisine_Down(int i , int j) {
-  		if(i==hauteur-1)return false;
+    }
+
+    public boolean Voisine_Down(int i , int j) {
+        if(i==hauteur-1)return false;
 //  		if(couleurs[i][j]==couleurs[i+1][j])return true;
         if(colors[i][j].getColor().equals(colors[i+1][j].getColor()))return true;
         return false;
-  	}
-  	
-  	
-public void eliminer_Voisines(int i, int j) {
-		
-		 
-		
-		if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j-1]=7;}
-		if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j+1]=7;}
-		if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i-1][j]=7;}
-	    if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i+1][j]=7;}
-	if ((Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j))&&!colors[i][j].getColor().equals("black") )tab[i][j]=7;
-	   
-	 
-	}
+    }
 
-public void from() {
-	
-	System.out.println("You came here");
-	
-}
-  	
 
-public void use_tab() {
-	
-	for(int i=0;i<8;i++) {
-		
-		for(int j=0;j<8;j++) {
-			if (tab[i][j]==7) {
-				
-			
-				eliminer_Voisines(i,j);
-		}}
-	}
-}
-
-public void reinit_tab()
-{
-	 for(int i=0;i<hauteur;i++) {
-		 for(int j=0;j<largeur;j++) {
-			 tab[i][j]=0;
-		 }
-	 }
-	 
-	 
-}
+    public void eliminer_Voisines(int i, int j) {
 
 
 
+        if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j-1]=7;}
+        if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j+1]=7;}
+        if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i-1][j]=7;}
+        if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i+1][j]=7;}
+        if ((Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j))&&!colors[i][j].getColor().equals("black") )tab[i][j]=7;
 
 
- public void affichetab() {
-	 for(int i=0;i<8;i++) {
-			
-			for(int j=0;j<8;j++) {
-        System.out.print(tab[i][j]);}
+    }
 
-			
-	 System.out.println();
-	 }
-		}
- 
+    public void from() {
+
+        System.out.println("You came here");
+
+    }
+
+
+    public void use_tab() {
+
+        for(int i=0;i<8;i++) {
+
+            for(int j=0;j<8;j++) {
+                if (tab[i][j]==7) {
+
+
+                    eliminer_Voisines(i,j);
+                }}
+        }
+    }
+
+    public void reinit_tab()
+    {
+        for(int i=0;i<hauteur;i++) {
+            for(int j=0;j<largeur;j++) {
+                tab[i][j]=0;
+            }
+        }
+
+
+    }
 
 
 
 
-  	@SuppressWarnings("deprecation")
-	public void reorganisation()
-  	
-	{ 
-  		
-  		this.setChanged();
-  		this.notifyObservers();
-		for(int i=0;i<largeur;i++) {
-			for(int j=0;j<hauteur;j++) {
-			if(tab[i][j]==7 ) {
+
+    public void affichetab() {
+        for(int i=0;i<8;i++) {
+
+            for(int j=0;j<8;j++) {
+                System.out.print(tab[i][j]);}
+
+
+            System.out.println();
+        }
+    }
+
+
+
+
+
+    @SuppressWarnings("deprecation")
+    public void reorganisation()
+
+    {
+
+//        this.setChanged();
+//        this.notifyObservers();
+        for(int i=0;i<largeur;i++) {
+            for(int j=0;j<hauteur;j++) {
+                if(tab[i][j]==7 ) {
 //			    couleurs[i][j]=0;
-			    colors[i][j] = new Case();
-			    colors[i][j].setColor("white");
-			}
-		}
-	}
-	}
-  	
-  	public boolean NoGaps(int col) {
-		for(int i=1;i<hauteur;i++)
-		{ if(
+                    colors[i][j] = new Case();
+                    colors[i][j].setColor("white");
+                }
+            }
+        }
+    }
+
+    public boolean NoGaps(int col) {
+        for(int i=1;i<hauteur;i++)
+        { if(
 //		        couleurs[i-1][col]!= 0 && couleurs[i][col]==0
-        !colors[i-1][col].getColor().equals("white") && colors[i][col].getColor().equals("white")
+                !colors[i-1][col].getColor().equals("white") && colors[i][col].getColor().equals("white")
         )
-		    return false;}
-		return true;
-	}
-  	
-  	public void reorganiser_down(int col) {
-  		this.setChanged();
-  		this.notifyObservers();
-  		int i=0;
+            return false;}
+        return true;
+    }
+
+    public void reorganiser_down(int col) {
+//        this.setChanged();
+//        this.notifyObservers();
+        int i=0;
 //		colors[i][col] = new Case();
-		if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
-		while(i<hauteur-1) {
-		if(/*couleurs[i][col]==0*/ colors[i][col].getColor().equals("white") ) {i++;}
-		else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
-            !colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
-        ) { reorganiser_bas_bis(i,col);i++;}
-		else i++;
-		}
-		while (!NoGaps(col))reorganiser_down(col);}
-		
-  public void reorganiser_bas_bis(int ligne,int col) {
-		
-		if(ligne<hauteur && /*couleurs[ligne+1][col]==0*/ colors[ligne+1][col].getColor().equals("white")) {
-		
+        if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
+        while(i<hauteur-1) {
+            if(/*couleurs[i][col]==0*/ colors[i][col].getColor().equals("white") ) {i++;}
+            else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
+                    !colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
+            ) { reorganiser_bas_bis(i,col);i++;}
+            else i++;
+        }
+        while (!NoGaps(col))reorganiser_down(col);}
+
+    public void reorganiser_bas_bis(int ligne,int col) {
+
+        if(ligne<hauteur && /*couleurs[ligne+1][col]==0*/ colors[ligne+1][col].getColor().equals("white")) {
+
 //		couleurs[ligne+1][col]=couleurs[ligne][col];
-		colors[ligne+1][col].setColor(colors[ligne][col].getColor());
+            colors[ligne+1][col].setColor(colors[ligne][col].getColor());
 //		couleurs[ligne][col]=0;
-		colors[ligne][col].setColor("white");
-		}
-  }
-  
-  public boolean colonne_estVide(int col) {
-		int i=0;
-		while(/*i<hauteur-1 && couleurs[i][col]==0*/i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
-		if( /*couleurs[i][col]!=0*/
-				!colors[i][col].getColor().equals("white")) return false;
-		return true;
-	}
-		
-		
-		
-  public void reorganiser_Àgauche(int col) {
-		if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
-		{
-		for(int i=0;i<hauteur;i++) {
+            colors[ligne][col].setColor("white");
+        }
+    }
+
+    public boolean colonne_estVide(int col) {
+        int i=0;
+        while(/*i<hauteur-1 && couleurs[i][col]==0*/i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
+        if( /*couleurs[i][col]!=0*/
+                !colors[i][col].getColor().equals("white")) return false;
+        return true;
+    }
+
+
+
+    public void reorganiser_Àgauche(int col) {
+        if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
+        {
+            for(int i=0;i<hauteur;i++) {
 		/*couleurs[i][col-1]=couleurs[i][col];
 		couleurs[i][col]=0;*/
-		colors[i][col-1].setColor(colors[i][col].getColor());	
-		colors[i][col].setColor("white");
-		reorganiser_Àgauche(col+1);
-		}
-		}}
-  /****For the controller ****/
-  public int[][] getTab() {
-	  
-	  for(int i=0;i<8;i++) {
-		  for(int j=0;j<8;j++) {
-if (this.colors[i][j].getColor().equals("white")) this.couleurs[i][j]=0;
-if(this.colors[i][j].getColor().equals("red")) this.couleurs[i][j]=1;
-if(this.colors[i][j].getColor().equals("green")) this.couleurs[i][j]=2;
-if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
-	  }
-  }
-	  return couleurs; 
-  }	
-/******Fonctions de jeu ****/
-  /* Fonction qui regarde si il y'a des colonnes vide*/
-   /*  (pousser à gauche) par conséquent*/
-  public void pushToLeft() {
-	  this.setChanged();
-	  this.notifyObservers();
-	  for(int j=0;j<largeur-1;j++) {
-		  if(this.colonne_estVide(j)) 
-		  {this.reorganiser_Àgauche(j+1);}
-	  }}
-  
-  /* descendre */
- public void goDown() {
-	 this.setChanged();
-	this.notifyObservers();
-	 for(int j=0;j<largeur;j++)
-		 //Si cette colonne a des vides(mal rangée)(faut descendre)
-	 { if(! this.NoGaps(j))this.reorganiser_down(j);}
- }
-  
- /* nb c le nombre des animaux posés */
- public  boolean IfAllSaved(int nb) {
-	 int cpt=0;
-	 for(int j=0;j<largeur;j++) {
-	 if(this.justAnimal(j)) {
-	 cpt=cpt+count_animals(j);}
-	 }	
-	 if(nb==cpt)	return true;
-		return false;
-	 }
- /* Compte le nombre d'animaux dans la colonne col*/
- public int count_animals(int col) { 
-	 int cpt=0;
-	 for(int i=0;i<hauteur;i++) {
-		 if(/*couleurs[i][col]==9*/
-				 colors[i][col].getColor().equals("black"))cpt++;}
-	 return cpt;
- }
- /* dis si il y a juste des animaux et des vides dans col*/
- public boolean justAnimal(int col) {
-		
-		for(int i=0;i<hauteur;i++) {
-		if(//couleurs[i][col]!=0 && couleurs[i][col]!=9
-	!colors[i][col].getColor().equals("white")&&!colors[i][col].getColor().equals("black"))return false;	
-		}
-		return true;
-	}
+                colors[i][col-1].setColor(colors[i][col].getColor());
+                colors[i][col].setColor("white");
+                reorganiser_Àgauche(col+1);
+            }
+        }}
+    /****For the controller ****/
+    public int[][] getTab() {
 
- 
- 
-	/* à faire */
- public boolean jeuGagne(int nb) {
-	 if (this.IfAllSaved(nb)) {
-			System.out.println("You winned !");
-			return true;
-		}
-		System.out.println("Sorry, try again !");
-		return false;
+        for(int i=0;i<8;i++) {
+            for(int j=0;j<8;j++) {
+                if (this.colors[i][j].getColor().equals("white")) this.couleurs[i][j]=0;
+                if(this.colors[i][j].getColor().equals("red")) this.couleurs[i][j]=1;
+                if(this.colors[i][j].getColor().equals("green")) this.couleurs[i][j]=2;
+                if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
+            }
+        }
+        return couleurs;
+    }
+    /******Fonctions de jeu ****/
+    /* Fonction qui regarde si il y'a des colonnes vide*/
+    /*  (pousser à gauche) par conséquent*/
+//    public void pushToLeft() {
+//        this.setChanged();
+//        this.notifyObservers();
+////        for(int j=0;j<largeur-1;j++) {
+//            for(int j=0;j<largeur-2;j++) {
+//                if(this.colonne_estVideV1(j) && )
+//            {this.reorganiser_Àgauche(j+1);}
+//        }}
 
- }
-  /********For the Controller ******/
- public void initForCHange() {
-	 clickedOn=new int[1][2];
- }
- public void fillForChange(int i, int j) {
-	// clickedOn=new int[1][2];
-	 
-	 clickedOn[0][1]=i;
-	 clickedOn[0][1]=j;
-	
- }
- /***** 	Let's just try for the controller*****/
-	public void move() {
-		setChanged();
-		this.notifyObservers();
-		Random r = new Random();
-		int v= r.nextInt(8);
-		X=v;
-		//X=65;
-	}
-	/*****************************************/
-	
-  	
-	
-/******************************************************/
+    public void pushToLeft() {
+        int cpt = 0;
+
+        for(int j=0;j<largeur;j++) {
+//            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))
+
+            for (int i = 0; i < 8; i++) {
+                if (colors[i][j].getColor().equals("white")) {
+                    cpt++;
+                }}
+                if (cpt == 8) {
+                    System.out.println("colonne vide : " + j);
+//                    this.reorganiserAgauche(j);
+                    for (int i =0; i< 8 && j != 7; i++) {
+                        this.colors[i][j].setColor(this.colors[i][j+1].getColor());
+                        this.colors[i][j+1].setColor("white");
+                    }
+//                    return;
+                }
+                cpt = 0;
+
+
+
+        }
+    }
+    /* > */
+    @SuppressWarnings("deprecation")
+
+    public void reorganiserAgauche(int col){
+
+
+        if(col <=largeur-2 &&  col>=0 &&  this.colonne_estVideV1(col)){
+
+            for(int i=0;i<hauteur;i++){
+//this.couleurs[i][col]=couleurs[i][col+1];
+//this.couleurs[i][col+1]=0;
+                colors[i][col].setColor(colors[i][col+1].getColor());
+                colors[i][col+1].setColor("white");
+            }
+//            this.reorganiserAgauche(col+1);
+        }
+
+    }
+
+    public boolean NoColonnesVides() {
+        for(int j=0;j<=largeur-2;j++) {
+
+            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))return false;
+
+        }
+        return true;
+    }
+    public boolean colonne_estVideV1(int col) {
+        boolean res = true;
+
+        int i=0;
+        //while(i<hauteur && (couleurs[i][col]==0 ))i++;
+        while(i<hauteur && (this.colors[i][col].equals("white")))i++;
+        //if (i<hauteur && couleurs[i][col]!=0 ) return false;
+        if(i<hauteur && !this.colors[i][col].equals("white")) {
+//            System.out.println("zzzpppz");
+            res = false;
+        }
+//        System.out.println("wwwwwwwwwwwwww");
+        return res;
+    }
+
+    /* descendre */
+    public void goDown() {
+//        this.setChanged();
+//        this.notifyObservers();
+        for(int j=0;j<largeur;j++)
+        //Si cette colonne a des vides(mal rangée)(faut descendre)
+        { if(! this.NoGaps(j)) {
+            System.out.println("BONJOUR");
+            this.reorganiser_down(j);
+        }
+        }
+    }
+
+
+    public void tryit(int i,int j) {
+        //this.pushToLeft();
+
+        this.init();
+        this.reinit_tab();
+        this.eliminer_Voisines(i, j);
+        for(int x=0;x<64;x++) {
+            this.use_tab();}
+        this.reorganisation();
+        this.goDown();
+        //Case [][] a =this.colors;
+
+        System.out.println("* * PREMIER AFFICHAGE * * * ");
+        this.displayColors();
+
+        this.pushToLeft();
+        System.out.println("* * * * * * * ");
+        this.displayColors();
+        this.setChanged();
+        this.notifyObservers();
+
+    }
+
+    /* nb c le nombre des animaux posés */
+    public  boolean IfAllSaved(int nb) {
+        int cpt=0;
+        for(int j=0;j<largeur;j++) {
+            if(this.justAnimal(j)) {
+                cpt=cpt+count_animals(j);}
+        }
+        if(nb==cpt)	return true;
+        return false;
+    }
+    /* Compte le nombre d'animaux dans la colonne col*/
+    public int count_animals(int col) {
+        int cpt=0;
+        for(int i=0;i<hauteur;i++) {
+            if(/*couleurs[i][col]==9*/
+                    colors[i][col].getColor().equals("black"))cpt++;}
+        return cpt;
+    }
+    /* dis si il y a juste des animaux et des vides dans col*/
+    public boolean justAnimal(int col) {
+
+        for(int i=0;i<hauteur;i++) {
+            if(//couleurs[i][col]!=0 && couleurs[i][col]!=9
+                    !colors[i][col].getColor().equals("white")&&!colors[i][col].getColor().equals("black"))return false;
+        }
+        return true;
+    }
+
+
+
+    /* à faire */
+    public boolean jeuGagne(int nb) {
+        if (this.IfAllSaved(nb)) {
+            System.out.println("You winned !");
+            return true;
+        }
+        System.out.println("Sorry, try again !");
+        return false;
+
+    }
+    /********For the Controller ******/
+    public void initForCHange() {
+        clickedOn=new int[1][2];
+    }
+    public void fillForChange(int i, int j) {
+        // clickedOn=new int[1][2];
+
+        clickedOn[0][1]=i;
+        clickedOn[0][1]=j;
+
+    }
+    /***** 	Let's just try for the controller*****/
+    public void move() {
+        setChanged();
+        this.notifyObservers();
+        Random r = new Random();
+        int v= r.nextInt(8);
+        X=v;
+        //X=65;
+    }
+    /*****************************************/
+
+
+
+    /******************************************************/
     public static void main(String[] args) {
         Plateau p = new Plateau(8, 8);
         p.init();
@@ -865,16 +962,16 @@ if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
 //        p.placeShapes();
 //        System.out.println(" ");
 //        p.displayValues();
-        
+
         p.eliminer_Voisines(1, 1);
         p.use_tab();
         p.reorganisation();
-        
+
         System.out.println(" ");
         System.out.println("voila après la supression :");
         p.displayColors();
 
-       System.out.println("Après réorganisation ");
+        System.out.println("Après réorganisation ");
         p.reorganiser_down(2);
         System.out.println(" ");
         p.displayColors();
@@ -884,10 +981,10 @@ if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
 //        Joueur j = new Joueur();
 //        Partie partie = new Partie(j, p);
 //        partie.Jouer();*/
-        
+
     }
 }
-    
+
 
 
 
