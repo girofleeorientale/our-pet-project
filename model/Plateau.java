@@ -48,6 +48,7 @@ public class Plateau extends Observable {
             case 2: res = "green";
                 break;
             case 3: res = "blue";
+            	     //res="purple";
                 break;
             case 4: res = "yellow";
                 break;
@@ -380,7 +381,8 @@ public class Plateau extends Observable {
                 all++;
         }
         }*/
-        all=0;
+        /***********/
+       all=0;
         while(all<4) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
@@ -389,7 +391,7 @@ public class Plateau extends Observable {
                 all++;
             }
         }
-
+       /*******************/
     }
 
     public void placeShapesL2() {
@@ -782,6 +784,19 @@ public class Plateau extends Observable {
 //            {this.reorganiser_Àgauche(j+1);}
 //        }}
 
+    
+  public void pushToLeftbis() {  
+	  
+	  for(int j=0;j<largeur-2;j++) {
+		  if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1)) 
+		  {   System.out.println("la colonne est " +j);
+			  this.reorganiserAgauche(j);}
+	  }
+	  if(!this.NoColonnesVides())this.pushToLeft();
+    
+    
+  }
+    
     public void pushToLeft() {
         int cpt = 0;
 
@@ -821,7 +836,7 @@ public class Plateau extends Observable {
                 colors[i][col].setColor(colors[i][col+1].getColor());
                 colors[i][col+1].setColor("white");
             }
-//            this.reorganiserAgauche(col+1);
+         this.reorganiserAgauche(col+1);
         }
 
     }
@@ -829,25 +844,36 @@ public class Plateau extends Observable {
     public boolean NoColonnesVides() {
         for(int j=0;j<=largeur-2;j++) {
 
-            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))return false;
+    if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))return false;
 
         }
         return true;
     }
-    public boolean colonne_estVideV1(int col) {
+    /*public boolean colonne_estVideV1(int col) {
         boolean res = true;
 
         int i=0;
-        //while(i<hauteur && (couleurs[i][col]==0 ))i++;
+        
         while(i<hauteur && (this.colors[i][col].equals("white")))i++;
-        //if (i<hauteur && couleurs[i][col]!=0 ) return false;
+       
         if(i<hauteur && !this.colors[i][col].equals("white")) {
-//            System.out.println("zzzpppz");
+
             res = false;
         }
-//        System.out.println("wwwwwwwwwwwwww");
+
         return res;
+    }*/
+    public boolean colonne_estVideV1(int col) {
+    	int i=0;
+		//while(i<hauteur && (couleurs[i][col]==0 ))i++;
+   while(i<hauteur && (this.colors[i][col].getColor().equals("white")))i++;
+	//if (i<hauteur && couleurs[i][col]!=0 ) return false;
+   if(i<hauteur &&(!this.colors[i][col].getColor().equals("white")))return false;
+		return true;
+    	
     }
+    
+    
 
     /* descendre */
     public void goDown() {
@@ -878,7 +904,8 @@ public class Plateau extends Observable {
         System.out.println("* * PREMIER AFFICHAGE * * * ");
         this.displayColors();
 
-        this.pushToLeft();
+       // this.pushToLeft();
+        this.pushToLeftbis();
         System.out.println("* * * * * * * ");
         this.displayColors();
         this.setChanged();
