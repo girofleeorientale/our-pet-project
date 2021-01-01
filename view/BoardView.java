@@ -15,7 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class BoardView extends JPanel implements Observer{
-    // JFrame frame = new JFrame();
+//     JFrame frame = new JFrame();
     Plateau plateau;
     GridLayout gridLayout = new GridLayout(8, 8);
     public JPanel gridPanel = new JPanel(gridLayout);
@@ -23,7 +23,15 @@ public class BoardView extends JPanel implements Observer{
     Controller b = new Controller(plateau);
 
 
+
     public BoardView (Plateau plateau, int level) {
+//        JMenuBar menuBottons = new JMenuBar();
+//        JButton bouton = new JButton();
+//        menuBottons.add(bouton);
+//        gridPanel.add(menuBottons);
+//        frame.add(gridPanel);
+
+//        menuBottons.setVisible(true);
         this.plateau=plateau;
         this.plateau.addObserver(this);
         if (level == 1) {
@@ -37,6 +45,8 @@ public class BoardView extends JPanel implements Observer{
         }
 //        plateau.placeShapes();
         this.draw(plateau);
+//        frame.setVisible(true);
+
         // this.plateau.addObserver(this);
         //  System.out.println("drawn");
         /*frame.add(gridPanel);

@@ -62,7 +62,7 @@ public class Controller extends JFrame implements MouseListener {
 		view = new BoardView(plateau, findLevel(3));
 		this.p=view.gridPanel;
 		this.frame.getContentPane().add(p);
-		frame.setSize(400, 400);
+//		frame.setSize(400, 400);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
