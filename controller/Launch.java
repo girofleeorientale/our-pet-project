@@ -24,17 +24,15 @@ public class Launch extends JFrame {
        
 		EventQueue.invokeLater(()-> {
 		Plateau p= new Plateau(8,8);
-            BoardView boardView = new BoardView(p, 1);
-        CellView cellView = new CellView(9, 9 , new Color(0,6,0));
+                BoardView boardView = new BoardView(p, 1);
+            CellView cellView = new CellView(9, 9 , new Color(0,6,0));
             Controller c= null;
             try {
-                c = new Controller(p,boardView);
+                c = new Controller(p, boardView);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            c.ChangeColor(5, 5);
-      
-        
+
         });
     }
 

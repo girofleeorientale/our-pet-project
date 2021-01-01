@@ -34,6 +34,7 @@ public class Controller extends JFrame implements MouseListener {
 		this.plateau=p;
 		this.view=view;
 		this.init();
+		p.showDescendu(7,0);
 		//this.view.addMouseListener(this);
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {

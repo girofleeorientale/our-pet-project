@@ -634,6 +634,27 @@ public class Plateau extends Observable {
 
     }
 
+    public boolean animalCameDown (int x, int y) {
+        return (colors[x][y].getColor().equals("black") && x == hauteur-1);
+    }
+
+    public void showDescendu (int x, int y) {
+        if (animalCameDown(x,y)) {
+        System.out.println("СПУСТИЛСЯ С ГОР");
+    }}
+
+    public void removeAnimal () {
+        for (int i = 0; i< hauteur; i++) {
+            for (int j =0; j< largeur; j++) {
+                if (animalCameDown(i,j)) {
+                    tab[i][j]=7;
+                    colors[i][j].setColor("white");
+                }
+            }
+        }
+        pushToLeft();
+    }
+
     public boolean isOneCell (int x, int y) {
         return (!Voisine_Down(x, y) && !Voisine_Up(x, y) && !Voisine_Left(x, y) && !Voisine_Right(x, y));
     }
@@ -898,6 +919,7 @@ public class Plateau extends Observable {
 
         this.init();
         this.reinit_tab();
+        this.removeAnimal();
         this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
             this.use_tab();}
@@ -912,6 +934,9 @@ public class Plateau extends Observable {
         this.pushToLeftbis();
         System.out.println("* * * * * * * ");
         this.displayColors();
+        this.removeAnimal();
+//        this.reorganisation();
+//        this.goDown();
         this.setChanged();
         this.notifyObservers();
 

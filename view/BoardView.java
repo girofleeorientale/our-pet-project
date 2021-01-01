@@ -131,18 +131,50 @@ public class BoardView extends JPanel implements Observer{
                 for(int j=0;j<8;j++) {
 
                     this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));
-                    if ((a.colors[i][j].isAnimal)) {
-                        gridPanel.add(cellViews[i][j]);
+                    this.cellViews[i][j].removeAll();
 
+
+//                    if ((cellViews[i][j].color.equals(new Color(0,0,0)))) {
+//
+//                        ImageIcon icon = new ImageIcon("kura.png");
+//                        JLabel label2 = new JLabel(icon);
+//                        this.cellViews[i][j].add(label2);
+////                        System.out.println("ВОТ ОНО");
+//                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
+//                    }
+                }
+            }
+
+            for(int i=0;i<8;i++) {
+                for(int j=0;j<8;j++) {
+                    if ((a.colors[i][j].getColor().equals("black"))) {
+
+
+//                        this.cellViews[i][j].invalidate();
+//                        this.cellViews[i][j].repaint();
+                        this.cellViews[i][j].revalidate();
+
+//                        System.out.println("ВОТ ОНО");
+//                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
                         this.cellViews[i][j].add(label2);
-//                        System.out.println("ВОТ ОНО");
-                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
-
                     }
                 }
-            }
+                }
+
+            // methode pour supprimer les animaux dans GUI
+            for(int i=0;i<8;i++) {
+                for(int j=0;j<8;j++) {
+                    if ((a.colors[i][j].getColor().equals("black")) && i == 7) {
+                        cellViews[i][j].removeAll();
+                        cellViews[i][j].setColor(new Color(255, 255, 255));
+                        a.colors[i][j].setColor("white");
+                    }
+                }
+                }
+
+
 			/*System.out.println("kkkkkkkkkkk"+a.colors[0][0].getColor());
 			this.cellViews[0][0].setBackground(new Color(255,255,255));*/
             /*this.cellViews[0][0].setBackground(new Color(0,255,0));*/
@@ -151,5 +183,8 @@ public class BoardView extends JPanel implements Observer{
 //            JLabel label2 = new JLabel(icon);
 //            this.cellViews[7][7].add(label2);
         }
+//        this.invalidate();
+//        this.repaint();
+        this.revalidate();
     }
 }

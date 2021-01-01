@@ -29,6 +29,10 @@ public int getCordY() {
 	return this.y;
 }
 
+public void setColor(Color c) {
+        this.color = c;
+}
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
