@@ -27,6 +27,7 @@ public class Controller extends JFrame implements MouseListener {
 	public Controller(Plateau plateau) {
 
 		this.plateau=plateau;
+
 	}
 
 	public Controller(Plateau p,BoardView view) throws FileNotFoundException {

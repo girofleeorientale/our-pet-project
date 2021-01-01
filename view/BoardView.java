@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -137,7 +138,7 @@ public class BoardView extends JPanel implements Observer{
                         JLabel label2 = new JLabel(icon);
                         this.cellViews[i][j].add(label2);
 //                        System.out.println("ВОТ ОНО");
-//                        this.cellViews[i][j].setBackground(new Color(0, 0, 255));
+                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
 
                     }
                 }

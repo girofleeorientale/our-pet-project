@@ -632,6 +632,10 @@ public class Plateau extends Observable {
 
     }
 
+    public boolean isOneCell (int x, int y) {
+        return (!Voisine_Down(x, y) && !Voisine_Up(x, y) && !Voisine_Left(x, y) && !Voisine_Right(x, y));
+    }
+
     public void from() {
 
         System.out.println("You came here");
