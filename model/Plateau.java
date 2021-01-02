@@ -24,6 +24,10 @@ public class Plateau extends Observable {
     public Case[][] colors;
     public int [][] clickedOn;
     public int X;
+    public int StockFusee=1;
+    public int SaveScore;
+    public int level=1;
+    public boolean LevelUp=false;
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
@@ -914,27 +918,29 @@ public class Plateau extends Observable {
     }
 
 
-    public void tryit(int i,int j) {
+    @SuppressWarnings("deprecation")
+	public void tryit(boolean apply,int i,int j) {
         //this.pushToLeft();
 
         this.init();
         this.reinit_tab();
+        
         this.removeAnimal();
         this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
             this.use_tab();}
         this.reorganisation();
+        System.out.println("Voilà votre score pour ce Coup" + this.CalculerScoreCoup());
+        this.SaveScore=this.SaveScore+this.CalculerScoreCoup();
+        System.out.println("Voilà votre Score Totale" + this.SaveScore);
         this.goDown();
-        //Case [][] a =this.colors;
-
-        System.out.println("* * PREMIER AFFICHAGE * * * ");
-        this.displayColors();
-
-       // this.pushToLeft();
+        
         this.pushToLeftbis();
-        System.out.println("* * * * * * * ");
-        this.displayColors();
+       
         this.removeAnimal();
+        if(apply==true && this.StockFusee>=1) {this.AppliquerFusee(i, j, apply);this.StockFusee--;}
+        if(apply== true && this.StockFusee<=0)System.out.println("Plus de fusees !");
+       if(this.jeuGagne(4)) {this.LevelUp=true;this.level++;}
 //        this.reorganisation();
 //        this.goDown();
         this.setChanged();
@@ -951,6 +957,23 @@ public class Plateau extends Observable {
         }
         if(nb==cpt)	return true;
         return false;
+    }
+    
+    public int compter() {
+    	int cpt=0;
+    	 for(int i=0;i<largeur;i++) {
+    		 for(int j=0;j<largeur;j++) {
+    		if (this.colors[i][j].getColor().equals("black"))cpt++;	 
+    	 }
+    }
+    	 return cpt;
+    }
+    public boolean AllSaved(int nb) {
+    for(int i=0;i<hauteur;i++) {
+    	for(int j=0;j<largeur;j++) {
+    	if(this.colors[i][j].getColor().equals("black"))return false;	
+    	}}
+    	return true;
     }
     /* Compte le nombre d'animaux dans la colonne col*/
     public int count_animals(int col) {
@@ -974,7 +997,7 @@ public class Plateau extends Observable {
 
     /* à faire */
     public boolean jeuGagne(int nb) {
-        if (this.IfAllSaved(nb)) {
+        if (this.compter()!=4) {
             System.out.println("You winned !");
             return true;
         }
@@ -993,18 +1016,38 @@ public class Plateau extends Observable {
         clickedOn[0][1]=j;
 
     }
-    /***** 	Let's just try for the controller*****/
-    public void move() {
-        setChanged();
-        this.notifyObservers();
-        Random r = new Random();
-        int v= r.nextInt(8);
-        X=v;
-        //X=65;
-    }
-    /*****************************************/
+    /*****Fonction Fusee*****//* <>*/
+   public boolean RespectsBounds(int x, int y) {
+	   if(x<hauteur && x>=0 && y>=0 && y<largeur) return true;
+	   return false;
+   }
+   public int  CalculerScoreCoup() {
+		int Score=0;
+		for(int i=0;i<hauteur;i++) {
+		for(int j=0;j<largeur;j++) {
+		if (tab[i][j]==7) Score+=30;}}
+				
+		return Score;	
+		}
+   
+   
+   
+    
+   public void AppliquerFusee(int x, int y,boolean apply) {
+	   if(apply==true)
+	   {
+	if (RespectsBounds(x,y))this.colors[x][y].setColor("white"); 
+	if (RespectsBounds(x+1,y))this.colors[x+1][y].setColor("white"); 
+	if (RespectsBounds(x-1,y))this.colors[x-1][y].setColor("white"); 
+	if (RespectsBounds(x,y+1))this.colors[x][y+1].setColor("white");
+	if (RespectsBounds(x,y-1))this.colors[x][y-1].setColor("white");
+	if (RespectsBounds(x-1,y-1))this.colors[x-1][y-1].setColor("white");
+	if (RespectsBounds(x+1,y+1))this.colors[x+1][y+1].setColor("white");
+	if (RespectsBounds(x+1,y-1))this.colors[x+1][y-1].setColor("white");
+	if (RespectsBounds(x-1,y+1))this.colors[x-1][y+1].setColor("white");	   
+       }
 
-
+   }
 
     /******************************************************/
     public static void main(String[] args) {
