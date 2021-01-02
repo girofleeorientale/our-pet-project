@@ -84,7 +84,7 @@ public class Controller extends JFrame implements MouseListener {
 		/*****************/
 		this.x0=((CellView) source1).getCordX();
 		this.y0 =((CellView) source1).getCordY();
-
+System.out.println(" x0 "+x0+" y0 "+y0);
 		// this.plateau.move();
 		boolean b=false;
 		if(e.getButton()== MouseEvent.BUTTON3) {this.plateau.tryit(true, x0, y0);}
