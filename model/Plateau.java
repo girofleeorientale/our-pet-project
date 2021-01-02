@@ -407,6 +407,9 @@ public class Plateau extends Observable implements Serializable {
                 all++;
             }
         }
+        
+        //On rajoute des obstacles
+        this.filleObstacles(5);
         /*******************/
     }
 
@@ -641,7 +644,7 @@ public class Plateau extends Observable implements Serializable {
 
 
 
-        if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j-1]=7;}
+ if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black") ) {tab[i][j-1]=7;}
         if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j+1]=7;}
         if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i-1][j]=7;}
         if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i+1][j]=7;}
@@ -747,7 +750,7 @@ public class Plateau extends Observable implements Serializable {
         for(int i=1;i<hauteur;i++)
         { if(
 //		        couleurs[i-1][col]!= 0 && couleurs[i][col]==0
-                !colors[i-1][col].getColor().equals("white") && colors[i][col].getColor().equals("white")
+                !colors[i-1][col].getColor().equals("white") && colors[i][col].getColor().equals("white")&& !colors[i-1][col].getColor().equals("marron")
         )
             return false;}
         return true;
@@ -760,7 +763,7 @@ public class Plateau extends Observable implements Serializable {
 //		colors[i][col] = new Case();
         if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
         while(i<hauteur-1) {
-            if(/*couleurs[i][col]==0*/ colors[i][col].getColor().equals("white") ) {i++;}
+            if( colors[i][col].getColor().equals("white")|| colors[i][col].getColor().equals("marron")) {i++;}
             else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
                     !colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
             ) { reorganiser_bas_bis(i,col);i++;}
@@ -781,9 +784,9 @@ public class Plateau extends Observable implements Serializable {
 
     public boolean colonne_estVide(int col) {
         int i=0;
-        while(/*i<hauteur-1 && couleurs[i][col]==0*/i<hauteur-1 && colors[i][col].getColor().equals("white"))i++;
-        if( /*couleurs[i][col]!=0*/
-                !colors[i][col].getColor().equals("white")) return false;
+while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].getColor().equals("marron"))i++;
+       
+  if (!colors[i][col].getColor().equals("white") && !colors[i][col].getColor().equals("marron")) return false;
         return true;
     }
 
@@ -933,7 +936,7 @@ public class Plateau extends Observable implements Serializable {
 
         this.init();
         this.reinit_tab();
-
+        this.displayColors();
         this.removeAnimal();
         this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
@@ -943,6 +946,7 @@ public class Plateau extends Observable implements Serializable {
         this.SaveScore=this.SaveScore+this.CalculerScoreCoup();
         System.out.println("Voilà votre Score Totale" + this.SaveScore);
         this.goDown();
+        this.Shift_animal();
 
         this.pushToLeftbis();
 
@@ -1057,6 +1061,55 @@ public class Plateau extends Observable implements Serializable {
         }
 
     }
+    
+    
+    public void filleObstacles(int nombre) {
+    	
+      	 for(int i=0;i<nombre;i++)
+      	 {
+           Random x = new Random();
+      	  Random y= new Random();
+      	 // le 8 est un obstacle !!
+      	  //couleurs[x.nextInt(8)][y.nextInt(8)]=8;
+      	  this.colors[x.nextInt(8)][y.nextInt(8)].setColor("marron");
+      		 
+      	 } }
+    
+    
+    
+    
+    /******************Shift Animal *******/
+    
+    public void Shift_animal() {
+	 //Si après réorganisation en bas on trouve un animal au dessus 
+	 // d'un obstacle
+	 for(int i=1;i<hauteur;i++) {
+		  for(int j=1;j<largeur;j++) {
+//if(couleurs[i][j]==8 && couleurs[i-1][j]==9 && couleurs[i][j-1]==0) 
+if(colors[i][j].getColor().equals("marron") &&colors[i-1][j].getColor().equals("black")&& colors[i][j-1].getColor().equals("white"))
+	{	System.out.println("i"+i +" j" +j);		
+	  pushAndGoDown(i-1,j);
+		
+	 }}}}
+	 
+
+	
+
+public void pushAndGoDown(int i, int j) {
+	// couleurs[i][j]=0;
+	colors[i][j].setColor("white");
+	//while(i<hauteur &&couleurs[i][j-1]==0 )i++;
+	while(i<hauteur && colors[i][j-1].getColor().equals("white"))i++;
+    //if(i<hauteur && couleurs[i][j-1]!=0)couleurs[i-1][j-1]=9;
+	if(i<hauteur && !colors[i][j-1].getColor().equals("white"))
+		colors[i-1][j-1].setColor("black");
+}
+
+    
+    
+    
+    
+    /***********************************************/
 
     /******************************************************/
     public static void main(String[] args) {
@@ -1092,3 +1145,26 @@ public class Plateau extends Observable implements Serializable {
 
     }
 }
+
+
+
+
+
+/*public void Shift_animal() {
+	 //Si après réorganisation en bas on trouve un animal au dessus 
+	 // d'un obstacle
+	 for(int i=1;i<hauteur;i++) {
+		  for(int j=1;j<largeur;j++) {
+if(couleurs[i][j]==8 && couleurs[i-1][j]==9 && couleurs[i][j-1]==0) 
+	{			
+	 pushAndGoDown(i-1,j);		
+	 }
+	 
+}
+}}	
+
+public void pushAndGoDown(int i, int j) {
+	 couleurs[i][j]=0;
+	 while(i<hauteur &&couleurs[i][j-1]==0 )i++;
+ if(i<hauteur && couleurs[i][j-1]!=0)couleurs[i-1][j-1]=9;
+}*/
