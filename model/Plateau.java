@@ -1,15 +1,15 @@
-
 package model;
 
 
 
+import java.io.Serializable;
 import java.util.*;
 
 import view.BoardView;
 
 import java.util.*;
 
-public class Plateau extends Observable {
+public class Plateau extends Observable implements Serializable {
     public int hauteur;
     public  int largeur;
     // si cases false la case est vide; remplie sinon
@@ -24,12 +24,28 @@ public class Plateau extends Observable {
     public Case[][] colors;
     public int [][] clickedOn;
     public int X;
+    public int StockFusee;
+    public int SaveScore;
+    public int level=1;
+    public boolean LevelUp=false;
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
         //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
+        this.cases = new boolean[hauteur][largeur];
+        this.etats = new int[hauteur][largeur];
+        this.couleurs = new int[hauteur][largeur];
+        this.valeurs = new int[hauteur][largeur];
+        this.colors = new Case[hauteur][largeur];
+    }
+
+    public Plateau(int hauteur, int largeur, int stockFusee) {
+        //this.addObserver((Observer) view);
+        this.hauteur = hauteur;
+        this.largeur = largeur;
+        this.StockFusee = stockFusee;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
@@ -48,7 +64,7 @@ public class Plateau extends Observable {
             case 2: res = "green";
                 break;
             case 3: res = "blue";
-            	     //res="purple";
+                //res="purple";
                 break;
             case 4: res = "yellow";
                 break;
@@ -382,7 +398,7 @@ public class Plateau extends Observable {
         }
         }*/
         /***********/
-       all=0;
+        all=0;
         while(all<4) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
@@ -391,7 +407,7 @@ public class Plateau extends Observable {
                 all++;
             }
         }
-       /*******************/
+        /*******************/
     }
 
     public void placeShapesL2() {
@@ -640,8 +656,8 @@ public class Plateau extends Observable {
 
     public void showDescendu (int x, int y) {
         if (animalCameDown(x,y)) {
-        System.out.println("СПУСТИЛСЯ С ГОР");
-    }}
+            System.out.println("СПУСТИЛСЯ С ГОР");
+        }}
 
     public void removeAnimal () {
         for (int i = 0; i< hauteur; i++) {
@@ -809,19 +825,19 @@ public class Plateau extends Observable {
 //            {this.reorganiser_Àgauche(j+1);}
 //        }}
 
-    
-  public void pushToLeftbis() {  
-	  
-	  for(int j=0;j<largeur-2;j++) {
-		  if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1)) 
-		  {   System.out.println("la colonne est " +j);
-			  this.reorganiserAgauche(j);}
-	  }
-	  if(!this.NoColonnesVides())this.pushToLeft();
-    
-    
-  }
-    
+
+    public void pushToLeftbis() {
+
+        for(int j=0;j<largeur-2;j++) {
+            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))
+            {   System.out.println("la colonne est " +j);
+                this.reorganiserAgauche(j);}
+        }
+        if(!this.NoColonnesVides())this.pushToLeft();
+
+
+    }
+
     public void pushToLeft() {
         int cpt = 0;
 
@@ -832,16 +848,16 @@ public class Plateau extends Observable {
                 if (colors[i][j].getColor().equals("white")) {
                     cpt++;
                 }}
-                if (cpt == 8) {
-                    System.out.println("colonne vide : " + j);
+            if (cpt == 8) {
+                System.out.println("colonne vide : " + j);
 //                    this.reorganiserAgauche(j);
-                    for (int i =0; i< 8 && j != 7; i++) {
-                        this.colors[i][j].setColor(this.colors[i][j+1].getColor());
-                        this.colors[i][j+1].setColor("white");
-                    }
-//                    return;
+                for (int i =0; i< 8 && j != 7; i++) {
+                    this.colors[i][j].setColor(this.colors[i][j+1].getColor());
+                    this.colors[i][j+1].setColor("white");
                 }
-                cpt = 0;
+//                    return;
+            }
+            cpt = 0;
 
 
 
@@ -861,7 +877,7 @@ public class Plateau extends Observable {
                 colors[i][col].setColor(colors[i][col+1].getColor());
                 colors[i][col+1].setColor("white");
             }
-         this.reorganiserAgauche(col+1);
+            this.reorganiserAgauche(col+1);
         }
 
     }
@@ -869,36 +885,33 @@ public class Plateau extends Observable {
     public boolean NoColonnesVides() {
         for(int j=0;j<=largeur-2;j++) {
 
-    if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))return false;
+            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))return false;
 
         }
         return true;
     }
     /*public boolean colonne_estVideV1(int col) {
         boolean res = true;
-
         int i=0;
-        
-        while(i<hauteur && (this.colors[i][col].equals("white")))i++;
-       
-        if(i<hauteur && !this.colors[i][col].equals("white")) {
 
+        while(i<hauteur && (this.colors[i][col].equals("white")))i++;
+
+        if(i<hauteur && !this.colors[i][col].equals("white")) {
             res = false;
         }
-
         return res;
     }*/
     public boolean colonne_estVideV1(int col) {
-    	int i=0;
-		//while(i<hauteur && (couleurs[i][col]==0 ))i++;
-   while(i<hauteur && (this.colors[i][col].getColor().equals("white")))i++;
-	//if (i<hauteur && couleurs[i][col]!=0 ) return false;
-   if(i<hauteur &&(!this.colors[i][col].getColor().equals("white")))return false;
-		return true;
-    	
+        int i=0;
+        //while(i<hauteur && (couleurs[i][col]==0 ))i++;
+        while(i<hauteur && (this.colors[i][col].getColor().equals("white")))i++;
+        //if (i<hauteur && couleurs[i][col]!=0 ) return false;
+        if(i<hauteur &&(!this.colors[i][col].getColor().equals("white")))return false;
+        return true;
+
     }
-    
-    
+
+
 
     /* descendre */
     public void goDown() {
@@ -914,27 +927,29 @@ public class Plateau extends Observable {
     }
 
 
-    public void tryit(int i,int j) {
+    @SuppressWarnings("deprecation")
+    public void tryit(boolean apply,int i,int j) {
         //this.pushToLeft();
 
         this.init();
         this.reinit_tab();
+
         this.removeAnimal();
         this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
             this.use_tab();}
         this.reorganisation();
+        System.out.println("Voilà votre score pour ce Coup" + this.CalculerScoreCoup());
+        this.SaveScore=this.SaveScore+this.CalculerScoreCoup();
+        System.out.println("Voilà votre Score Totale" + this.SaveScore);
         this.goDown();
-        //Case [][] a =this.colors;
 
-        System.out.println("* * PREMIER AFFICHAGE * * * ");
-        this.displayColors();
-
-       // this.pushToLeft();
         this.pushToLeftbis();
-        System.out.println("* * * * * * * ");
-        this.displayColors();
+
         this.removeAnimal();
+        if(apply==true && this.StockFusee>=1) {this.AppliquerFusee(i, j, apply);this.StockFusee--;}
+        if(apply== true && this.StockFusee<=0)System.out.println("Plus de fusees !");
+        if(this.jeuGagne(4)) {this.LevelUp=true;this.level++;}
 //        this.reorganisation();
 //        this.goDown();
         this.setChanged();
@@ -951,6 +966,23 @@ public class Plateau extends Observable {
         }
         if(nb==cpt)	return true;
         return false;
+    }
+
+    public int compter() {
+        int cpt=0;
+        for(int i=0;i<largeur;i++) {
+            for(int j=0;j<largeur;j++) {
+                if (this.colors[i][j].getColor().equals("black"))cpt++;
+            }
+        }
+        return cpt;
+    }
+    public boolean AllSaved(int nb) {
+        for(int i=0;i<hauteur;i++) {
+            for(int j=0;j<largeur;j++) {
+                if(this.colors[i][j].getColor().equals("black"))return false;
+            }}
+        return true;
     }
     /* Compte le nombre d'animaux dans la colonne col*/
     public int count_animals(int col) {
@@ -974,7 +1006,7 @@ public class Plateau extends Observable {
 
     /* à faire */
     public boolean jeuGagne(int nb) {
-        if (this.IfAllSaved(nb)) {
+        if (this.compter()!=4) {
             System.out.println("You winned !");
             return true;
         }
@@ -993,18 +1025,38 @@ public class Plateau extends Observable {
         clickedOn[0][1]=j;
 
     }
-    /***** 	Let's just try for the controller*****/
-    public void move() {
-        setChanged();
-        this.notifyObservers();
-        Random r = new Random();
-        int v= r.nextInt(8);
-        X=v;
-        //X=65;
+    /*****Fonction Fusee*****//* <>*/
+    public boolean RespectsBounds(int x, int y) {
+        if(x<hauteur && x>=0 && y>=0 && y<largeur) return true;
+        return false;
     }
-    /*****************************************/
+    public int  CalculerScoreCoup() {
+        int Score=0;
+        for(int i=0;i<hauteur;i++) {
+            for(int j=0;j<largeur;j++) {
+                if (tab[i][j]==7) Score+=30;}}
+
+        return Score;
+    }
 
 
+
+
+    public void AppliquerFusee(int x, int y,boolean apply) {
+        if(apply==true)
+        {
+            if (RespectsBounds(x,y))this.colors[x][y].setColor("white");
+            if (RespectsBounds(x+1,y))this.colors[x+1][y].setColor("white");
+            if (RespectsBounds(x-1,y))this.colors[x-1][y].setColor("white");
+            if (RespectsBounds(x,y+1))this.colors[x][y+1].setColor("white");
+            if (RespectsBounds(x,y-1))this.colors[x][y-1].setColor("white");
+            if (RespectsBounds(x-1,y-1))this.colors[x-1][y-1].setColor("white");
+            if (RespectsBounds(x+1,y+1))this.colors[x+1][y+1].setColor("white");
+            if (RespectsBounds(x+1,y-1))this.colors[x+1][y-1].setColor("white");
+            if (RespectsBounds(x-1,y+1))this.colors[x-1][y+1].setColor("white");
+        }
+
+    }
 
     /******************************************************/
     public static void main(String[] args) {
@@ -1040,7 +1092,3 @@ public class Plateau extends Observable {
 
     }
 }
-
-
-
-

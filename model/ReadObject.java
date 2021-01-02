@@ -8,5 +8,6 @@ public class ReadObject {
         ObjectInputStream oos = new ObjectInputStream(fis);
 
         Partie partie1 = (Partie) oos.readObject();
+        System.out.println(partie1);
     }
 }

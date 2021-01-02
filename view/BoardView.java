@@ -1,37 +1,37 @@
 package view;
 
 import controller.Controller;
-
+import controller.Launch;
 import model.Case;
 import model.Plateau;
 
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BoardView extends JPanel implements Observer{
-//     JFrame frame = new JFrame();
+public class BoardView extends JPanel implements Observer, ActionListener{
+    // JFrame frame = new JFrame();
     Plateau plateau;
-    GridLayout gridLayout = new GridLayout(8, 8);
+    GridLayout gridLayout = new GridLayout(9, 9);
     public JPanel gridPanel = new JPanel(gridLayout);
-    public CellView [][] cellViews = new CellView[8][8];
+    public CellView [][] cellViews = new CellView[9][9];
     Controller b = new Controller(plateau);
+    JButton L1;
+    JButton L2;
+    JButton L3;
+    JButton L4;
+    JButton L5;
 
 
 
     public BoardView (Plateau plateau, int level) {
-//        JMenuBar menuBottons = new JMenuBar();
-//        JButton bouton = new JButton();
-//        menuBottons.add(bouton);
-//        gridPanel.add(menuBottons);
-//        frame.add(gridPanel);
-
-//        menuBottons.setVisible(true);
         this.plateau=plateau;
         this.plateau.addObserver(this);
         if (level == 1) {
@@ -45,8 +45,6 @@ public class BoardView extends JPanel implements Observer{
         }
 //        plateau.placeShapes();
         this.draw(plateau);
-//        frame.setVisible(true);
-
         // this.plateau.addObserver(this);
         //  System.out.println("drawn");
         /*frame.add(gridPanel);
@@ -68,6 +66,23 @@ public class BoardView extends JPanel implements Observer{
                 }
             }
         }
+
+        /*JButton j = new JButton("az");*/
+        L1 = new JButton ("L1");
+        this.gridPanel.add(L1);
+        L2= new JButton("L2");
+        this.gridPanel.add(L2);
+        L3= new JButton("L3");
+        this.gridPanel.add(L3);
+        L4= new JButton("L4");
+        this.gridPanel.add(L4);
+        L5= new JButton("L5");
+        this.gridPanel.add(L5);
+
+
+
+
+
     }
     public void miseAjourSupp(int x, int y) {
         cellViews[x][y]=new CellView(x,y,new Color(0,255,255))  ;
@@ -128,15 +143,76 @@ public class BoardView extends JPanel implements Observer{
 
 
     @Override
-    public void update(Observable o, Object arg1) {
+    public void update(Observable o, Object level) {
         // 	Object arg1 c'est peut etre l'identifiant
         // Du changement à effectuer
+
+
         if(o instanceof Plateau) {
 
             Plateau a =(Plateau)o;
+            if(a.level==2) {
+                System.out.println("You are in level 2");
+                L2.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+
+                        Plateau p= new Plateau(8,8);
+
+                        BoardView boardView = new BoardView(p, 3);
+                        try {
+
+                            Controller   c = new Controller(p,boardView, 2);
+
+                        } catch (FileNotFoundException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+
+                        }
+                    }});
+
+
+            }
+
+
+
+
+
+
+            else if(a.level==3) {
+                System.out.println("You are in level 3");
+
+
+
+
+                L3.addActionListener(new ActionListener() {
+
+                    public void actionPerformed(ActionEvent e) {
+
+                        Plateau p= new Plateau(8,8);
+
+                        BoardView boardView = new BoardView(p, 3);
+                        try {
+
+                            Controller   c = new Controller(p,boardView, 3);
+
+                        } catch (FileNotFoundException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+
+                        }
+                    }});
+
+            }
+
+
+
+
+
 
 
             //System.out.println(a.X);
+
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
 
@@ -171,7 +247,7 @@ public class BoardView extends JPanel implements Observer{
                         this.cellViews[i][j].add(label2);
                     }
                 }
-                }
+            }
 
             // methode pour supprimer les animaux dans GUI
             for(int i=0;i<8;i++) {
@@ -182,19 +258,35 @@ public class BoardView extends JPanel implements Observer{
                         a.colors[i][j].setColor("white");
                     }
                 }
-                }
+            }
 
 
-			/*System.out.println("kkkkkkkkkkk"+a.colors[0][0].getColor());
-			this.cellViews[0][0].setBackground(new Color(255,255,255));*/
-            /*this.cellViews[0][0].setBackground(new Color(0,255,0));*/
-            System.out.println("zez");
-//            ImageIcon icon = new ImageIcon("kura.png");
+            JLabel l = new JLabel();
+            String score =String.valueOf( a.StockFusee);
+            l.setText(score);
+
+            //this.cellViews[8][2].add(l);
+
+            /* let's try something */
+
+
+
+            //            ImageIcon icon = new ImageIcon("kura.png");
 //            JLabel label2 = new JLabel(icon);
 //            this.cellViews[7][7].add(label2);
         }
 //        this.invalidate();
 //        this.repaint();
+
+
+
+
         this.revalidate();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        System.out.println("eeeeee");
+
     }
 }
