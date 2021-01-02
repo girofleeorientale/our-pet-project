@@ -132,6 +132,11 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         else if (couleur.equals("black")) {
             c = new Color(0, 0, 0);
         }
+        
+        
+        else if(couleur.equals("marron")) {
+        	c= new Color(51,0,0);
+        }
         return c;
     }
 
