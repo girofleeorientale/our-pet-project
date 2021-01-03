@@ -65,6 +65,10 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                     cellViews[i][j].add(label2);
                 }
             }
+            cellViews[0][8]=new CellView(0,8, new Color(204,0,0));
+            cellViews[8][5]=new CellView(8,5, new Color(245,1,45));
+            this.gridPanel.add(cellViews[0][8]);
+            this.gridPanel.add(cellViews[8][5]);
         }
 
         /*JButton j = new JButton("az");*/
@@ -156,97 +160,42 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         if(o instanceof Plateau) {
 
             Plateau a =(Plateau)o;
-            if(a.level==2) {
-                System.out.println("You are in level 2");
-                L2.addActionListener(new ActionListener() {
+            
 
-                    public void actionPerformed(ActionEvent e) {
-
-                        Plateau p= new Plateau(8,8);
-
-                        BoardView boardView = new BoardView(p, 3);
-                        try {
-
-                            Controller   c = new Controller(p,boardView, 2);
-
-                        } catch (FileNotFoundException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-
-                        }
-                    }});
-
-
-            }
+                           
 
 
 
 
 
 
-            else if(a.level==3) {
-                System.out.println("You are in level 3");
+         
 
 
 
-
-                L3.addActionListener(new ActionListener() {
-
-                    public void actionPerformed(ActionEvent e) {
-
-                        Plateau p= new Plateau(8,8);
-
-                        BoardView boardView = new BoardView(p, 3);
-                        try {
-
-                            Controller   c = new Controller(p,boardView, 3);
-
-                        } catch (FileNotFoundException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-
-                        }
-                    }});
-
-            }
+      
 
 
 
 
 
 
-
-            //System.out.println(a.X);
+            
 
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
 
                     this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));
                     this.cellViews[i][j].removeAll();
-
-
-//                    if ((cellViews[i][j].color.equals(new Color(0,0,0)))) {
-//
-//                        ImageIcon icon = new ImageIcon("kura.png");
-//                        JLabel label2 = new JLabel(icon);
-//                        this.cellViews[i][j].add(label2);
-////                        System.out.println("ВОТ ОНО");
-//                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
-//                    }
                 }
             }
 
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
                     if ((a.colors[i][j].getColor().equals("black"))) {
-
-
-//                        this.cellViews[i][j].invalidate();
-//                        this.cellViews[i][j].repaint();
                         this.cellViews[i][j].revalidate();
 
-//                        System.out.println("ВОТ ОНО");
-//                        this.cellViews[i][j].setBackground(new Color(0, 200, 255));
+
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
                         this.cellViews[i][j].add(label2);
@@ -257,31 +206,39 @@ public class BoardView extends JPanel implements Observer, ActionListener{
             // methode pour supprimer les animaux dans GUI
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
-                    if ((a.colors[i][j].getColor().equals("black")) && i == 7) {
+                    if ((a.colors[i][j].getColor().equals("orange")) ) {
+                    	a.colors[i][j].setColor("white");
                         cellViews[i][j].removeAll();
                         cellViews[i][j].setColor(new Color(255, 255, 255));
-                        a.colors[i][j].setColor("white");
+                        //a.colors[i][j].setColor("white");
                     }
                 }
             }
 
 
             JLabel l = new JLabel();
-            String score =String.valueOf( a.StockFusee);
-            l.setText(score);
+            String stock =String.valueOf( a.StockFusee);
+            l.setText(stock);
+            this.cellViews[0][8].removeAll();
+            this.cellViews[0][8].add(l);
+            
+            JLabel k = new JLabel();
+            String Score = String.valueOf(a.SaveScore);
+            k.setText(Score);
+             this.cellViews[8][5].removeAll();
+             this.cellViews[8][5].add(k);
+            
+          /*  if(a.LevelUp==true) {
+            	this.cellViews[4][4].setBackground(new Color(7,7,8));
+            }*/
 
-            //this.cellViews[8][2].add(l);
-
-            /* let's try something */
+           
 
 
 
-            //            ImageIcon icon = new ImageIcon("kura.png");
-//            JLabel label2 = new JLabel(icon);
-//            this.cellViews[7][7].add(label2);
+            
         }
-//        this.invalidate();
-//        this.repaint();
+
 
 
 
@@ -291,7 +248,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        System.out.println("eeeeee");
+        System.out.println("");
 
     }
 }
