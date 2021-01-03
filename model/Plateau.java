@@ -28,6 +28,7 @@ public class Plateau extends Observable implements Serializable {
     public int SaveScore;
     public int level=1;
     public boolean LevelUp=false;
+    int nbcoups=0;
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
@@ -53,6 +54,20 @@ public class Plateau extends Observable implements Serializable {
         this.colors = new Case[hauteur][largeur];
     }
 
+    
+    public void displayColors1() {
+        for (int i = 0; i <hauteur; i++) {
+            for (int j = 0; j <largeur; j++) {
+                System.out.print(couleurs[i][j]);
+            }
+            System.out.println();
+        }
+    }
+
+    
+    
+    
+    
     public void init() { tab = new int [this.hauteur][this.largeur];}
 
     public String chooseColor (int color) {
@@ -64,7 +79,7 @@ public class Plateau extends Observable implements Serializable {
             case 2: res = "green";
                 break;
             case 3: res = "blue";
-                //res="purple";
+               //res="purple";
                 break;
             case 4: res = "yellow";
                 break;
@@ -388,16 +403,7 @@ public class Plateau extends Observable implements Serializable {
             }
         }
 
-//      on rajoute 4 animaux
-      /*  all = 0;
-        while (all < 4) {
-            int animal = r.nextInt(largeur-1);
-            if (couleurs[0][animal]!=9) {
-                couleurs[0][animal] = 9;
-                all++;
-        }
-        }*/
-        /***********/
+//     
         all=0;
         while(all<4) {
             int animal = r.nextInt(largeur-1);
@@ -409,7 +415,9 @@ public class Plateau extends Observable implements Serializable {
         }
         
         //On rajoute des obstacles
-        this.filleObstacles(5);
+       //this.filleObstacles(5);
+        this.buildObstacles();
+       // this.buildObstacles();
         /*******************/
     }
 
@@ -471,15 +479,7 @@ public class Plateau extends Observable implements Serializable {
             }
         }
 
-//      on rajoute 4 animaux
-      /*  all = 0;
-        while (all < 4) {
-            int animal = r.nextInt(largeur-1);
-            if (couleurs[0][animal]!=9) {
-                couleurs[0][animal] = 9;
-                all++;
-        }
-        }*/
+//     
         all=0;
         while(all<4) {
             int animal = r.nextInt(largeur-1);
@@ -583,20 +583,24 @@ public class Plateau extends Observable implements Serializable {
     }
 
     public void displayColors() {
+    	System.out.println("      -0--1--2--3--4--5--6--7-");
         for (int i = 0; i <hauteur; i++) {
+        	System.out.println(" ");
+        	System.out.print("   -"+i+"-");
             for (int j = 0; j <largeur; j++) {
-                System.out.print(colors[i][j]);
+                System.out.print("|"+colors[i][j]+"|");
             }
-            System.out.println();
+            System.out.println("");
         }
     }
 
     public void afficherEtats() {
         for (int i = 0; i < hauteur; i++) {
+        
             for (int j = 0; j < largeur; j++) {
                 System.out.print(etats[i][j]);
             }
-            System.out.println();
+            
         }
     }
 
@@ -608,11 +612,11 @@ public class Plateau extends Observable implements Serializable {
             System.out.println();
         }
     }
-    /*************************************************/
+   
 
     public boolean Voisine_Left(int i , int j) {
         if(j==0)return false;
-//  		if(couleurs[i][j]==couleurs[i][j-1])return true;
+
         if(colors[i][j].getColor().equals(colors[i][j-1].getColor()))return true;
         return false;
     }
@@ -627,14 +631,14 @@ public class Plateau extends Observable implements Serializable {
 
     public boolean Voisine_Up(int i , int j) {
         if(i==0)return false;
-//  		if(couleurs[i][j]==couleurs[i-1][j])return true;
+
         if(colors[i][j].getColor().equals(colors[i-1][j].getColor()))return true;
         return false;
     }
 
     public boolean Voisine_Down(int i , int j) {
         if(i==hauteur-1)return false;
-//  		if(couleurs[i][j]==couleurs[i+1][j])return true;
+
         if(colors[i][j].getColor().equals(colors[i+1][j].getColor()))return true;
         return false;
     }
@@ -644,11 +648,11 @@ public class Plateau extends Observable implements Serializable {
 
 
 
- if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black") ) {tab[i][j-1]=7;}
-        if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i][j+1]=7;}
-        if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i-1][j]=7;}
-        if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")) {tab[i+1][j]=7;}
-        if ((Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j))&&!colors[i][j].getColor().equals("black") )tab[i][j]=7;
+ if(Voisine_Left(i,j)&&!colors[i][j].getColor().equals("black")&&!colors[i][j].getColor().equals("marron") ) {tab[i][j-1]=7;}
+ if(Voisine_Right(i,j)&&!colors[i][j].getColor().equals("black")&&!colors[i][j].getColor().equals("marron")) {tab[i][j+1]=7;}
+ if(Voisine_Up(i,j)&&!colors[i][j].getColor().equals("black")&&!colors[i][j].getColor().equals("marron")) {tab[i-1][j]=7;}
+ if(Voisine_Down(i,j)&&!colors[i][j].getColor().equals("black")&&!colors[i][j].getColor().equals("marron")) {tab[i+1][j]=7;}
+if ((Voisine_Left(i,j)||Voisine_Right(i,j)||Voisine_Up(i,j)||Voisine_Down(i,j))&&!colors[i][j].getColor().equals("black") &&!colors[i][j].getColor().equals("marron"))tab[i][j]=7;
 
 
     }
@@ -659,15 +663,17 @@ public class Plateau extends Observable implements Serializable {
 
     public void showDescendu (int x, int y) {
         if (animalCameDown(x,y)) {
-            System.out.println("СПУСТИЛСЯ С ГОР");
+           
         }}
 
+    int tabl[][]= new int[8][8];
     public void removeAnimal () {
         for (int i = 0; i< hauteur; i++) {
             for (int j =0; j< largeur; j++) {
                 if (animalCameDown(i,j)) {
-                    tab[i][j]=7;
-                    colors[i][j].setColor("white");
+                    
+                    colors[i][j].setColor("orange");
+                    tabl[i][j]=6;
                 }
             }
         }
@@ -678,11 +684,7 @@ public class Plateau extends Observable implements Serializable {
         return (!Voisine_Down(x, y) && !Voisine_Up(x, y) && !Voisine_Left(x, y) && !Voisine_Right(x, y));
     }
 
-    public void from() {
-
-        System.out.println("You came here");
-
-    }
+   
 
 
     public void use_tab() {
@@ -733,12 +735,10 @@ public class Plateau extends Observable implements Serializable {
 
     {
 
-//        this.setChanged();
-//        this.notifyObservers();
         for(int i=0;i<largeur;i++) {
             for(int j=0;j<hauteur;j++) {
                 if(tab[i][j]==7 ) {
-//			    couleurs[i][j]=0;
+
                     colors[i][j] = new Case();
                     colors[i][j].setColor("white");
                 }
@@ -757,15 +757,13 @@ public class Plateau extends Observable implements Serializable {
     }
 
     public void reorganiser_down(int col) {
-//        this.setChanged();
-//        this.notifyObservers();
+
         int i=0;
-//		colors[i][col] = new Case();
+
         if(colonne_estVide(col)) {System.out.println("La colonne est vide, réorganiser à gauche");return;}
         while(i<hauteur-1) {
             if( colors[i][col].getColor().equals("white")|| colors[i][col].getColor().equals("marron")) {i++;}
-            else if(/*couleurs[i][col]!=0 && couleurs[i+1][col]==0*/
-                    !colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
+            else if(!colors[i][col].getColor().equals("white") && colors[i+1][col].getColor().equals("white")
             ) { reorganiser_bas_bis(i,col);i++;}
             else i++;
         }
@@ -773,11 +771,11 @@ public class Plateau extends Observable implements Serializable {
 
     public void reorganiser_bas_bis(int ligne,int col) {
 
-        if(ligne<hauteur && /*couleurs[ligne+1][col]==0*/ colors[ligne+1][col].getColor().equals("white")) {
+        if(ligne<hauteur && colors[ligne+1][col].getColor().equals("white")) {
 
-//		couleurs[ligne+1][col]=couleurs[ligne][col];
+
             colors[ligne+1][col].setColor(colors[ligne][col].getColor());
-//		couleurs[ligne][col]=0;
+
             colors[ligne][col].setColor("white");
         }
     }
@@ -792,19 +790,10 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
 
 
 
-    public void reorganiser_Àgauche(int col) {
-        if(col>=1 && col<largeur-1 && colonne_estVide(col-1))
-        {
-            for(int i=0;i<hauteur;i++) {
-		/*couleurs[i][col-1]=couleurs[i][col];
-		couleurs[i][col]=0;*/
-                colors[i][col-1].setColor(colors[i][col].getColor());
-                colors[i][col].setColor("white");
-                reorganiser_Àgauche(col+1);
-            }
-        }}
+    
+		
     /****For the controller ****/
-    public int[][] getTab() {
+    public void getTab() {
 
         for(int i=0;i<8;i++) {
             for(int j=0;j<8;j++) {
@@ -812,21 +801,14 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
                 if(this.colors[i][j].getColor().equals("red")) this.couleurs[i][j]=1;
                 if(this.colors[i][j].getColor().equals("green")) this.couleurs[i][j]=2;
                 if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
-            }
-        }
-        return couleurs;
-    }
-    /******Fonctions de jeu ****/
-    /* Fonction qui regarde si il y'a des colonnes vide*/
-    /*  (pousser à gauche) par conséquent*/
-//    public void pushToLeft() {
-//        this.setChanged();
-//        this.notifyObservers();
-////        for(int j=0;j<largeur-1;j++) {
-//            for(int j=0;j<largeur-2;j++) {
-//                if(this.colonne_estVideV1(j) && )
-//            {this.reorganiser_Àgauche(j+1);}
-//        }}
+                if(this.colors[i][j].getColor().equals("yellow")) this.couleurs[i][j]=4;
+                if(this.colors[i][j].getColor().equals("black"))this.couleurs[i][j]=9;
+                if(this.colors[i][j].getColor().equals("marron"))this.couleurs[i][j]=8;
+            }}}
+       
+        
+    
+    
 
 
     public void pushToLeftbis() {
@@ -845,7 +827,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         int cpt = 0;
 
         for(int j=0;j<largeur;j++) {
-//            if(this.colonne_estVideV1(j) && !this.colonne_estVideV1(j+1))
+            
 
             for (int i = 0; i < 8; i++) {
                 if (colors[i][j].getColor().equals("white")) {
@@ -853,12 +835,12 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
                 }}
             if (cpt == 8) {
                 System.out.println("colonne vide : " + j);
-//                    this.reorganiserAgauche(j);
+
                 for (int i =0; i< 8 && j != 7; i++) {
                     this.colors[i][j].setColor(this.colors[i][j+1].getColor());
                     this.colors[i][j+1].setColor("white");
                 }
-//                    return;
+
             }
             cpt = 0;
 
@@ -875,10 +857,11 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         if(col <=largeur-2 &&  col>=0 &&  this.colonne_estVideV1(col)){
 
             for(int i=0;i<hauteur;i++){
-//this.couleurs[i][col]=couleurs[i][col+1];
-//this.couleurs[i][col+1]=0;
-                colors[i][col].setColor(colors[i][col+1].getColor());
-                colors[i][col+1].setColor("white");
+
+            	if(!this.colors[i][col].getColor().equals("marron") &&!this.colors[i][col+1].getColor().equals("marron"))
+                { 
+            		colors[i][col].setColor(colors[i][col+1].getColor());
+                colors[i][col+1].setColor("white");}
             }
             this.reorganiserAgauche(col+1);
         }
@@ -893,37 +876,26 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         }
         return true;
     }
-    /*public boolean colonne_estVideV1(int col) {
-        boolean res = true;
-        int i=0;
-
-        while(i<hauteur && (this.colors[i][col].equals("white")))i++;
-
-        if(i<hauteur && !this.colors[i][col].equals("white")) {
-            res = false;
-        }
-        return res;
-    }*/
+   
     public boolean colonne_estVideV1(int col) {
         int i=0;
-        //while(i<hauteur && (couleurs[i][col]==0 ))i++;
-        while(i<hauteur && (this.colors[i][col].getColor().equals("white")))i++;
-        //if (i<hauteur && couleurs[i][col]!=0 ) return false;
-        if(i<hauteur &&(!this.colors[i][col].getColor().equals("white")))return false;
+        
+        while(i<hauteur && (this.colors[i][col].getColor().equals("white") ||colors[i][col].getColor().equals("marron")))i++;
+       
+        if(i<hauteur &&(!this.colors[i][col].getColor().equals("white")&&!this.colors[i][col].getColor().equals("marron")))return false;
         return true;
 
     }
 
 
 
-    /* descendre */
+    
     public void goDown() {
-//        this.setChanged();
-//        this.notifyObservers();
+
         for(int j=0;j<largeur;j++)
         //Si cette colonne a des vides(mal rangée)(faut descendre)
         { if(! this.NoGaps(j)) {
-            System.out.println("BONJOUR");
+            
             this.reorganiser_down(j);
         }
         }
@@ -932,12 +904,13 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
 
     @SuppressWarnings("deprecation")
     public void tryit(boolean apply,int i,int j) {
+        this.removeAnimal();
         //this.pushToLeft();
-
+        this.nbcoups++;
         this.init();
         this.reinit_tab();
         this.displayColors();
-        this.removeAnimal();
+        //this.removeAnimal();
         this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
             this.use_tab();}
@@ -946,16 +919,20 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         this.SaveScore=this.SaveScore+this.CalculerScoreCoup();
         System.out.println("Voilà votre Score Totale" + this.SaveScore);
         this.goDown();
-        this.Shift_animal();
-
+      // this.Shift_animal();
+        //this.removeAnimal();
         this.pushToLeftbis();
+        //this.Shift_animal();
+        //if(this.nbcoups==2)this.AddAnimals(3);
+       // this.removeAnimal();
+         if(apply== true && this.StockFusee<=0)System.out.println("Plus de fusees !");
+        if(apply==true && this.StockFusee>=1) {
+        	System.out.println("il ya des fusées"+this.StockFusee);
+        	this.AppliquerFusee(i, j, apply);
+        	this.StockFusee--;}
+        
+        if(this.jeuGagne(4)) {this.LevelUp=true;}
 
-        this.removeAnimal();
-        if(apply==true && this.StockFusee>=1) {this.AppliquerFusee(i, j, apply);this.StockFusee--;}
-        if(apply== true && this.StockFusee<=0)System.out.println("Plus de fusees !");
-        if(this.jeuGagne(4)) {this.LevelUp=true;this.level++;}
-//        this.reorganisation();
-//        this.goDown();
         this.setChanged();
         this.notifyObservers();
 
@@ -1010,7 +987,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
 
     /* à faire */
     public boolean jeuGagne(int nb) {
-        if (this.compter()!=4) {
+        if (this.AllSaved(nb)) {
             System.out.println("You winned !");
             return true;
         }
@@ -1081,14 +1058,21 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
     /******************Shift Animal *******/
     
     public void Shift_animal() {
-	 //Si après réorganisation en bas on trouve un animal au dessus 
-	 // d'un obstacle
+	
 	 for(int i=1;i<hauteur;i++) {
 		  for(int j=1;j<largeur;j++) {
-//if(couleurs[i][j]==8 && couleurs[i-1][j]==9 && couleurs[i][j-1]==0) 
+ 
 if(colors[i][j].getColor().equals("marron") &&colors[i-1][j].getColor().equals("black")&& colors[i][j-1].getColor().equals("white"))
-	{	System.out.println("i"+i +" j" +j);		
-	  pushAndGoDown(i-1,j);
+	{int c=j-1;
+	int l=i+1;
+	
+while(colors[l-1][c].getColor().equals("white")&&colors[l][c].getColor().equals("marron")&&c>=1&&l<hauteur-1) {
+colors[l-1][c+1].setColor("white"); 
+ colors[l-1][c].setColor("black");
+l++;
+c--;
+}
+	 if(colors[l-1][c].getColor().equals("black")) this.pushAndGoDown(l-1, c);
 		
 	 }}}}
 	 
@@ -1104,6 +1088,32 @@ public void pushAndGoDown(int i, int j) {
 	if(i<hauteur && !colors[i][j-1].getColor().equals("white"))
 		colors[i-1][j-1].setColor("black");
 }
+
+public void buildObstacles() {
+	
+	Random random = new Random();
+	int i=2+random.nextInt(3);
+	int j=2+random.nextInt(3);
+	this.colors[i][j].setColor("marron");
+	this.colors[i][j+1].setColor("marron");
+	this.colors[i][j+2].setColor("marron");
+	this.colors[i][j-1].setColor("marron");
+	this.colors[i+1][j].setColor("marron");
+	this.colors[i+2][j].setColor("marron");
+	
+}
+ public void AddAnimals(int nb) {
+	 for(int i=0;i<nb;i++) {
+		 Random random= new Random();
+		int x=1+random.nextInt(6);
+		int y=1+random.nextInt(6);
+		 this.colors[x][y].setColor("black");
+ }
+ }
+
+
+
+
 
     
     
@@ -1150,21 +1160,3 @@ public void pushAndGoDown(int i, int j) {
 
 
 
-/*public void Shift_animal() {
-	 //Si après réorganisation en bas on trouve un animal au dessus 
-	 // d'un obstacle
-	 for(int i=1;i<hauteur;i++) {
-		  for(int j=1;j<largeur;j++) {
-if(couleurs[i][j]==8 && couleurs[i-1][j]==9 && couleurs[i][j-1]==0) 
-	{			
-	 pushAndGoDown(i-1,j);		
-	 }
-	 
-}
-}}	
-
-public void pushAndGoDown(int i, int j) {
-	 couleurs[i][j]=0;
-	 while(i<hauteur &&couleurs[i][j-1]==0 )i++;
- if(i<hauteur && couleurs[i][j-1]!=0)couleurs[i-1][j-1]=9;
-}*/
