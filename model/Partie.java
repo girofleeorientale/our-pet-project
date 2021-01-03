@@ -18,7 +18,17 @@ public class Partie implements Serializable {
 		this.J=J;
 		this.p=p;
 	}
-
+public void ColorGuide() {
+	System.out.println("***GUIDE***");
+	System.out.println("W -> white -> Empty Cell");
+	System.out.println("P -> Blue ->  Blue Cell ");
+	System.out.println("R -> Red ->   Red Cell");
+	System.out.println("G -> Green -> Green Cell");
+	System.out.println("Y -> Yellow-> Yellow Cell");
+	System.out.println("M -> Marron -> Obstacle");
+	System.out.println("B  ->  Black -> Animal" );
+	
+}
 //	public void setupLevel(int id) throws levelNotFoundException{
 //		//somehow like this
 //		Document doc = parse("levels.json");
@@ -52,14 +62,16 @@ public class Partie implements Serializable {
 			
 			J.demanderNom();
 		    System.out.println("START");
+		    //this.ColorGuide();
 		    System.out.println("Voilà le plateau, allons-y !");
 		    p.placeShapes();
-		   
+		   // p.displayColors();
+		    p.getTab();
 		    System.out.println(" ");
 		    p.init();
 		   
 		   
-		    p.displayColors();
+		    p.displayColors1();
 		    while(J.veutJouer())
 		    	
 			{p.reinit_tab();
@@ -71,14 +83,21 @@ public class Partie implements Serializable {
 			
 			p.reorganisation();	
 			
-		    System.out.println("Après Supression");
-		    p.displayColors();
+		   System.out.println("Après Supression");
+		   p.getTab();
+		   p.displayColors1();
 		    System.out.println("Après réorganisation bas");
 		    p.goDown();
-		    p.displayColors();
+		    p.getTab();
+		    p.displayColors1();
 		    System.out.println("Après réorganisation gauche"); 
-		    p.pushToLeft();
-		    p.displayColors();
+		    p.pushToLeftbis();
+		    p.getTab();
+		    p.displayColors1();
+		    
+		   //p.AddAnimals(3);
+		   // System.out.println("après l'ajout des animaux");
+		    //p.displayColors1();
 		    J.veutJouer();
 			}
 		    //if(p.IfAllSaved(2)) System.out.println("Yeah you winned !!!");
@@ -87,11 +106,7 @@ public class Partie implements Serializable {
 		    }
 
 
-//	public static void main(String[] args) throws FileNotFoundException {
-//		Plateau p1 = new Plateau(8,8);
-//		Partie p = new Partie(p1);
-//		System.out.println(p.nameFill(3));
-//	}
+
     }
 	
 	
