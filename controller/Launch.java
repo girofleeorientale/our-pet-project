@@ -1,24 +1,23 @@
 package controller;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.*;
-import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import model.Plateau;
 import view.BoardView;
 import view.CellView;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -26,8 +25,23 @@ import java.util.Scanner;
 
 public class Launch extends JFrame {
 
+    public class Paint extends JPanel{
 
+        BufferedImage image;
 
+        public void paintComponent(Graphics g)
+
+        {
+            try {
+                image = ImageIO.read(new File("/home/aziz/eclipse-workspace/Оконное Приложение/src/ww.jpg"));
+            } catch (IOException e) {
+
+                e.printStackTrace();
+            }
+            g.drawImage(image, 0, 0, this);
+        }
+
+    }
 
     public static ArrayList<List<Integer>> findLevel () throws FileNotFoundException {
         File devFile = new File("levels.txt");
@@ -52,8 +66,20 @@ public class Launch extends JFrame {
             JFrame frame = new JFrame();
             JButton start = new JButton("start");
 //            JButton level1 = new JButton("first level");
-            JPanel FirstPage= new JPanel();
-            FirstPage.setBackground(new Color(0, 89, 87));
+            BackgroundPanel FirstPage= new BackgroundPanel();
+//            FirstPage.bac
+
+//            FirstPage.setBackground(new Color(0, 89, 87));
+//            BufferedImage image = null;
+//            try {
+//                image = ImageIO.read(new File("sea.png"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            JLabel label = new JLabel(new ImageIcon(image ));
+//            FirstPage.setBackgroundImage(label);
+//            frame.setContentPane(FirstPage);
+
             FirstPage.add(start);
 
             try {
