@@ -70,6 +70,11 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                     JLabel label2 = new JLabel(icon);
                     cellViews[i][j].add(label2);
                 }
+                else if ((plateau.colors[i][j].getColor()).equals("rose")) {
+                    ImageIcon icon = new ImageIcon("persik.png");
+                    JLabel label2 = new JLabel(icon);
+                    cellViews[i][j].add(label2);
+                }
             }
             cellViews[0][8]=new CellView(0,8, new Color(204,0,0));
             cellViews[8][5]=new CellView(8,5, new Color(245,1,45));
@@ -184,8 +189,34 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
                         this.cellViews[i][j].add(label2);
+                        this.cellViews[i][j].revalidate();
+
+                    }
+//                     if ((a.colors[i][j].getColor().equals("rose"))) {
+//                        this.cellViews[i][j].revalidate();
+//
+//                        ImageIcon icon = new ImageIcon("persik.png");
+//                        JLabel label2 = new JLabel(icon);
+//                        this.cellViews[i][j].add(label2);
+//                    }
+                }
+//                this.revalidate();
+            }
+
+            for(int i=0;i<8;i++) {
+                for(int j=0;j<8;j++) {
+                    if ((a.colors[i][j].getColor().equals("rose"))) {
+                        this.cellViews[i][j].removeAll();
+                        this.cellViews[i][j].revalidate();
+                        this.cellViews[i][j].repaint();
+
+
+                        ImageIcon icon = new ImageIcon("persik.png");
+                        JLabel label2 = new JLabel(icon);
+                        this.cellViews[i][j].add(label2);
                     }
                 }
+//                this.revalidate();
             }
 
             // methode pour supprimer les animaux dans GUI

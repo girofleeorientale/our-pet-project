@@ -412,8 +412,14 @@ public class Plateau extends Observable implements Serializable {
         all=0;
         while(all<4) {
             int animal = r.nextInt(largeur-1);
-            if(!colors[0][animal].getColor().equals("black")) {
-                colors[0][animal].setColor("black");
+            int rand = r.nextInt(2);
+            if(!colors[0][animal].getColor().equals("black") && !colors[0][animal].getColor().equals("rose")) {
+                if (rand == 0) {
+                    colors[0][animal].setColor("black");
+                }
+                else if (rand == 1) {
+                    colors[0][animal].setColor("rose");
+                }
                 colors[0][animal].isAnimal = true;
                 all++;
             }
@@ -959,6 +965,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
                 if(this.colors[i][j].getColor().equals("blue")) this.couleurs[i][j]=3;
                 if(this.colors[i][j].getColor().equals("yellow")) this.couleurs[i][j]=4;
                 if(this.colors[i][j].getColor().equals("black"))this.couleurs[i][j]=9;
+                if(this.colors[i][j].getColor().equals("rose"))this.couleurs[i][j]=9;
                 if(this.colors[i][j].getColor().equals("marron"))this.couleurs[i][j]=8;
             }}}
        

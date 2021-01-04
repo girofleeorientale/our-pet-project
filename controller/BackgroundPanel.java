@@ -15,7 +15,9 @@ class BackgroundPanel extends JPanel
         {
             image = ImageIO.read(new File("cats.png"));;
         }
-        catch (Exception e) { /*handled in paintComponent()*/ }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
