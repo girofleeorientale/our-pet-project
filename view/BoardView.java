@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,6 +29,8 @@ public class BoardView extends JPanel implements Observer, ActionListener{
     JButton L3;
     JButton L4;
     JButton L5;
+    JLabel score;
+    JLabel fusees;
 
 
 
@@ -73,32 +76,40 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                 else if ((plateau.colors[i][j].getColor()).equals("rose")) {
                     ImageIcon icon = new ImageIcon("persik.png");
                     JLabel label2 = new JLabel(icon);
+                    labels.add(label2);
                     cellViews[i][j].add(label2);
                 }
             }
-            cellViews[0][8]=new CellView(0,8, new Color(204,0,0));
-            cellViews[8][5]=new CellView(8,5, new Color(245,1,45));
-            this.gridPanel.add(cellViews[0][8]);
-            this.gridPanel.add(cellViews[8][5]);
+//            cellViews[0][8]=new CellView(0,8, new Color(204,0,0));
+//            cellViews[8][5]=new CellView(8,5, new Color(245,1,45));
+//            this.gridPanel.add(cellViews[0][8]);
+//            this.gridPanel.add(cellViews[8][5]);
         }
 
+
         /*JButton j = new JButton("az");*/
-        L1 = new JButton ("L1");
-        this.gridPanel.add(L1);
-        L2= new JButton("L2");
-        this.gridPanel.add(L2);
-        L3= new JButton("L3");
-        this.gridPanel.add(L3);
-        L4= new JButton("L4");
-        this.gridPanel.add(L4);
-        L5= new JButton("L5");
-        this.gridPanel.add(L5);
+//        L1 = new JButton ("L1");
+//        this.gridPanel.add(L1);
+//        L2= new JButton("L2");
+//        this.gridPanel.add(L2);
+//        L3= new JButton("L3");
+//        this.gridPanel.add(L3,c);
+//        L4= new JButton("L4");
+//        this.gridPanel.add(L4);
+//        L5= new JButton("L5");
+//        this.gridPanel.add(L5,c);
 
+        JLabel labelTxt = new JLabel("Score: ");
+        this.gridPanel.add(labelTxt);
+        score = new JLabel(""+plateau.SaveScore);
+        this.gridPanel.add(score);
 
-
-
-
+        JLabel fuseeTxt = new JLabel("Fusées disponibles: ");
+        this.gridPanel.add(fuseeTxt);
+        fusees = new JLabel(""+plateau.StockFusee);
+        this.gridPanel.add(fusees);
     }
+
     public void miseAjourSupp(int x, int y) {
         cellViews[x][y]=new CellView(x,y,new Color(0,255,255))  ;
         gridPanel.add(cellViews[x][y]);
@@ -160,6 +171,8 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         CellView cellView = new CellView(9, 9 , new Color(0,6,0));
     }*/
 
+    ArrayList<JLabel> labels = new ArrayList<>();
+
 
 
     @Override
@@ -172,19 +185,24 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
             Plateau a =(Plateau)o;
 
+//            labels.remove(0);
+//            labels.revalidate();
+
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
 
                     this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));
                     this.cellViews[i][j].removeAll();
+                    this.cellViews[i][j].repaint();
+
                 }
             }
+
+//            this.revalidate();
 
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
                     if ((a.colors[i][j].getColor().equals("black"))) {
-                        this.cellViews[i][j].revalidate();
-
 
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
@@ -192,32 +210,38 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                         this.cellViews[i][j].revalidate();
 
                     }
-//                     if ((a.colors[i][j].getColor().equals("rose"))) {
+
+                    if ((a.colors[i][j].getColor().equals("rose"))) {
+
+                        ImageIcon icon = new ImageIcon("persik.png");
+                        JLabel label2 = new JLabel(icon);
+                        this.cellViews[i][j].add(label2);
+//                        this.cellViews[i][j].invalidate();
+                        this.cellViews[i][j].revalidate();
+//                        this.cellViews[i][j].repaint();
+                    }
+                }
+//                this.revalidate();
+            }
+//            this.invalidate();
+//            this.revalidate();
+//            this.repaint();
+//
+//            for(int i=0;i<8;i++) {
+//                for(int j=0;j<8;j++) {
+//                    if ((a.colors[i][j].getColor().equals("rose"))) {
+//                        this.cellViews[i][j].removeAll();
 //                        this.cellViews[i][j].revalidate();
+//                        this.cellViews[i][j].repaint();
+//
 //
 //                        ImageIcon icon = new ImageIcon("persik.png");
 //                        JLabel label2 = new JLabel(icon);
 //                        this.cellViews[i][j].add(label2);
 //                    }
-                }
-//                this.revalidate();
-            }
-
-            for(int i=0;i<8;i++) {
-                for(int j=0;j<8;j++) {
-                    if ((a.colors[i][j].getColor().equals("rose"))) {
-                        this.cellViews[i][j].removeAll();
-                        this.cellViews[i][j].revalidate();
-                        this.cellViews[i][j].repaint();
-
-
-                        ImageIcon icon = new ImageIcon("persik.png");
-                        JLabel label2 = new JLabel(icon);
-                        this.cellViews[i][j].add(label2);
-                    }
-                }
-//                this.revalidate();
-            }
+//                }
+////                this.revalidate();
+//            }
 
             // methode pour supprimer les animaux dans GUI
             for(int i=0;i<8;i++) {
@@ -235,15 +259,16 @@ public class BoardView extends JPanel implements Observer, ActionListener{
             JLabel l = new JLabel();
             String stock =String.valueOf( a.StockFusee);
             l.setText(stock);
-            this.cellViews[0][8].removeAll();
-            this.cellViews[0][8].add(l);
+//            this.cellViews[0][8].removeAll();
+//            this.cellViews[0][8].add(l);
+            fusees.setText(String.valueOf( a.StockFusee));
             
             JLabel k = new JLabel();
             String Score = String.valueOf(a.SaveScore);
             k.setText(Score);
-             this.cellViews[8][5].removeAll();
-             this.cellViews[8][5].add(k);
-            
+//             this.cellViews[8][5].removeAll();
+//             this.cellViews[8][5].add(k);
+            score.setText(String.valueOf(a.SaveScore));
           /*  if(a.LevelUp==true) {
             	this.cellViews[4][4].setBackground(new Color(7,7,8));
             }*/

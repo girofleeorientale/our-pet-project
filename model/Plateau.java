@@ -31,6 +31,7 @@ public class Plateau extends Observable implements Serializable {
     int nbcoups=0;
     int obstaclesNumber;
     public boolean isWinner;
+    int animalsNumber;
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
@@ -45,12 +46,13 @@ public class Plateau extends Observable implements Serializable {
         this.colors = new Case[hauteur][largeur];
     }
 
-    public Plateau(int hauteur, int largeur, int level, int stockFusee, int obstaclesNumber) {
+    public Plateau(int hauteur, int largeur, int level, int stockFusee, int obstaclesNumber, int animalsNumber) {
         //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.StockFusee = stockFusee;
         this.level = level;
+        this.animalsNumber= animalsNumber;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
@@ -410,7 +412,7 @@ public class Plateau extends Observable implements Serializable {
 
 //     
         all=0;
-        while(all<4) {
+        while(all<this.animalsNumber) {
             int animal = r.nextInt(largeur-1);
             int rand = r.nextInt(2);
             if(!colors[0][animal].getColor().equals("black") && !colors[0][animal].getColor().equals("rose")) {
@@ -444,7 +446,7 @@ public class Plateau extends Observable implements Serializable {
         Random r = new Random();
 
         while (all < 5) {
-            int choice = r.nextInt(6);
+            int choice = r.nextInt(7);
 
             if (choice == 0) {
                 if (placeSquare()) {
@@ -492,7 +494,7 @@ public class Plateau extends Observable implements Serializable {
 
 //     
         all=0;
-        while(all<4) {
+        while(all<this.animalsNumber) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
@@ -541,7 +543,7 @@ public class Plateau extends Observable implements Serializable {
         }
         }*/
         all=0;
-        while(all<4) {
+        while(all<this.animalsNumber) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
@@ -613,7 +615,7 @@ public class Plateau extends Observable implements Serializable {
 
 //
         all=0;
-        while(all<4) {
+        while(all<this.animalsNumber) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
@@ -689,7 +691,7 @@ public class Plateau extends Observable implements Serializable {
 
 //
         all=0;
-        while(all<4) {
+        while(all<this.animalsNumber) {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");

@@ -1,14 +1,15 @@
 package controller;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 //Controler le plateau;
 import model.Plateau;
@@ -23,6 +24,7 @@ public class Controller extends JFrame implements MouseListener {
 	public int j;
 	int x0;
 	int y0;
+	int level;
 
 	public Controller(Plateau plateau) {
 
@@ -32,15 +34,14 @@ public class Controller extends JFrame implements MouseListener {
 
 	public Controller(Plateau p,BoardView view, int level) throws FileNotFoundException {
 		this.plateau=p;
+		//linge suivante CCC
 		this.view=view;
+		this.level=level;
 
 		this.init(level);
-		p.showDescendu(7,0);
+//		p.showDescendu(7,0);
 		//this.view.addMouseListener(this);
-		for(int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
 
-				this.view.cellViews[i][j].addMouseListener(this);}}
 
 	}
 
@@ -51,6 +52,12 @@ public class Controller extends JFrame implements MouseListener {
 		this.p=view.gridPanel;
 		this.frame.getContentPane().add(p);
 		frame.setSize(500, 500);
+
+		for(int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+
+				this.view.cellViews[i][j].addMouseListener(this);}}
+
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -90,7 +97,33 @@ System.out.println(" x0 "+x0+" y0 "+y0);
 		if(e.getButton()== MouseEvent.BUTTON3) {this.plateau.tryit(true, x0, y0);}
 		else this.plateau.tryit(false,x0, y0);
 		if(e.getButton()== MouseEvent.BUTTON3)System.out.println("right click !!");
+		if (this.plateau.isWinner) {
+			this.frame.getContentPane().removeAll();
+			this.frame.getContentPane().revalidate();
+			this.frame.getContentPane().repaint();
 
+
+
+			ImageIcon icon = new ImageIcon("sea.png");
+			JLabel label2 = new JLabel(icon);
+
+			//lignes 111-121 CCC
+//			JButton button = new JButton("start");
+//			button.addActionListener(new ActionListener() {
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					try {
+//						Launch.startNextLevel(level);
+//					} catch (FileNotFoundException fileNotFoundException) {
+//						fileNotFoundException.printStackTrace();
+//					}
+//				}
+//			});
+
+			this.frame.getContentPane().add(label2);
+//			this.frame.getContentPane().add(button);
+
+		}
 
 	}
 

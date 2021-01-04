@@ -34,9 +34,21 @@ public class Launch extends JFrame {
             String nextLine = devScanner.nextLine();
             String[] devData = nextLine.split(",");
             res.add(Arrays.asList(Integer.parseInt(devData[0]), Integer.parseInt(devData[2]),
-                    Integer.parseInt(devData[3])));
+                    Integer.parseInt(devData[3]),Integer.parseInt(devData[4])));
         }
         return res;
+    }
+
+    public static void startNextLevel (int level) throws FileNotFoundException {
+        for (List<Integer> l :findLevel()) {
+            if (l.get(0) == level + 1) {
+                Plateau pTmp = new Plateau(8, 8, l.get(0), l.get(1), l.get(2), l.get(3));
+                BoardView boardView = new BoardView(pTmp, l.get(0));
+                Controller controller = new Controller(pTmp, boardView, l.get(0));
+
+
+            }
+        }
     }
 
     public static void main(String []args) {
@@ -68,7 +80,7 @@ public class Launch extends JFrame {
 
             try {
                 for (List<Integer> l :findLevel()){
-                    Plateau pTmp= new Plateau(8,8,l.get(0), l.get(1), l.get(2));
+                    Plateau pTmp= new Plateau(8,8,l.get(0), l.get(1), l.get(2), l.get(3));
                     JButton levelTmp = new JButton(l.get(0) + " level");
                     levelTmp.addActionListener(new MyActionListener(pTmp, boardView,l.get(0)));
                     FirstPage.add(levelTmp);

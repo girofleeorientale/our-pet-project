@@ -32,12 +32,14 @@ public class Partie implements Serializable {
 			String nextLine = devScanner.nextLine();
 			String[] devData = nextLine.split(",");
 			res.add(Arrays.asList(Integer.parseInt(devData[0]), Integer.parseInt(devData[2]),
-					Integer.parseInt(devData[3])));
+					Integer.parseInt(devData[3]),Integer.parseInt(devData[4])));
 		}
 		return res;
 	}
 
 	public void initializeBoard (int level) throws FileNotFoundException {
+		plateau.animalsNumber = findLevel().get(level-1).get(3);
+
 		switch (level) {
 			case 1 : plateau.placeShapes();
 			break;
@@ -117,7 +119,7 @@ public void ColorGuide() {
 					break;
 			}
 //		    plateau.placeShapes();
-//		    plateau.displayColors();
+		    plateau.displayColors();
 		    plateau.getTab();
 		    System.out.println(" ");
 		    plateau.init();
