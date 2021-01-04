@@ -29,12 +29,15 @@ public class Plateau extends Observable implements Serializable {
     public int level=1;
     public boolean LevelUp=false;
     int nbcoups=0;
+    int obstaclesNumber;
+    public boolean isWinner;
     //BoardView view = new BoardView(this);
 
     public Plateau(int hauteur, int largeur) {
         //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
+        this.isWinner = false;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
@@ -42,16 +45,18 @@ public class Plateau extends Observable implements Serializable {
         this.colors = new Case[hauteur][largeur];
     }
 
-    public Plateau(int hauteur, int largeur, int stockFusee) {
+    public Plateau(int hauteur, int largeur, int level, int stockFusee, int obstaclesNumber) {
         //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.StockFusee = stockFusee;
+        this.level = level;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
         this.valeurs = new int[hauteur][largeur];
         this.colors = new Case[hauteur][largeur];
+        this.obstaclesNumber = obstaclesNumber;
     }
 
     
@@ -415,8 +420,8 @@ public class Plateau extends Observable implements Serializable {
         }
         
         //On rajoute des obstacles
-       //this.filleObstacles(5);
-        this.buildObstacles();
+     //  this.filleObstacles(5);
+//        this.buildObstacles();
        // this.buildObstacles();
         /*******************/
     }
@@ -540,6 +545,157 @@ public class Plateau extends Observable implements Serializable {
         }
 
     }
+
+    public void placeShapesL4() {
+        // on met des 0 a la premiere ligne
+        for (int i = 0; i< largeur; i++) {
+            cases[0][i] = true;
+            colors[0][i] = new Case();
+            colors[0][i].setColor("white");
+        }
+
+        int all = 0;
+        Random r = new Random();
+
+        while (all < 10) {
+            int choice = r.nextInt(6);
+
+            if (choice == 0) {
+                if (placeSquare()) {
+                    all++;
+                }
+            } else if (choice == 1) {
+                if (placeLetterL1()) {
+                    all++;
+                }
+            } else if (choice == 2) {
+                if (placeLetterL2()) {
+                    all++;
+                }
+            } else if (choice == 3) {
+                if (placeLetterIHorizontal()) {
+                    all++;
+                }
+            } else if (choice == 4) {
+                if (placeLetterIVertical()) {
+                    all++;
+                }
+            } else if (choice == 5) {
+                if (placeLetterTHorizontal()) {
+                    all++;
+                }
+            }
+        }
+
+        while (existsEmptyCell()) {
+
+
+            for (int i = 0; i < this.largeur; i++) {
+                for (int j = 0; j < this.hauteur; j++) {
+                    if (this.cases[i][j] == false) {
+                        int color = r.nextInt(3) + 1;
+                        String color2 = chooseColor(color);
+
+                        valeurs[i][j] = r.nextInt(4);
+                        colors[i][j] = new Case();
+                        colors[i][j].setColor(color2);
+                        cases[i][j] = true;
+                    }
+                }
+            }
+        }
+
+//
+        all=0;
+        while(all<4) {
+            int animal = r.nextInt(largeur-1);
+            if(!colors[0][animal].getColor().equals("black")) {
+                colors[0][animal].setColor("black");
+                colors[0][animal].isAnimal = true;
+                all++;
+            }
+        }
+
+        //On rajoute des obstacles
+        this.filleObstacles(this.obstaclesNumber);
+//        this.buildObstacles();
+        // this.buildObstacles();
+        /*******************/
+    }
+
+    public void placeShapesL5() {
+        // on met des 0 a la premiere ligne
+        for (int i = 0; i< largeur; i++) {
+            cases[0][i] = true;
+            colors[0][i] = new Case();
+            colors[0][i].setColor("white");
+        }
+
+        int all = 0;
+        Random r = new Random();
+
+        while (all < 5) {
+            int choice = r.nextInt(6);
+
+            if (choice == 0) {
+                if (placeSquare()) {
+                    all++;
+                }
+            } else if (choice == 1) {
+                if (placeLetterL1()) {
+                    all++;
+                }
+            } else if (choice == 2) {
+                if (placeLetterL2()) {
+                    all++;
+                }
+            } else if (choice == 3) {
+                if (placeLetterIHorizontal()) {
+                    all++;
+                }
+            } else if (choice == 4) {
+                if (placeLetterIVertical()) {
+                    all++;
+                }
+            } else if (choice == 5) {
+                if (placeLetterTHorizontal()) {
+                    all++;
+                }
+            }
+        }
+
+        while (existsEmptyCell()) {
+
+
+            for (int i = 0; i < this.largeur; i++) {
+                for (int j = 0; j < this.hauteur; j++) {
+                    if (this.cases[i][j] == false) {
+                        int color = r.nextInt(4) + 1;
+                        String color2 = chooseColor(color);
+                        valeurs[i][j] = r.nextInt(4);
+                        colors[i][j] = new Case();
+                        colors[i][j].setColor(color2);
+                        cases[i][j] = true;
+                    }
+                }
+            }
+        }
+
+//
+        all=0;
+        while(all<4) {
+            int animal = r.nextInt(largeur-1);
+            if(!colors[0][animal].getColor().equals("black")) {
+                colors[0][animal].setColor("black");
+                colors[0][animal].isAnimal = true;
+                all++;
+            }
+        }
+
+        this.buildObstacles();
+
+    }
+
 
     public boolean existsEmptyCell() {
         boolean res = false;
@@ -800,7 +956,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
                 if (this.colors[i][j].getColor().equals("white")) this.couleurs[i][j]=0;
                 if(this.colors[i][j].getColor().equals("red")) this.couleurs[i][j]=1;
                 if(this.colors[i][j].getColor().equals("green")) this.couleurs[i][j]=2;
-                if(this.colors[i][j].getColor().equals("purple")) this.couleurs[i][j]=3;
+                if(this.colors[i][j].getColor().equals("blue")) this.couleurs[i][j]=3;
                 if(this.colors[i][j].getColor().equals("yellow")) this.couleurs[i][j]=4;
                 if(this.colors[i][j].getColor().equals("black"))this.couleurs[i][j]=9;
                 if(this.colors[i][j].getColor().equals("marron"))this.couleurs[i][j]=8;
@@ -931,7 +1087,10 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         	this.AppliquerFusee(i, j, apply);
         	this.StockFusee--;}
         
-        if(this.jeuGagne(4)) {this.LevelUp=true;}
+        if(this.jeuGagne(4)) {
+//            this.LevelUp=true;
+            isWinner = true;
+        }
 
         this.setChanged();
         this.notifyObservers();
@@ -988,7 +1147,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
     /* à faire */
     public boolean jeuGagne(int nb) {
         if (this.AllSaved(nb)) {
-            System.out.println("You winned !");
+            System.out.println("You won !");
             return true;
         }
         System.out.println("Sorry, try again !");
@@ -1042,15 +1201,20 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
     
     public void filleObstacles(int nombre) {
     	
-      	 for(int i=0;i<nombre;i++)
-      	 {
+//      	 for(int i=0;i<nombre;i++)
+//      	 {
+      	     int cpt = nombre;
            Random x = new Random();
-      	  Random y= new Random();
-      	 // le 8 est un obstacle !!
-      	  //couleurs[x.nextInt(8)][y.nextInt(8)]=8;
-      	  this.colors[x.nextInt(8)][y.nextInt(8)].setColor("marron");
-      		 
-      	 } }
+           while (cpt != 0) {
+               int k = x.nextInt(7)+1;
+               int z = x.nextInt(7)+1;
+               if (!this.colors[k][z].getColor().equals("black")) {
+                   this.colors[k][z].setColor("marron");
+                   cpt--;
+               }
+           }
+
+      	 }
     
     
     

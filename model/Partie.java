@@ -4,20 +4,56 @@ import javax.swing.text.Document;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Partie implements Serializable {
-	Plateau p;
+	Plateau plateau;
 	Joueur J;
-	
-	public Partie (Plateau p) {
-		this(null, p);
+	Scanner scanReponse;
+
+
+	public Partie (Plateau plateau) {
+		this(null, plateau);
 	}
 
-	public Partie(Joueur J, Plateau p) {
+	public Partie(Joueur J, Plateau plateau) {
 		this.J=J;
-		this.p=p;
+		this.plateau=plateau;
 	}
+
+	public static ArrayList<List<Integer>> findLevel () throws FileNotFoundException {
+		File devFile = new File("levels.txt");
+		Scanner devScanner = new Scanner(devFile);
+		ArrayList<List<Integer>> res = new ArrayList<>();
+		while (devScanner.hasNext()) {
+			String nextLine = devScanner.nextLine();
+			String[] devData = nextLine.split(",");
+			res.add(Arrays.asList(Integer.parseInt(devData[0]), Integer.parseInt(devData[2]),
+					Integer.parseInt(devData[3])));
+		}
+		return res;
+	}
+
+	public void initializeBoard (int level) throws FileNotFoundException {
+		switch (level) {
+			case 1 : plateau.placeShapes();
+			break;
+			case 2 : plateau.placeShapesL2();
+				break;
+			case 3 : plateau.placeShapesL3();
+				break;
+			case 4 : plateau.placeShapesL4();
+				break;
+			case 5 : plateau.placeShapesL5();
+				break;
+		}
+		plateau.StockFusee = findLevel().get(level-1).get(1);
+		plateau.obstaclesNumber = findLevel().get(level-1).get(2);
+	}
+
 public void ColorGuide() {
 	System.out.println("***GUIDE***");
 	System.out.println("W -> white -> Empty Cell");
@@ -54,46 +90,62 @@ public void ColorGuide() {
 		return res;
 	}
 
+	public int chooseLevel () {
+		System.out.println("Quel niveau choisissez-vous ?");
+		scanReponse = new Scanner(System.in);
+		int reponse = scanReponse.nextInt();
+		return reponse;
+	}
+
 	
-	public void Jouer() {
-	
-		
-			
-			
+	public void Jouer() throws FileNotFoundException {
+
 			J.demanderNom();
-		    System.out.println("START");
 		    //this.ColorGuide();
 		    System.out.println("Voilà le plateau, allons-y !");
-		    p.placeShapes();
-		   // p.displayColors();
-		    p.getTab();
+		    int s = chooseLevel();
+		    switch (s) {
+				case 1: initializeBoard(1);
+					break;
+				case 2: initializeBoard(2);
+					break;
+				case 3: initializeBoard(3);
+					break;
+				case 4: initializeBoard(4);
+					break;
+				case 5: initializeBoard(5);
+					break;
+			}
+//		    plateau.placeShapes();
+//		    plateau.displayColors();
+		    plateau.getTab();
 		    System.out.println(" ");
-		    p.init();
+		    plateau.init();
 		   
 		   
-		    p.displayColors1();
+		    plateau.displayColors1();
 		    while(J.veutJouer())
 		    	
-			{p.reinit_tab();
+			{plateau.reinit_tab();
 		    int[] tab =J.demanderCoordonnes();//On demande les coordonnées de la case à supprimer;
 			
-			p.eliminer_Voisines(tab[0],tab[1]);
+			plateau.eliminer_Voisines(tab[0],tab[1]);
 			for(int i=0;i<64;i++) {
-			p.use_tab();}
+			plateau.use_tab();}
 			
-			p.reorganisation();	
+			plateau.reorganisation();
 			
 		   System.out.println("Après Supression");
-		   p.getTab();
-		   p.displayColors1();
+		   plateau.getTab();
+		   plateau.displayColors1();
 		    System.out.println("Après réorganisation bas");
-		    p.goDown();
-		    p.getTab();
-		    p.displayColors1();
+		    plateau.goDown();
+		    plateau.getTab();
+		    plateau.displayColors1();
 		    System.out.println("Après réorganisation gauche"); 
-		    p.pushToLeftbis();
-		    p.getTab();
-		    p.displayColors1();
+		    plateau.pushToLeftbis();
+		    plateau.getTab();
+		    plateau.displayColors1();
 		    
 		   //p.AddAnimals(3);
 		   // System.out.println("après l'ajout des animaux");
@@ -102,7 +154,7 @@ public void ColorGuide() {
 			}
 		    //if(p.IfAllSaved(2)) System.out.println("Yeah you winned !!!");
 		    
-		    p.jeuGagne(4);
+		    plateau.jeuGagne(4);
 		    }
 
 

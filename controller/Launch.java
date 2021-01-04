@@ -25,23 +25,6 @@ import java.util.Scanner;
 
 public class Launch extends JFrame {
 
-    public class Paint extends JPanel{
-
-        BufferedImage image;
-
-        public void paintComponent(Graphics g)
-
-        {
-            try {
-                image = ImageIO.read(new File("/home/aziz/eclipse-workspace/Оконное Приложение/src/ww.jpg"));
-            } catch (IOException e) {
-
-                e.printStackTrace();
-            }
-            g.drawImage(image, 0, 0, this);
-        }
-
-    }
 
     public static ArrayList<List<Integer>> findLevel () throws FileNotFoundException {
         File devFile = new File("levels.txt");
@@ -50,7 +33,8 @@ public class Launch extends JFrame {
         while (devScanner.hasNext()) {
             String nextLine = devScanner.nextLine();
             String[] devData = nextLine.split(",");
-            res.add(Arrays.asList(Integer.parseInt(devData[0]), Integer.parseInt(devData[2])));
+            res.add(Arrays.asList(Integer.parseInt(devData[0]), Integer.parseInt(devData[2]),
+                    Integer.parseInt(devData[3])));
         }
         return res;
     }
@@ -84,7 +68,7 @@ public class Launch extends JFrame {
 
             try {
                 for (List<Integer> l :findLevel()){
-                    Plateau pTmp= new Plateau(8,8, l.get(1));
+                    Plateau pTmp= new Plateau(8,8,l.get(0), l.get(1), l.get(2));
                     JButton levelTmp = new JButton(l.get(0) + " level");
                     levelTmp.addActionListener(new MyActionListener(pTmp, boardView,l.get(0)));
                     FirstPage.add(levelTmp);

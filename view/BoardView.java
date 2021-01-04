@@ -43,6 +43,12 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         else if (level == 3) {
             plateau.placeShapesL3();
         }
+        else if (level == 4) {
+            plateau.placeShapesL4();
+        }
+        else if (level == 5) {
+            plateau.placeShapesL5();
+        }
 //        plateau.placeShapes();
         this.draw(plateau);
         // this.plateau.addObserver(this);
@@ -160,27 +166,6 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         if(o instanceof Plateau) {
 
             Plateau a =(Plateau)o;
-            
-
-                           
-
-
-
-
-
-
-         
-
-
-
-      
-
-
-
-
-
-
-            
 
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
@@ -232,7 +217,15 @@ public class BoardView extends JPanel implements Observer, ActionListener{
             	this.cellViews[4][4].setBackground(new Color(7,7,8));
             }*/
 
-           
+           if (a.isWinner) {
+               this.gridPanel.revalidate();
+               ImageIcon icon = new ImageIcon("sea.png");
+               JLabel label2 = new JLabel(icon);
+               this.gridPanel.add(label2);
+//               this.cellViews[2][2].setBackground(new Color(200, 150, 180));
+               System.out.println("VOUS AVEZ GAGNE");
+
+           }
 
 
 
