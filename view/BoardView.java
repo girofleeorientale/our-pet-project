@@ -4,6 +4,7 @@ import controller.Controller;
 import controller.Launch;
 import model.Case;
 import model.Plateau;
+import util.SerializationUtil;
 
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,30 +26,39 @@ public class BoardView extends JPanel implements Observer, ActionListener{
     private GridLayout gridLayout = new GridLayout(9, 9);
     private JPanel gridPanel = new JPanel(gridLayout);
     private CellView [][] cellViews = new CellView[9][9];
-    private Controller b = new Controller(plateau);
+//    private Controller b = new Controller(plateau);
     private JLabel score;
     private JLabel fusees;
 
 
 
-    public BoardView (Plateau plateau, int level) {
+    public BoardView (Plateau plateau /*, int level*/) {
         this.plateau=plateau;
         this.plateau.addObserver(this);
-        if (level == 1) {
+        boolean res = true;
+        for (int i = 0; i< plateau.getLargeur(); i++) {
+            for (int j =0 ; j< plateau.getHauteur(); j++) {
+                if (plateau.getCases()[i][j]) {
+                    res = false;
+                }
+            }
+        }
+        if (res) {
+        if (plateau.level == 1) {
             plateau.placeShapes();
         }
-        else if (level == 2) {
+        else if (plateau.level == 2) {
             plateau.placeShapesL2();
         }
-        else if (level == 3) {
+        else if (plateau.level == 3) {
             plateau.placeShapesL3();
         }
-        else if (level == 4) {
+        else if (plateau.level == 4) {
             plateau.placeShapesL4();
         }
-        else if (level == 5) {
+        else if (plateau.level == 5) {
             plateau.placeShapesL5();
-        }
+        }}
 //        plateau.placeShapes();
         this.draw(plateau);
         // this.plateau.addObserver(this);
@@ -69,21 +80,23 @@ public class BoardView extends JPanel implements Observer, ActionListener{
     public void draw (Plateau plateau) {
         for (int i = 0; i< plateau.getHauteur(); i++) {
             for (int j = 0; j< plateau.getHauteur(); j++) {
-                cellViews[i][j] = new CellView(i, j, knowColor(plateau.getColors()[i][j].getColor()));
+                cellViews[i][j] = new CellView(i, j,
+                        knowColor(plateau.getColors()[i][j] != null ? plateau.getColors()[i][j].getColor() : ""));
+
 //                gridButtons[i][j].setText("hi");
                 gridPanel.add(cellViews[i][j]);
-                if ((plateau.getColors()[i][j].getColor()).equals("black")) {
+                if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("black")) {
                     ImageIcon icon = new ImageIcon("kura.png");
                     JLabel label2 = new JLabel(icon);
                     cellViews[i][j].add(label2);
                 }
-                else if ((plateau.getColors()[i][j].getColor()).equals("rose")) {
+                else if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("rose")) {
                     ImageIcon icon = new ImageIcon("persik.png");
                     JLabel label2 = new JLabel(icon);
                     labels.add(label2);
                     cellViews[i][j].add(label2);
                 }
-                else if ((plateau.getColors()[i][j].getColor()).equals("marron")) {
+                else if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("marron")) {
                     ImageIcon icon = new ImageIcon("toile.png");
                     JLabel label2 = new JLabel(icon);
                     labels.add(label2);
@@ -118,6 +131,20 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         this.gridPanel.add(fuseeTxt);
         fusees = new JLabel(""+plateau.getStockFusee());
         this.gridPanel.add(fusees);
+
+        JButton saveButton = new JButton("Save");
+        this.gridPanel.add(saveButton);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    SerializationUtil.serialize(plateau);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public void miseAjourSupp(int x, int y) {

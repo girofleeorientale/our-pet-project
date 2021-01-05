@@ -1,6 +1,5 @@
 package controller;
-import java.awt.Color;
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -10,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 //Controler le plateau;
 import model.Plateau;
@@ -25,19 +25,19 @@ public class Controller extends JFrame implements MouseListener {
 	private int j;   // ??????
 	private int x0;
 	private int y0;
-	private int level;
+//	private int level;
 
-	public Controller(Plateau plateau) {
-		this.plateau=plateau;
-	}
+//	public Controller(Plateau plateau) {
+//		this.plateau=plateau;
+//	}
 
-	public Controller(Plateau p,BoardView view, int level) throws FileNotFoundException {
+	public Controller(Plateau p/*BoardView view, int level*/) {
 		this.plateau=p;
 		//linge suivante CCC
-		this.view=view;
-		this.level=level;
+//		this.view=view;
+//		this.level=level;
 
-		this.init(level);
+		this.init();
 //		p.showDescendu(7,0);
 		//this.view.addMouseListener(this);
 
@@ -46,8 +46,8 @@ public class Controller extends JFrame implements MouseListener {
 
 
 
-	public void init(int level) throws FileNotFoundException {
-		view = new BoardView(plateau, level);
+	public void init(/*int level*/) {
+		view = new BoardView(plateau /*, level*/);
 		this.p=view.getGridPanel();
 		this.frame.getContentPane().add(p);
 		frame.setSize(500, 500);
@@ -101,25 +101,37 @@ System.out.println(" x0 "+x0+" y0 "+y0);
 			this.frame.getContentPane().revalidate();
 			this.frame.getContentPane().repaint();
 
+			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
 
 			ImageIcon icon = new ImageIcon("sea.png");
 			JLabel label2 = new JLabel(icon);
-
-			//lignes 111-121 CCC
-//			JButton button = new JButton("start");
-//			button.addActionListener(new ActionListener() {
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					try {
-//						Launch.startNextLevel(level);
-//					} catch (FileNotFoundException fileNotFoundException) {
-//						fileNotFoundException.printStackTrace();
-//					}
-//				}
-//			});
+			label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 			this.frame.getContentPane().add(label2);
+
+
+			//lignes 111-121 CCC
+			JButton button = new JButton("next level");
+			button.setAlignmentX(Component.CENTER_ALIGNMENT);
+//			button.setMargin(new Insets(10, 10, 10, 10));
+
+			JPanel jPanel = new JPanel();
+			frame.getContentPane().add(jPanel);
+			jPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+			jPanel.add(button);
+			button.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						Launch.startNextLevel(plateau.level);
+					} catch (FileNotFoundException fileNotFoundException) {
+						fileNotFoundException.printStackTrace();
+					}
+				}
+			});
+
 //			this.frame.getContentPane().add(button);
 
 		}

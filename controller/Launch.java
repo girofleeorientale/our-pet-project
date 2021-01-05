@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Plateau;
+import util.SerializationUtil;
 import view.BoardView;
 import view.CellView;
 import java.io.File;
@@ -43,8 +44,8 @@ public class Launch extends JFrame {
         for (List<Integer> l :findLevel()) {
             if (l.get(0) == level + 1) {
                 Plateau pTmp = new Plateau(8, 8, l.get(0), l.get(1), l.get(2), l.get(3));
-                BoardView boardView = new BoardView(pTmp, l.get(0));
-                Controller controller = new Controller(pTmp, boardView, l.get(0));
+                BoardView boardView = new BoardView(pTmp /*, l.get(0)*/);
+                Controller controller = new Controller(pTmp /*boardView, l.get(0)*/);
             }
         }
     }
@@ -55,10 +56,10 @@ public class Launch extends JFrame {
 
             Plateau p= new Plateau(8,8);
 //            Plateau p1= new Plateau(8,8, 2);
-            BoardView boardView = new BoardView(p, 3);
+//            BoardView boardView = new BoardView(p);
             // CellView cellView = new CellView(8, 8 , new Color(0,6,0));
             JFrame frame = new JFrame();
-            JButton start = new JButton("start");
+            JButton restore = new JButton("restore");
 //            JButton level1 = new JButton("first level");
             BackgroundPanel FirstPage= new BackgroundPanel();
 //            FirstPage.bac
@@ -74,13 +75,13 @@ public class Launch extends JFrame {
 //            FirstPage.setBackgroundImage(label);
 //            frame.setContentPane(FirstPage);
 
-            FirstPage.add(start);
+            FirstPage.add(restore);
 
             try {
                 for (List<Integer> l :findLevel()){
                     Plateau pTmp= new Plateau(8,8,l.get(0), l.get(1), l.get(2), l.get(3));
                     JButton levelTmp = new JButton(l.get(0) + " level");
-                    levelTmp.addActionListener(new MyActionListener(pTmp, boardView,l.get(0)));
+                    levelTmp.addActionListener(new MyActionListener(pTmp /*, boardView,l.get(0))*/));
                     FirstPage.add(levelTmp);
                 }
             }
@@ -92,7 +93,19 @@ public class Launch extends JFrame {
 
             frame.setSize(500, 500);
             frame.setVisible(true);
-            start.addActionListener(new MyActionListener(p, boardView, 1));
+            restore.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        Plateau newPlateau = SerializationUtil.deserialize();
+                        new Controller(newPlateau /*, newPlateau.level*/);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (ClassNotFoundException classNotFoundException) {
+                        classNotFoundException.printStackTrace();
+                    }
+                }
+            });
 
 //            level1.addActionListener(new MyActionListener(p1, boardView, 1));
 
@@ -110,7 +123,7 @@ public class Launch extends JFrame {
         int level;
         Plateau plateau;
         BoardView boardView;
-        public  MyActionListener (Plateau plateau, BoardView boardView, int level) {
+        public  MyActionListener (Plateau plateau /*, BoardView boardView, int level*/) {
             this.level=level;
             this.boardView = boardView;
             this.plateau = plateau;
@@ -118,11 +131,7 @@ public class Launch extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             Controller c= null;
-            try {
-                c = new Controller(plateau,boardView, level);
-            } catch (FileNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            c = new Controller(plateau/*boardView, level*/);
         }
     }
 
