@@ -19,21 +19,41 @@ public class Joueur implements Serializable {
     public void finish() {
         scanReponse.close();
     }
-
+    
     public boolean veutJouer () {
-        boolean b = false;
+    	System.out.println ("   ")   ;
 
-        System.out.println("Voulez-vous jouer? oui / non");
-
-        String reponse = scanReponse.nextLine(); 
-        if (reponse.equals("oui")) {
-            b = true;
-        }
-        else {
-            b = false;
-        }
-        return b;
+    
+    	 String reponse=scanReponse.nextLine();
+    	while(!reponse.equals("oui") && !reponse.equals("non")) 
+    		{System.out.println("Veuillez répondre par oui ou non SVP ");
+    		 reponse=scanReponse.nextLine();
+    		}
+    		
+    		if(reponse.equals("oui")) return true;
+    		return false;
     }
+        
+
+
+    
+    
+    
+    
+    public boolean veutContinuer() {
+    	
+    	String reponse=scanReponse.nextLine();
+    while(!reponse.equals("oui") && !reponse.equals("non")) 
+    	{System.out.println("Veuillez répondre par oui ou non ");
+    	this.veutContinuer();
+    	}
+    	
+    	if(reponse.equals("oui")) return true;
+    	return false;
+    }
+    
+    
+    
 
     public String demanderNom () {
         System.out.println("Quel est votre nom ?");
@@ -44,18 +64,42 @@ public class Joueur implements Serializable {
     
     
     public int[] demanderCoordonnes () {// de la case à éliminer
-       System.out.println("Quelles sont les coordonnées de la case à éliminer?");
-       System.out.println("coord X");
-       int X = scanReponse.nextInt();
-       System.out.println("coord Y");
-       int Y = scanReponse.nextInt();
+        System.out.println("Quelles sont les coordonnées de la case à éliminer?");
+        System.out.print ("coordonné X   :");
+        int X = scanReponse.nextInt();
+        System.out.print("coordonnée  Y :");
+        int Y = scanReponse.nextInt();
+ while(!(X<8 && X>=0 && Y>=0 && Y<8)) {
+ 	System.out.println("Les coordonnées choisies sortent des bords du plateau");
+ 	System.out.println("Veuillez réessayez SVP, choisissez des nombre entre 0 et 7");
+ 	System.out.print ("coordonné X   :");
+      X = scanReponse.nextInt();
+     System.out.print("coordonnée  Y :");
+     Y = scanReponse.nextInt();
+ 	
+ }
+         int tab [] = new int [2];
+         tab[0] = X;
+         tab[1] = Y;
 
-        int tab [] = new int [2];
-        tab[0] = X;
-        tab[1] = Y;
-
-        return tab;}
+         return tab;}
+         
         
+    public void AfficherNom(String name) {
+    	
+    	System.out.println("                        Joueur:"+"|"+name +"|");
+    }
+
+
+    public boolean Fusee () {
+    	String reponse=scanReponse.nextLine();
+    	while(!reponse.equals("oui") && !reponse.equals("non")) 
+    		{System.out.println("Veuillez répondre par oui ou non Svp");
+    		 reponse=scanReponse.nextLine();
+    		}
+    	if(reponse.equals("oui")) return true;
+    	return false;
+    }
     
     
 }
