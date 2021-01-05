@@ -65,12 +65,12 @@ public class BoardView extends JPanel implements Observer, ActionListener{
                         knowColor(plateau.getColors()[i][j] != null ? plateau.getColors()[i][j].getColor() : ""));
 
                 gridPanel.add(cellViews[i][j]);
-                if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("black")) {
+                if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("azure")) {
                     ImageIcon icon = new ImageIcon("kura.png");
                     JLabel label2 = new JLabel(icon);
                     cellViews[i][j].add(label2);
                 }
-                else if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("rose")) {
+                else if (plateau.getColors()[i][j] != null && (plateau.getColors()[i][j].getColor()).equals("orchid")) {
                     ImageIcon icon = new ImageIcon("persik.png");
                     JLabel label2 = new JLabel(icon);
                     cellViews[i][j].add(label2);
@@ -155,7 +155,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
             for(int i=0;i<plateau.getHauteur();i++) {
                 for(int j=0;j<plateau.getLargeur();j++) {
-                    if ((a.getColors()[i][j].getColor().equals("black"))) {
+                    if ((a.getColors()[i][j].getColor().equals("azure"))) {
 
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
@@ -164,7 +164,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
                     }
 
-                    if ((a.getColors()[i][j].getColor().equals("rose"))) {
+                    if ((a.getColors()[i][j].getColor().equals("orchid"))) {
 
                         ImageIcon icon = new ImageIcon("persik.png");
                         JLabel label2 = new JLabel(icon);

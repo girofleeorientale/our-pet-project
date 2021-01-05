@@ -9,8 +9,6 @@ public class Plateau extends Observable implements Serializable {
     private int largeur;
     // cases = false : la case est vide; cases = true : la case est remplie
     private boolean[][] cases;
-    // dans etats 0 = vide, 1 = couleur; 2 = animal
-//    private int[][] etats;
     // int [][] couleurs indique les etats
     private int[][] couleurs;
     // valeurs pour les shapes (carre - 1, L - 2, T - 3, I horizontal/vertical - 4)
@@ -22,14 +20,15 @@ public class Plateau extends Observable implements Serializable {
     private int level;
     private int obstaclesNumber;
     private boolean isWinner;
+    private boolean isLooser;
     private int animalsNumber;
 
     public Plateau(int hauteur, int largeur) {
         this.hauteur = hauteur;
         this.largeur = largeur;
         this.isWinner = false;
+        this.isLooser = false;
         this.cases = new boolean[hauteur][largeur];
-//        this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
         this.valeurs = new int[hauteur][largeur];
         this.colors = new Case[hauteur][largeur];
@@ -43,7 +42,6 @@ public class Plateau extends Observable implements Serializable {
         this.animalsNumber = animalsNumber;
         this.obstaclesNumber = obstaclesNumber;
         this.cases = new boolean[hauteur][largeur];
-//        this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
         this.valeurs = new int[hauteur][largeur];
         this.colors = new Case[hauteur][largeur];
@@ -103,6 +101,10 @@ public class Plateau extends Observable implements Serializable {
 
     public int getLevel() {
         return this.level;
+    }
+
+    public boolean getIsLooser () {
+        return this.isLooser;
     }
 
     public void displayColors1() {
@@ -467,11 +469,11 @@ public class Plateau extends Observable implements Serializable {
         while (all < this.animalsNumber) {
             int animal = r.nextInt(largeur - 1);
             int rand = r.nextInt(2);
-            if (!colors[0][animal].getColor().equals("black") && !colors[0][animal].getColor().equals("rose")) {
+            if (!colors[0][animal].getColor().equals("azure") && !colors[0][animal].getColor().equals("orchid")) {
                 if (rand == 0) {
-                    colors[0][animal].setColor("black");
+                    colors[0][animal].setColor("azure");
                 } else if (rand == 1) {
-                    colors[0][animal].setColor("rose");
+                    colors[0][animal].setColor("orchid");
                 }
                 colors[0][animal].setIsAnimal(true);
                 all++;
@@ -540,8 +542,13 @@ public class Plateau extends Observable implements Serializable {
         all = 0;
         while (all < this.animalsNumber) {
             int animal = r.nextInt(largeur - 1);
-            if (!colors[0][animal].getColor().equals("black")) {
-                colors[0][animal].setColor("black");
+            int rand = r.nextInt(2);
+            if (!colors[0][animal].getColor().equals("azure") && !colors[0][animal].getColor().equals("orchid")) {
+                if (rand == 0) {
+                    colors[0][animal].setColor("azure");
+                } else if (rand == 1) {
+                    colors[0][animal].setColor("orchid");
+                }
                 colors[0][animal].setIsAnimal(true);
                 all++;
             }
@@ -580,8 +587,13 @@ public class Plateau extends Observable implements Serializable {
         all = 0;
         while (all < this.animalsNumber) {
             int animal = r.nextInt(largeur - 1);
-            if (!colors[0][animal].getColor().equals("black")) {
-                colors[0][animal].setColor("black");
+            int rand = r.nextInt(2);
+            if (!colors[0][animal].getColor().equals("azure") && !colors[0][animal].getColor().equals("orchid")) {
+                if (rand == 0) {
+                    colors[0][animal].setColor("azure");
+                } else if (rand == 1) {
+                    colors[0][animal].setColor("orchid");
+                }
                 colors[0][animal].setIsAnimal(true);
                 all++;
             }
@@ -649,8 +661,13 @@ public class Plateau extends Observable implements Serializable {
         all = 0;
         while (all < this.animalsNumber) {
             int animal = r.nextInt(largeur - 1);
-            if (!colors[0][animal].getColor().equals("black")) {
-                colors[0][animal].setColor("black");
+            int rand = r.nextInt(2);
+            if (!colors[0][animal].getColor().equals("azure") && !colors[0][animal].getColor().equals("orchid")) {
+                if (rand == 0) {
+                    colors[0][animal].setColor("azure");
+                } else if (rand == 1) {
+                    colors[0][animal].setColor("orchid");
+                }
                 colors[0][animal].setIsAnimal(true);
                 all++;
             }
@@ -720,8 +737,13 @@ public class Plateau extends Observable implements Serializable {
         all = 0;
         while (all < this.animalsNumber) {
             int animal = r.nextInt(largeur - 1);
-            if (!colors[0][animal].getColor().equals("black")) {
-                colors[0][animal].setColor("black");
+            int rand = r.nextInt(2);
+            if (!colors[0][animal].getColor().equals("azure") && !colors[0][animal].getColor().equals("orchid")) {
+                if (rand == 0) {
+                    colors[0][animal].setColor("azure");
+                } if (rand == 1) {
+                    colors[0][animal].setColor("orchid");
+                }
                 colors[0][animal].setIsAnimal(true);
                 all++;
             }
@@ -802,19 +824,24 @@ public class Plateau extends Observable implements Serializable {
 
     public void deleteNeighbours(int i, int j) {
 
-        if (neighbourLeft(i, j) && !colors[i][j].getColor().equals("black") && !colors[i][j].getColor().equals("marron")) {
+        if (neighbourLeft(i, j) && !colors[i][j].getColor().equals("azure") && !colors[i][j].getColor().equals("marron") &&
+        !colors[i][j].getColor().equals("orchid")) {
             tab[i][j - 1] = 7;
         }
-        if (neighbourRight(i, j) && !colors[i][j].getColor().equals("black") && !colors[i][j].getColor().equals("marron")) {
+        if (neighbourRight(i, j) && !colors[i][j].getColor().equals("azure") && !colors[i][j].getColor().equals("marron") &&
+                !colors[i][j].getColor().equals("orchid")) {
             tab[i][j + 1] = 7;
         }
-        if (neighbourUp(i, j) && !colors[i][j].getColor().equals("black") && !colors[i][j].getColor().equals("marron")) {
+        if (neighbourUp(i, j) && !colors[i][j].getColor().equals("azure") && !colors[i][j].getColor().equals("marron") &&
+                !colors[i][j].getColor().equals("orchid")) {
             tab[i - 1][j] = 7;
         }
-        if (neighbourDown(i, j) && !colors[i][j].getColor().equals("black") && !colors[i][j].getColor().equals("marron")) {
+        if (neighbourDown(i, j) && !colors[i][j].getColor().equals("azure") && !colors[i][j].getColor().equals("marron") &&
+                !colors[i][j].getColor().equals("orchid")) {
             tab[i + 1][j] = 7;
         }
-        if ((neighbourLeft(i, j) || neighbourRight(i, j) || neighbourUp(i, j) || neighbourDown(i, j)) && !colors[i][j].getColor().equals("black") && !colors[i][j].getColor().equals("marron"))
+        if ((neighbourLeft(i, j) || neighbourRight(i, j) || neighbourUp(i, j) || neighbourDown(i, j)) && !colors[i][j].getColor().equals("azure")
+                && !colors[i][j].getColor().equals("marron") && !colors[i][j].getColor().equals("orchid"))
             tab[i][j] = 7;
 
     }
@@ -914,8 +941,8 @@ public class Plateau extends Observable implements Serializable {
                 if (this.colors[i][j].getColor().equals("green")) this.couleurs[i][j] = 2;
                 if (this.colors[i][j].getColor().equals("blue")) this.couleurs[i][j] = 3;
                 if (this.colors[i][j].getColor().equals("yellow")) this.couleurs[i][j] = 4;
-                if (this.colors[i][j].getColor().equals("black")) this.couleurs[i][j] = 9;
-                if (this.colors[i][j].getColor().equals("rose")) this.couleurs[i][j] = 9;
+                if (this.colors[i][j].getColor().equals("azure")) this.couleurs[i][j] = 9;
+                if (this.colors[i][j].getColor().equals("orchid")) this.couleurs[i][j] = 9;
                 if (this.colors[i][j].getColor().equals("marron")) this.couleurs[i][j] = 8;
             }
         }
@@ -1026,6 +1053,10 @@ public class Plateau extends Observable implements Serializable {
             isWinner = true;
         }
 
+        else if (this.jeuPerdu(this.animalsNumber)) {
+            isLooser = true;
+        }
+
         this.setChanged();
         this.notifyObservers();
     }
@@ -1033,7 +1064,8 @@ public class Plateau extends Observable implements Serializable {
     public boolean AllSaved(int nb) {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                if (this.colors[i][j].getColor().equals("black")) return false;
+                if (this.colors[i][j].getColor().equals("azure") || this.colors[i][j].getColor().equals("orchid"))
+                    return false;
             }
         }
         return true;
@@ -1041,6 +1073,27 @@ public class Plateau extends Observable implements Serializable {
 
     public boolean jeuGagne(int animals) {
         if (this.AllSaved(animals)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean impossibleToWin (Plateau p) {
+        boolean res = false;
+
+        for (int i =0; i< hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                if (!isOneCell(i, j)) {
+                    res = true;
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public boolean jeuPerdu (int animals) {
+        if (!AllSaved(animals) && (stockFusee == 0) && impossibleToWin(this)) {
             return true;
         }
         return false;
@@ -1112,7 +1165,7 @@ public class Plateau extends Observable implements Serializable {
         while (cpt != 0) {
             int k = x.nextInt(7) + 1;
             int z = x.nextInt(7) + 1;
-            if (!this.colors[k][z].getColor().equals("black")) {
+            if (!this.colors[k][z].getColor().equals("azure") || !this.colors[k][z].getColor().equals("orchid") ) {
                 this.colors[k][z].setColor("marron");
                 cpt--;
             }
@@ -1120,10 +1173,11 @@ public class Plateau extends Observable implements Serializable {
     }
 
     public void pushAndGoDown(int i, int j) {
+        String res = colors[i][j].getColor();
         colors[i][j].setColor("white");
         while (i < hauteur && colors[i][j - 1].getColor().equals("white")) i++;
         if (i < hauteur && !colors[i][j - 1].getColor().equals("white"))
-            colors[i - 1][j - 1].setColor("black");
+            colors[i - 1][j - 1].setColor(res);
     }
 
     public void buildObstacles() {
@@ -1144,14 +1198,15 @@ public class Plateau extends Observable implements Serializable {
 
         for (int i = 1; i < hauteur; i++) {
             for (int j = 1; j < largeur; j++) {
-                if (colors[i][j].getColor().equals("marron") && colors[i - 1][j].getColor().equals("black") && colors[i][j - 1].getColor().equals("white"))
+                if (colors[i][j].getColor().equals("marron") && (colors[i - 1][j].getColor().equals("azure")
+                        || colors[i - 1][j].getColor().equals("orchid") ) && colors[i][j - 1].getColor().equals("white"))
                     pushAndGoDown(i - 1, j);
             }
         }
     }
 
     public boolean animalCameDown(int x, int y) {
-        return (colors[x][y].getColor().equals("black") && x == hauteur - 1);
+        return ((colors[x][y].getColor().equals("azure") || colors[x][y].getColor().equals("orchid")) && x == hauteur - 1);
     }
 
     public void removeAnimal() {
@@ -1170,7 +1225,7 @@ public class Plateau extends Observable implements Serializable {
             Random random = new Random();
             int x = 1 + random.nextInt(6);
             int y = 1 + random.nextInt(6);
-            this.colors[x][y].setColor("black");
+            this.colors[x][y].setColor("azure");
         }
     }
 
@@ -1178,7 +1233,7 @@ public class Plateau extends Observable implements Serializable {
         int cpt = 0;
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                if (this.colors[i][j].getColor().equals("black")) cpt++;
+                if (this.colors[i][j].getColor().equals("azure")) cpt++;
             }
         }
         return cpt;

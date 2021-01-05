@@ -91,6 +91,39 @@ public class Controller extends JFrame implements MouseListener {
 			});
 		}
 
+		if (this.plateau.getIsLooser()) {
+			this.frame.getContentPane().removeAll();
+			this.frame.getContentPane().revalidate();
+			this.frame.getContentPane().repaint();
+
+			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+			ImageIcon icon = new ImageIcon("tt.jpg");
+			JLabel label2 = new JLabel(icon);
+			label2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+			this.frame.getContentPane().add(label2);
+
+			JButton button = new JButton("restart the same level");
+			button.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+			JPanel jPanel = new JPanel();
+			frame.getContentPane().add(jPanel);
+			jPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+			jPanel.add(button);
+			button.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						Launch.startNextLevel(plateau.getLevel()-1);
+					} catch (FileNotFoundException fileNotFoundException) {
+						fileNotFoundException.printStackTrace();
+					}
+				}
+			});
+		}
+
 	}
 
 	@Override
