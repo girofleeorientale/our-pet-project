@@ -13,8 +13,28 @@ public class Partie implements Serializable {
 	private Plateau plateau;
 	private Joueur J;
 	private Scanner scanReponse;
-
-
+	static int iter =64;
+    private int Level=1;
+    private boolean LevelUP=false;
+    private boolean [] Levels= new boolean[5];
+    private int SaveScore=0;
+    private boolean veutJouer=false;
+    
+ public void AfficherVides(int n) {
+	for(int i=0;i<n;i++) { 
+	System.out.println(" ")	;
+ }
+	
+ }  
+    
+ public void AfficherScore(int score) {
+	 System.out.println("                        Score:"+"|"+score +"|"); 
+ }
+public void AfficherFusees(int stock) {
+	System.out.println("           Nombre de fusées     :"+"|"+stock +"|");
+}
+ 
+ 
 	public Partie (Plateau plateau) {
 		this(null, plateau);
 	}
@@ -38,8 +58,8 @@ public class Partie implements Serializable {
 	}
 
 	public void initializeBoard (int level) throws FileNotFoundException {
+		
 		plateau.setAnimalsNumber(findLevel().get(level-1).get(3));
-
 		switch (level) {
 			case 1 : plateau.placeShapes();
 			break;
@@ -50,10 +70,13 @@ public class Partie implements Serializable {
 			case 4 : plateau.placeShapesL4();
 				break;
 			case 5 : plateau.placeShapesL5();
-				break;
-		}
+				break;}
+				
+		
 		plateau.setStockFusee(findLevel().get(level-1).get(1));
 		plateau.setObstaclesNumber(findLevel().get(level-1).get(2));
+		
+		
 	}
 
 public void ColorGuide() {
@@ -67,15 +90,7 @@ public void ColorGuide() {
 	System.out.println("B  ->  Black -> Animal" );
 	
 }
-//	public void setupLevel(int id) throws levelNotFoundException{
-//		//somehow like this
-//		Document doc = parse("levels.json");
-//		for(Element elm: doc.get("levels")){
-//			if(Integer.parseInt(elm.get("id")).equals(id)){
-//				//setup your level
-//			}
-//		}
-//	}
+
 
 	public String nameFill (int id) throws FileNotFoundException {
 		File devFile = new File("levels.txt");
@@ -94,75 +109,99 @@ public void ColorGuide() {
 
 	public int chooseLevel () {
 		System.out.println("Quel niveau choisissez-vous ?");
+		
 		scanReponse = new Scanner(System.in);
-		int reponse = scanReponse.nextInt();
-		return reponse;
+		
+		Object reponse = scanReponse.nextInt();
+		
+		while((int)reponse !=1 && (int)reponse !=2 && (int)reponse !=3 && (int)reponse !=4 && (int)reponse !=5)
+		{System.out.println("Veuillez taper un chiffre qui correspond à un niveau");
+		reponse=scanReponse.nextInt();
+		}
+	    return (int) reponse;
 	}
-
-	
-	public void Jouer() throws FileNotFoundException {
-
-			J.demanderNom();
-		    //this.ColorGuide();
-		    System.out.println("Voilà le plateau, allons-y !");
-		    int s = chooseLevel();
-		    switch (s) {
-				case 1: initializeBoard(1);
-					break;
-				case 2: initializeBoard(2);
-					break;
-				case 3: initializeBoard(3);
-					break;
-				case 4: initializeBoard(4);
-					break;
-				case 5: initializeBoard(5);
-					break;
-			}
-//		    plateau.placeShapes();
-		    plateau.displayColors();
-		    plateau.getTab();
-		    System.out.println(" ");
-		    plateau.init();
+	   public void Play() throws FileNotFoundException {
 		   
-		   
-		    plateau.displayColors1();
-		    while(J.veutJouer())
-		    	
-			{plateau.reinit_tab();
-		    int[] tab =J.demanderCoordonnes();//On demande les coordonnées de la case à supprimer;
-			
-			plateau.eliminer_Voisines(tab[0],tab[1]);
-			for(int i=0;i<64;i++) {
-			plateau.use_tab();}
+System.out.println("***********************Pet Rescue Saga ******************************");
+		this.AfficherVides(6);
+		if(Level==1) J.nom=J.demanderNom(); 
+		 J.AfficherNom(J.nom);
+		System.out.println("**__Commencons une partie du niveau__** "+this.Level);
+		this.AfficherVides(2);
+		if(Level==1)this.initializeBoard(Level);
+		plateau.getTab();
+		this.AfficherVides(1);
+		plateau.init();
+		plateau.displayColors1();
+		System.out.println("Voulez vous jouer ? oui/non");
+		this.veutJouer=J.veutJouer();
+		while(veutJouer && !this.plateau.jeuGagne(this.plateau.getAnimalsNumber()))
+		  {
+			plateau.reinit_tab();
+			System.out.println("Voulez vous utiliser une fusée pour ce coup ?");
+            boolean b=J.Fusee();
+            //On demande les coordonnees de la case à éliminer
+           int [] tab = J.demanderCoordonnes();
+		  if(b==true) {
+	if(plateau.getStockFusee()<=0)System.out.println("Vous n'avez plus de fusées");
+	else{plateau.AppliquerFusee(tab[0], tab[1], true);
+		plateau.setStockFusee(plateau.getStockFusee() - 1);}
+		    }
+		    else {plateau.eliminer_Voisines(tab[0],tab[1]);
+		    for(int i=0;i<iter;i++) {
+				plateau.use_tab();}
+		    }
+		    
+		
+			//Partie réorganisation du Plateau
+		    
+		    
 			
 			plateau.reorganisation();
-			
-		   System.out.println("Après Supression");
-		   plateau.getTab();
-		   plateau.displayColors1();
-		    System.out.println("Après réorganisation bas");
-		    plateau.goDown();
+			//System.out.println("apres suppression");
+			//plateau.getTab();
+			//plateau.displayColors1();
+			plateau.goDown();
+		    // On élimine les animaux qui arrivent en bas
+		   plateau.removeAnimal1();
+		    // Réorgniser le plateau en poussant à gauche
+		   plateau.pushToLeftbis();
+		   System.out.println("Après la réorganisation du plateau");
 		    plateau.getTab();
 		    plateau.displayColors1();
-		    System.out.println("Après réorganisation gauche"); 
-		    plateau.pushToLeftbis();
-		    plateau.getTab();
-		    plateau.displayColors1();
-		    
-		   //p.AddAnimals(3);
-		   // System.out.println("après l'ajout des animaux");
-		    //p.displayColors1();
-		    J.veutJouer();
-			}
-		    //if(p.IfAllSaved(2)) System.out.println("Yeah you winned !!!");
-		    
-		    plateau.jeuGagne(4);
+		    this.AfficherFusees(plateau.getStockFusee());
+		    this.SaveScore=this.SaveScore+plateau.CalculerScoreCoup();
+		    this.AfficherScore(this.SaveScore+ plateau.CalculerScoreCoup());
+		    System.out.println("Voulez vous jouer ?");
+		   	 veutJouer= J.veutJouer();}
+		  if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level>5) {
+		System.out.println("Vous avez déjà joué à tous les niveaux ! Bravo");
+		  }
+		    if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level<=5 ) { 
+		    this.Level++;
+		    this.LevelUP=true;
+    System.out.println("______Tous les animaux ont été sauvés_____");
+    System.out.println("____Félicitations ! Vous avez gagné ce niveau____ ");
+    System.out.println("____Voulez vous passer au niveau suivant ? oui/non____");
+    if(J.veutContinuer()) {
+    this.plateau.Erase();
+  initializeBoard(Level);this.Play();}
+  
 		    }
+	   
 
-
-
-    }
+		  
+	   }    	
+		   
+		    	
+		    
+			
 	
+	
+	
+
+    
+}
 	
 	
 
