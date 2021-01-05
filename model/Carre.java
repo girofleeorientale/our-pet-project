@@ -30,7 +30,7 @@ public class Carre extends Shape {
 
     public boolean notOutOfBoundsDown (Plateau p, int x, int y) {
         boolean res = true;
-        if (x >= p.largeur) {
+        if (x >= p.getLargeur()) {
             res = false;
         }
         return res;
@@ -46,7 +46,7 @@ public class Carre extends Shape {
 
     public boolean notOutOfBoundsRight (Plateau p, int x, int y) {
         boolean res = true;
-        if (y >= p.hauteur) {
+        if (y >= p.getHauteur()) {
             res = false;
         }
         return res;

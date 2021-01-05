@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Partie implements Serializable {
-	Plateau plateau;
-	Joueur J;
-	Scanner scanReponse;
+	private Plateau plateau;
+	private Joueur J;
+	private Scanner scanReponse;
 
 
 	public Partie (Plateau plateau) {
@@ -38,7 +38,7 @@ public class Partie implements Serializable {
 	}
 
 	public void initializeBoard (int level) throws FileNotFoundException {
-		plateau.animalsNumber = findLevel().get(level-1).get(3);
+		plateau.setAnimalsNumber(findLevel().get(level-1).get(3));
 
 		switch (level) {
 			case 1 : plateau.placeShapes();
@@ -52,8 +52,8 @@ public class Partie implements Serializable {
 			case 5 : plateau.placeShapesL5();
 				break;
 		}
-		plateau.StockFusee = findLevel().get(level-1).get(1);
-		plateau.obstaclesNumber = findLevel().get(level-1).get(2);
+		plateau.setStockFusee(findLevel().get(level-1).get(1));
+		plateau.setObstaclesNumber(findLevel().get(level-1).get(2));
 	}
 
 public void ColorGuide() {

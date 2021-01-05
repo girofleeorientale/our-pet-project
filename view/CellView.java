@@ -6,32 +6,34 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class CellView extends JPanel implements MouseListener {
-    int x;
-    int y;
-    Color color;
+    private int x;
+    private int y;
+    private Color color;
 
-    public CellView (int x, int y, Color color) {
+    public CellView(int x, int y, Color color) {
         this.x = x;
         this.y = y;
         this.color = color;
         this.addMouseListener(this);
-        this.setSize(10,10);
+        this.setSize(10, 10);
         this.setBackground(color);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.setVisible(true);
     }
-public int getCordX() {
-	System.out.println("la coordonnee X est " +this.x);
-	return this.x;
-}
-public int getCordY() {
-	System.out.println("la coordonnee Y est " +this.y);
-	return this.y;
-}
 
-public void setColor(Color c) {
+    public int getCordX() {
+        System.out.println("la coordonnee X est " + this.x);
+        return this.x;
+    }
+
+    public int getCordY() {
+        System.out.println("la coordonnee Y est " + this.y);
+        return this.y;
+    }
+
+    public void setColor(Color c) {
         this.color = c;
-}
+    }
 
 
     @Override

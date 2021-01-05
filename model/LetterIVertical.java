@@ -23,7 +23,7 @@ public class LetterIVertical extends Shape {
 
     public boolean notOutOfBoundsDown (Plateau p, int x, int y) {
         boolean res = true;
-        if (x >= p.hauteur-4) {
+        if (x >= p.getHauteur()-4) {
             res = false;
         }
         return res;
@@ -39,7 +39,7 @@ public class LetterIVertical extends Shape {
 
     public boolean notOutOfBoundsRight (Plateau p, int x, int y) {
         boolean res = true;
-        if (y >= p.hauteur-3) {
+        if (y >= p.getHauteur()-3) {
             res = false;
         }
         return res;

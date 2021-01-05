@@ -8,7 +8,7 @@ import java.io.File;
 
 class BackgroundPanel extends JPanel
 {
-    Image image;
+    private Image image;
     public BackgroundPanel()
     {
         try

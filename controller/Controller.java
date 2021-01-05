@@ -16,20 +16,19 @@ import model.Plateau;
 //import sun.tools.tree.ThisExpression;
 import view.BoardView;
 import view.CellView;
+
 public class Controller extends JFrame implements MouseListener {
-	public Plateau plateau;
-	public BoardView view;
-	JFrame frame = new JFrame();
-	JPanel p = new JPanel();
-	public int j;
-	int x0;
-	int y0;
-	int level;
+	private Plateau plateau;
+	private BoardView view;
+	private JFrame frame = new JFrame();
+	private JPanel p = new JPanel();
+	private int j;   // ??????
+	private int x0;
+	private int y0;
+	private int level;
 
 	public Controller(Plateau plateau) {
-
 		this.plateau=plateau;
-
 	}
 
 	public Controller(Plateau p,BoardView view, int level) throws FileNotFoundException {
@@ -49,33 +48,33 @@ public class Controller extends JFrame implements MouseListener {
 
 	public void init(int level) throws FileNotFoundException {
 		view = new BoardView(plateau, level);
-		this.p=view.gridPanel;
+		this.p=view.getGridPanel();
 		this.frame.getContentPane().add(p);
 		frame.setSize(500, 500);
 
 		for(int i=0;i<8;i++) {
 			for(int j=0;j<8;j++) {
 
-				this.view.cellViews[i][j].addMouseListener(this);}}
+				this.view.getCellViews()[i][j].addMouseListener(this);}}
 
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	public void ChangeColor(int i, int j) {
-		this.view.cellViews[5][5].setBackground(new Color(102,0,153));
-		//System.out.println(this.plateau.clickedOn[0][1]);
-	}
-
-	public void eliminer(int i , int j) {
-		this.plateau.eliminer_Voisines(i, j);
-
-	}
-	public void affich(Plateau p) {
-
-
-		System.out.println("Compter" +p.count_animals(1));
-
-	}
+//	public void ChangeColor(int i, int j) {
+//		this.view.cellViews[5][5].setBackground(new Color(102,0,153));
+//		//System.out.println(this.plateau.clickedOn[0][1]);
+//	}
+//
+//	public void eliminer(int i , int j) {
+//		this.plateau.eliminer_Voisines(i, j);
+//
+//	}
+//	public void affich(Plateau p) {
+//
+//
+//		System.out.println("Compter" +p.count_animals(1));
+//
+//	}
 
 
 
@@ -93,11 +92,11 @@ public class Controller extends JFrame implements MouseListener {
 		this.y0 =((CellView) source1).getCordY();
 System.out.println(" x0 "+x0+" y0 "+y0);
 		// this.plateau.move();
-		boolean b=false;
+//		boolean b=false;
 		if(e.getButton()== MouseEvent.BUTTON3) {this.plateau.tryit(true, x0, y0);}
 		else this.plateau.tryit(false,x0, y0);
 		if(e.getButton()== MouseEvent.BUTTON3)System.out.println("right click !!");
-		if (this.plateau.isWinner) {
+		if (this.plateau.getIsWinner()) {
 			this.frame.getContentPane().removeAll();
 			this.frame.getContentPane().revalidate();
 			this.frame.getContentPane().repaint();

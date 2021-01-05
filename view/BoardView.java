@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -19,18 +20,13 @@ import java.util.Observer;
 
 public class BoardView extends JPanel implements Observer, ActionListener{
     // JFrame frame = new JFrame();
-    Plateau plateau;
-    GridLayout gridLayout = new GridLayout(9, 9);
-    public JPanel gridPanel = new JPanel(gridLayout);
-    public CellView [][] cellViews = new CellView[9][9];
-    Controller b = new Controller(plateau);
-    JButton L1;
-    JButton L2;
-    JButton L3;
-    JButton L4;
-    JButton L5;
-    JLabel score;
-    JLabel fusees;
+    private Plateau plateau;
+    private GridLayout gridLayout = new GridLayout(9, 9);
+    private JPanel gridPanel = new JPanel(gridLayout);
+    private CellView [][] cellViews = new CellView[9][9];
+    private Controller b = new Controller(plateau);
+    private JLabel score;
+    private JLabel fusees;
 
 
 
@@ -62,19 +58,33 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         setDefaultCloseOperation(EXIT_ON_CLOSE);*/
     }
 
+    public JPanel getGridPanel() {
+        return this.gridPanel;
+    }
+
+    public CellView[][] getCellViews() {
+        return this.cellViews;
+    }
+
     public void draw (Plateau plateau) {
-        for (int i = 0; i< plateau.hauteur; i++) {
-            for (int j = 0; j< plateau.hauteur; j++) {
-                cellViews[i][j] = new CellView(i, j, knowColor(plateau.colors[i][j].getColor()));
+        for (int i = 0; i< plateau.getHauteur(); i++) {
+            for (int j = 0; j< plateau.getHauteur(); j++) {
+                cellViews[i][j] = new CellView(i, j, knowColor(plateau.getColors()[i][j].getColor()));
 //                gridButtons[i][j].setText("hi");
                 gridPanel.add(cellViews[i][j]);
-                if ((plateau.colors[i][j].getColor()).equals("black")) {
+                if ((plateau.getColors()[i][j].getColor()).equals("black")) {
                     ImageIcon icon = new ImageIcon("kura.png");
                     JLabel label2 = new JLabel(icon);
                     cellViews[i][j].add(label2);
                 }
-                else if ((plateau.colors[i][j].getColor()).equals("rose")) {
+                else if ((plateau.getColors()[i][j].getColor()).equals("rose")) {
                     ImageIcon icon = new ImageIcon("persik.png");
+                    JLabel label2 = new JLabel(icon);
+                    labels.add(label2);
+                    cellViews[i][j].add(label2);
+                }
+                else if ((plateau.getColors()[i][j].getColor()).equals("marron")) {
+                    ImageIcon icon = new ImageIcon("toile.png");
                     JLabel label2 = new JLabel(icon);
                     labels.add(label2);
                     cellViews[i][j].add(label2);
@@ -99,14 +109,14 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 //        L5= new JButton("L5");
 //        this.gridPanel.add(L5,c);
 
-        JLabel labelTxt = new JLabel("Score: ");
+        JLabel labelTxt = new JLabel("Score:");
         this.gridPanel.add(labelTxt);
-        score = new JLabel(""+plateau.SaveScore);
+        score = new JLabel(""+plateau.getSaveScore());
         this.gridPanel.add(score);
 
-        JLabel fuseeTxt = new JLabel("Fusées disponibles: ");
+        JLabel fuseeTxt = new JLabel("Fusées:");
         this.gridPanel.add(fuseeTxt);
-        fusees = new JLabel(""+plateau.StockFusee);
+        fusees = new JLabel(""+plateau.getStockFusee());
         this.gridPanel.add(fusees);
     }
 
@@ -115,21 +125,21 @@ public class BoardView extends JPanel implements Observer, ActionListener{
         gridPanel.add(cellViews[x][y]);
 
     }
-    public void miseAjour(int[][]tab ,int x, int y) {
-        System.out.println("You are finally here !!");
-        this.b.j=78;
-        System.out.println(tab[1][1]);
-        //this.b.plateau.eliminer_Voisines(i, j);
-        for(int i=0;i<8;i++) {
-            for(int j=0;j<8;j++) {
-                if(tab[i][j]==0) {
-
-                    this.cellViews[i][j].setBackground(new Color(51,0,0));}}}
-	/*this.cellViews[i+1][j].setBackground(new Color(54,15,0));
-	System.out.println(i);
-	System.out.println(j);*/
-
-    }
+//    public void miseAjour(int[][]tab ,int x, int y) {
+//        System.out.println("You are finally here !!");
+//        this.b.j=78;
+//        System.out.println(tab[1][1]);
+//        //this.b.plateau.eliminer_Voisines(i, j);
+//        for(int i=0;i<8;i++) {
+//            for(int j=0;j<8;j++) {
+//                if(tab[i][j]==0) {
+//
+//                    this.cellViews[i][j].setBackground(new Color(51,0,0));}}}
+//	/*this.cellViews[i+1][j].setBackground(new Color(54,15,0));
+//	System.out.println(i);
+//	System.out.println(j);*/
+//
+//    }
 
     public void miseAjour2(int [][]tab, int x, int y) {
         //this.cellViews[7][7].setBackground(new Color(255,255,255));
@@ -191,7 +201,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
 
-                    this.cellViews[i][j].setBackground(knowColor(a.colors[i][j].getColor()));
+                    this.cellViews[i][j].setBackground(knowColor(a.getColors()[i][j].getColor()));
                     this.cellViews[i][j].removeAll();
                     this.cellViews[i][j].repaint();
 
@@ -202,7 +212,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
-                    if ((a.colors[i][j].getColor().equals("black"))) {
+                    if ((a.getColors()[i][j].getColor().equals("black"))) {
 
                         ImageIcon icon = new ImageIcon("kura.png");
                         JLabel label2 = new JLabel(icon);
@@ -211,7 +221,7 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
                     }
 
-                    if ((a.colors[i][j].getColor().equals("rose"))) {
+                    if ((a.getColors()[i][j].getColor().equals("rose"))) {
 
                         ImageIcon icon = new ImageIcon("persik.png");
                         JLabel label2 = new JLabel(icon);
@@ -219,6 +229,12 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 //                        this.cellViews[i][j].invalidate();
                         this.cellViews[i][j].revalidate();
 //                        this.cellViews[i][j].repaint();
+                    }
+                    else if ((plateau.getColors()[i][j].getColor()).equals("marron")) {
+                        ImageIcon icon = new ImageIcon("toile.png");
+                        JLabel label2 = new JLabel(icon);
+                        cellViews[i][j].add(label2);
+                        this.cellViews[i][j].revalidate();
                     }
                 }
 //                this.revalidate();
@@ -246,8 +262,8 @@ public class BoardView extends JPanel implements Observer, ActionListener{
             // methode pour supprimer les animaux dans GUI
             for(int i=0;i<8;i++) {
                 for(int j=0;j<8;j++) {
-                    if ((a.colors[i][j].getColor().equals("orange")) ) {
-                    	a.colors[i][j].setColor("white");
+                    if ((a.getColors()[i][j].getColor().equals("orange")) ) {
+                    	a.getColors()[i][j].setColor("white");
                         cellViews[i][j].removeAll();
                         cellViews[i][j].setColor(new Color(255, 255, 255));
                         //a.colors[i][j].setColor("white");
@@ -257,23 +273,23 @@ public class BoardView extends JPanel implements Observer, ActionListener{
 
 
             JLabel l = new JLabel();
-            String stock =String.valueOf( a.StockFusee);
+            String stock =String.valueOf( a.getStockFusee());
             l.setText(stock);
 //            this.cellViews[0][8].removeAll();
 //            this.cellViews[0][8].add(l);
-            fusees.setText(String.valueOf( a.StockFusee));
+            fusees.setText(String.valueOf( a.getStockFusee()));
             
             JLabel k = new JLabel();
-            String Score = String.valueOf(a.SaveScore);
+            String Score = String.valueOf(a.getSaveScore());
             k.setText(Score);
 //             this.cellViews[8][5].removeAll();
 //             this.cellViews[8][5].add(k);
-            score.setText(String.valueOf(a.SaveScore));
+            score.setText(String.valueOf(a.getSaveScore()));
           /*  if(a.LevelUp==true) {
             	this.cellViews[4][4].setBackground(new Color(7,7,8));
             }*/
 
-           if (a.isWinner) {
+           if (a.getIsWinner()) {
                this.gridPanel.revalidate();
                ImageIcon icon = new ImageIcon("sea.png");
                JLabel label2 = new JLabel(icon);

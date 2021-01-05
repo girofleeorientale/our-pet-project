@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Lanceur {
-	Plateau p = new Plateau(8,8);
-	Joueur j = new Joueur();
-	Partie par = new Partie(j,p);
+	private Plateau p = new Plateau(8,8);
+	private Joueur j = new Joueur();
+	private Partie par = new Partie(j,p);
 
 
 
-	public String chooseLevel () {
-		System.out.println("Quel niveau choisissez-vous ?");
-		Scanner scanReponse = null;
-		String reponse = scanReponse.nextLine();
-		return reponse;
-	}
+//	public String chooseLevel () {
+//		System.out.println("Quel niveau choisissez-vous ?");
+//		Scanner scanReponse = null;
+//		String reponse = scanReponse.nextLine();
+//		return reponse;
+//	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		Plateau p = new Plateau(8,8);

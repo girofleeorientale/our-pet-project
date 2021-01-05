@@ -5,14 +5,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Case  {
-
-
     private String colorCase;
-    public boolean isAnimal;
+    private boolean isAnimal;
 
     public Case() {
         this.colorCase = "white";
-        isAnimal = false;
+        this.isAnimal = false;
     }
 
     public Case(String color) {
@@ -21,6 +19,14 @@ public class Case  {
 
     public String getColor() {
         return this.colorCase;
+    }
+
+    public void setIsAnimal(boolean animal) {
+        this.isAnimal = animal;
+    }
+
+    public boolean getIsAnimal() {
+        return this.isAnimal;
     }
 
     public void setColor(String color) {

@@ -10,29 +10,28 @@ import view.BoardView;
 import java.util.*;
 
 public class Plateau extends Observable implements Serializable {
-    public int hauteur;
-    public  int largeur;
-    // si cases false la case est vide; remplie sinon
-    boolean[][] cases;
+    private int hauteur;
+    private int largeur;
+    // cases = false : la case est vide; cases = true : la case est remplie
+    private boolean[][] cases;
     // dans etats 0 = vide, 1 = couleur; 2 = animal
-    int[][] etats;
+    private int[][] etats;
     // int [][] couleurs indique les etats
-    int[][] couleurs;
+    private int[][] couleurs;
     // valeurs pour les shapes (carre - 1, L - 2, T - 3, I horizontal/vertical - 4)
-    int[][] valeurs;
-    public int[][] tab ;
-    public Case[][] colors;
-    public int [][] clickedOn;
-    public int X;
-    public int StockFusee;
-    public int SaveScore;
-    public int level=1;
-    public boolean LevelUp=false;
-    int nbcoups=0;
-    int obstaclesNumber;
-    public boolean isWinner;
-    int animalsNumber;
-    //BoardView view = new BoardView(this);
+    private int[][] valeurs;
+    private int[][] tab ;
+    private Case[][] colors;
+    public int [][] clickedOn;   // ??????
+    public int X;    // ??????
+    private int stockFusee;
+    private int saveScore;
+    public int level=1;   // ??????
+    public boolean LevelUp=false;  // ??????
+    int nbcoups=0;  // ??????
+    private int obstaclesNumber;
+    private boolean isWinner;
+    private int animalsNumber;
 
     public Plateau(int hauteur, int largeur) {
         //this.addObserver((Observer) view);
@@ -47,21 +46,67 @@ public class Plateau extends Observable implements Serializable {
     }
 
     public Plateau(int hauteur, int largeur, int level, int stockFusee, int obstaclesNumber, int animalsNumber) {
-        //this.addObserver((Observer) view);
         this.hauteur = hauteur;
         this.largeur = largeur;
-        this.StockFusee = stockFusee;
+        this.stockFusee = stockFusee;
         this.level = level;
         this.animalsNumber= animalsNumber;
+        this.obstaclesNumber = obstaclesNumber;
         this.cases = new boolean[hauteur][largeur];
         this.etats = new int[hauteur][largeur];
         this.couleurs = new int[hauteur][largeur];
         this.valeurs = new int[hauteur][largeur];
         this.colors = new Case[hauteur][largeur];
-        this.obstaclesNumber = obstaclesNumber;
     }
 
-    
+    public int getHauteur() {
+        return this.hauteur;
+    }
+
+    public int getLargeur() {
+        return this.largeur;
+    }
+
+    public void setHauteur (int hauteur) {
+        this.hauteur = hauteur;
+    }
+
+    public void setLargeur (int largeur) {
+        this.largeur = largeur;
+    }
+
+    public Case [][] getColors () {
+        return this.colors;
+    }
+
+    public int getStockFusee () {
+        return this.stockFusee;
+    }
+
+    public void setStockFusee(int s) {
+        this.stockFusee = s;
+    }
+
+    public int getSaveScore() {
+        return this.saveScore;
+    }
+
+    public void setObstaclesNumber (int x) {
+        this.obstaclesNumber = x;
+    }
+
+    public boolean getIsWinner() {
+        return this.isWinner;
+    }
+
+    public int getAnimalsNumber() {
+        return this.animalsNumber;
+    }
+
+    public void setAnimalsNumber(int animalsNumber) {
+        this.animalsNumber = animalsNumber;
+    }
+
     public void displayColors1() {
         for (int i = 0; i <hauteur; i++) {
             for (int j = 0; j <largeur; j++) {
@@ -72,10 +117,9 @@ public class Plateau extends Observable implements Serializable {
     }
 
     
-    
-    
-    
-    public void init() { tab = new int [this.hauteur][this.largeur];}
+    public void init() {
+        tab = new int [this.hauteur][this.largeur];
+    }
 
     public String chooseColor (int color) {
         String res = "";
@@ -422,7 +466,7 @@ public class Plateau extends Observable implements Serializable {
                 else if (rand == 1) {
                     colors[0][animal].setColor("rose");
                 }
-                colors[0][animal].isAnimal = true;
+                colors[0][animal].setIsAnimal(true);
                 all++;
             }
         }
@@ -498,7 +542,7 @@ public class Plateau extends Observable implements Serializable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
-                colors[0][animal].isAnimal = true;
+                colors[0][animal].setIsAnimal(true);
                 all++;
             }
         }
@@ -547,7 +591,7 @@ public class Plateau extends Observable implements Serializable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
-                colors[0][animal].isAnimal = true;
+                colors[0][animal].setIsAnimal(true);
                 all++;
             }
         }
@@ -619,7 +663,7 @@ public class Plateau extends Observable implements Serializable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
-                colors[0][animal].isAnimal = true;
+                colors[0][animal].setIsAnimal(true);
                 all++;
             }
         }
@@ -695,7 +739,7 @@ public class Plateau extends Observable implements Serializable {
             int animal = r.nextInt(largeur-1);
             if(!colors[0][animal].getColor().equals("black")) {
                 colors[0][animal].setColor("black");
-                colors[0][animal].isAnimal = true;
+                colors[0][animal].setIsAnimal(true);
                 all++;
             }
         }
@@ -1081,8 +1125,8 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
             this.use_tab();}
         this.reorganisation();
         System.out.println("Voilà votre score pour ce Coup" + this.CalculerScoreCoup());
-        this.SaveScore=this.SaveScore+this.CalculerScoreCoup();
-        System.out.println("Voilà votre Score Totale" + this.SaveScore);
+        this.saveScore=this.saveScore+this.CalculerScoreCoup();
+        System.out.println("Voilà votre Score Totale" + this.saveScore);
         this.goDown();
       // this.Shift_animal();
         //this.removeAnimal();
@@ -1090,11 +1134,11 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         //this.Shift_animal();
         //if(this.nbcoups==2)this.AddAnimals(3);
        // this.removeAnimal();
-         if(apply== true && this.StockFusee<=0)System.out.println("Plus de fusees !");
-        if(apply==true && this.StockFusee>=1) {
-        	System.out.println("il ya des fusées"+this.StockFusee);
+         if(apply && this.stockFusee<=0)System.out.println("Plus de fusees !");
+        if(apply && this.stockFusee>=1) {
+        	System.out.println("il ya des fusées"+this.stockFusee);
         	this.AppliquerFusee(i, j, apply);
-        	this.StockFusee--;}
+        	this.stockFusee--;}
         
         if(this.jeuGagne(4)) {
 //            this.LevelUp=true;

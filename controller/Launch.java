@@ -45,8 +45,6 @@ public class Launch extends JFrame {
                 Plateau pTmp = new Plateau(8, 8, l.get(0), l.get(1), l.get(2), l.get(3));
                 BoardView boardView = new BoardView(pTmp, l.get(0));
                 Controller controller = new Controller(pTmp, boardView, l.get(0));
-
-
             }
         }
     }
