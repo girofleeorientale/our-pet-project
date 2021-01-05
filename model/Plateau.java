@@ -138,6 +138,33 @@ public class Plateau extends Observable implements Serializable {
         return res;
     }
 
+    public void Erase() {
+    	for(int i=0;i<hauteur;i++) {
+    		for(int j=0;j<largeur;j++) {
+    			this.colors[i][j].setColor("white");
+    			this.couleurs[i][j]=0;
+    			this.tab[i][j]=0;
+    			this.cases[i][j]=false;
+    	}
+    	
+    }}
+    
+    public void removeAnimal1 () {
+        for (int i = 0; i< hauteur; i++) {
+            for (int j =0; j< largeur; j++) {
+                if (animalCameDown(i,j)) {
+                    
+                    colors[i][j].setColor("white");
+                    
+                }
+            }
+        }
+       
+    }
+    
+    
+    
+    
     public boolean placeSquare() {
         boolean res = false;
 
@@ -1112,6 +1139,7 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
 
 
     @SuppressWarnings("deprecation")
+
     public void tryit(boolean apply,int i,int j) {
         this.removeAnimal();
         //this.pushToLeft();
@@ -1119,10 +1147,18 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         this.init();
         this.reinit_tab();
         this.displayColors();
-        //this.removeAnimal();
-        this.eliminer_Voisines(i, j);
+        if(apply== true && this.stockFusee<=0)System.out.println("Plus de fusees !");
+        if(apply==true && this.stockFusee>=1) {
+        	System.out.println("il ya des fusées"+this.stockFusee);
+        	this.AppliquerFusee(i, j, apply);
+        	this.stockFusee--;}
+        
+        
+        
+        
+      if(apply==false) {  this.eliminer_Voisines(i, j);
         for(int x=0;x<64;x++) {
-            this.use_tab();}
+            this.use_tab();}}
         this.reorganisation();
         System.out.println("Voilà votre score pour ce Coup" + this.CalculerScoreCoup());
         this.saveScore=this.saveScore+this.CalculerScoreCoup();
@@ -1134,13 +1170,9 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         //this.Shift_animal();
         //if(this.nbcoups==2)this.AddAnimals(3);
        // this.removeAnimal();
-         if(apply && this.stockFusee<=0)System.out.println("Plus de fusees !");
-        if(apply && this.stockFusee>=1) {
-        	System.out.println("il ya des fusées"+this.stockFusee);
-        	this.AppliquerFusee(i, j, apply);
-        	this.stockFusee--;}
+         
         
-        if(this.jeuGagne(4)) {
+        if(this.jeuGagne(this.animalsNumber)) {
 //            this.LevelUp=true;
             isWinner = true;
         }
@@ -1149,7 +1181,6 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
         this.notifyObservers();
 
     }
-
     /* nb c le nombre des animaux posés */
     public  boolean IfAllSaved(int nb) {
         int cpt=0;
@@ -1200,10 +1231,10 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
     /* à faire */
     public boolean jeuGagne(int nb) {
         if (this.AllSaved(nb)) {
-            System.out.println("You won !");
+           // System.out.println("You won !");
             return true;
         }
-        System.out.println("Sorry, try again !");
+        
         return false;
 
     }
@@ -1238,15 +1269,15 @@ while(i<hauteur-1 && colors[i][col].getColor().equals("white")||colors[i][col].g
     public void AppliquerFusee(int x, int y,boolean apply) {
         if(apply==true)
         {
-            if (RespectsBounds(x,y))this.colors[x][y].setColor("white");
-            if (RespectsBounds(x+1,y))this.colors[x+1][y].setColor("white");
-            if (RespectsBounds(x-1,y))this.colors[x-1][y].setColor("white");
-            if (RespectsBounds(x,y+1))this.colors[x][y+1].setColor("white");
-            if (RespectsBounds(x,y-1))this.colors[x][y-1].setColor("white");
-            if (RespectsBounds(x-1,y-1))this.colors[x-1][y-1].setColor("white");
-            if (RespectsBounds(x+1,y+1))this.colors[x+1][y+1].setColor("white");
-            if (RespectsBounds(x+1,y-1))this.colors[x+1][y-1].setColor("white");
-            if (RespectsBounds(x-1,y+1))this.colors[x-1][y+1].setColor("white");
+            if (RespectsBounds(x,y)) {this.colors[x][y].setColor("white");this.tab[x][y]=7;}
+            if (RespectsBounds(x+1,y)) {this.colors[x+1][y].setColor("white");this.tab[x+1][y]=7;}
+            if (RespectsBounds(x-1,y)) {this.colors[x-1][y].setColor("white");this.tab[x-1][y]=7;}
+            if (RespectsBounds(x,y+1)) {this.colors[x][y+1].setColor("white");this.tab[x][y+1]=7;}
+            if (RespectsBounds(x,y-1)) {this.colors[x][y-1].setColor("white");this.tab[x][y-1]=7;}
+            if (RespectsBounds(x-1,y-1)) {this.colors[x-1][y-1].setColor("white");this.tab[x-1][y-1]=7;}
+            if (RespectsBounds(x+1,y+1)) {this.colors[x+1][y+1].setColor("white");this.tab[x+1][y+1]=7;}
+            if (RespectsBounds(x+1,y-1)) {this.colors[x+1][y-1].setColor("white");this.tab[x+1][y-1]=7;}
+            if (RespectsBounds(x-1,y+1)) {this.colors[x-1][y+1].setColor("white");this.tab[x-1][y+1]=7;}
         }
 
     }
