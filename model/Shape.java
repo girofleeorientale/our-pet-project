@@ -1,21 +1,21 @@
 package model;
 
-public class Shape {
-    int x;
-    int y;
+public abstract class Shape {
+    protected int x;
+    protected int y;
 
-    public Shape () {
-
+    public Shape(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public Shape (int x, int y, int val) {
-        if (val == 1) {
+    public abstract boolean notOutOfBoundsUp(int x, int y);
 
-        }
-    }
+    public abstract boolean notOutOfBoundsDown(Plateau p, int x, int y);
 
-    public boolean okToPlace() {
-        return true;
-    }
+    public abstract boolean notOutOfBoundsLeft(int x, int y);
+
+    public abstract boolean notOutOfBoundsRight(Plateau p, int x, int y);
+
 }
 

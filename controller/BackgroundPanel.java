@@ -13,7 +13,7 @@ class BackgroundPanel extends JPanel
     {
         try
         {
-            image = ImageIO.read(new File("cats.png"));;
+            image = ImageIO.read(new File("./cats.png"));;
         }
         catch (Exception e) {
             e.printStackTrace();

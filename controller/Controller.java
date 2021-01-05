@@ -4,78 +4,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 //Controler le plateau;
 import model.Plateau;
-//import sun.tools.tree.ThisExpression;
 import view.BoardView;
 import view.CellView;
 
 public class Controller extends JFrame implements MouseListener {
 	private Plateau plateau;
 	private BoardView view;
-	private JFrame frame = new JFrame();
+	private JFrame frame = new JFrame("Pet Rescue Saga");
 	private JPanel p = new JPanel();
 	private int j;   // ??????
 	private int x0;
 	private int y0;
-//	private int level;
 
-//	public Controller(Plateau plateau) {
-//		this.plateau=plateau;
-//	}
-
-	public Controller(Plateau p/*BoardView view, int level*/) {
+	public Controller(Plateau p) {
 		this.plateau=p;
-		//linge suivante CCC
-//		this.view=view;
-//		this.level=level;
-
 		this.init();
-//		p.showDescendu(7,0);
-		//this.view.addMouseListener(this);
-
-
 	}
 
-
-
-	public void init(/*int level*/) {
-		view = new BoardView(plateau /*, level*/);
+	public void init() {
+		view = new BoardView(plateau);
 		this.p=view.getGridPanel();
 		this.frame.getContentPane().add(p);
 		frame.setSize(500, 500);
 
-		for(int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
-
-				this.view.getCellViews()[i][j].addMouseListener(this);}}
-
+		for(int i=0;i<plateau.getHauteur();i++) {
+			for(int j=0;j<plateau.getLargeur();j++) {
+				this.view.getCellViews()[i][j].addMouseListener(this);
+			}
+		}
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-//	public void ChangeColor(int i, int j) {
-//		this.view.cellViews[5][5].setBackground(new Color(102,0,153));
-//		//System.out.println(this.plateau.clickedOn[0][1]);
-//	}
-//
-//	public void eliminer(int i , int j) {
-//		this.plateau.eliminer_Voisines(i, j);
-//
-//	}
-//	public void affich(Plateau p) {
-//
-//
-//		System.out.println("Compter" +p.count_animals(1));
-//
-//	}
-
 
 
 	@Override
@@ -90,12 +56,8 @@ public class Controller extends JFrame implements MouseListener {
 		/*****************/
 		this.x0=((CellView) source1).getCordX();
 		this.y0 =((CellView) source1).getCordY();
-System.out.println(" x0 "+x0+" y0 "+y0);
-		// this.plateau.move();
-//		boolean b=false;
-		if(e.getButton()== MouseEvent.BUTTON3) {this.plateau.tryit(true, x0, y0);}
-		else this.plateau.tryit(false,x0, y0);
-		if(e.getButton()== MouseEvent.BUTTON3)System.out.println("right click !!");
+		if(e.getButton()== MouseEvent.BUTTON3) {this.plateau.play(true, x0, y0);}
+		else this.plateau.play(false,x0, y0);
 		if (this.plateau.getIsWinner()) {
 			this.frame.getContentPane().removeAll();
 			this.frame.getContentPane().revalidate();
@@ -103,18 +65,14 @@ System.out.println(" x0 "+x0+" y0 "+y0);
 
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
-
 			ImageIcon icon = new ImageIcon("sea.png");
 			JLabel label2 = new JLabel(icon);
 			label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 			this.frame.getContentPane().add(label2);
 
-
-			//lignes 111-121 CCC
 			JButton button = new JButton("next level");
 			button.setAlignmentX(Component.CENTER_ALIGNMENT);
-//			button.setMargin(new Insets(10, 10, 10, 10));
 
 			JPanel jPanel = new JPanel();
 			frame.getContentPane().add(jPanel);
@@ -125,15 +83,12 @@ System.out.println(" x0 "+x0+" y0 "+y0);
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						Launch.startNextLevel(plateau.level);
+						Launch.startNextLevel(plateau.getLevel());
 					} catch (FileNotFoundException fileNotFoundException) {
 						fileNotFoundException.printStackTrace();
 					}
 				}
 			});
-
-//			this.frame.getContentPane().add(button);
-
 		}
 
 	}
@@ -162,15 +117,4 @@ System.out.println(" x0 "+x0+" y0 "+y0);
 		// TODO Auto-generated method stub
 
 	}
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(()-> {
-		Plateau p= new Plateau(8,8);
-        BoardView boardView = new BoardView(new Plateau(8, 8));
-        CellView cellView = new CellView(9, 9 , new Color(0,6,0));
-        Controller c= new Controller(p,boardView);
-        System.out.println("there is hers");
-        c.affich(p);
-        });
-    }*/
-
 }

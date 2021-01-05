@@ -1,6 +1,5 @@
 package model;
 
-import javax.swing.text.Document;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -92,21 +91,6 @@ public void ColorGuide() {
 }
 
 
-	public String nameFill (int id) throws FileNotFoundException {
-		File devFile = new File("levels.txt");
-		Scanner devScanner = new Scanner(devFile);
-		String res = "";
-		while (devScanner.hasNext()) {
-			String nextLine = devScanner.nextLine();
-			String[] devData = nextLine.split(",");
-			if (Long.parseLong(devData[0]) == id) {
-				res = devData[1];
-			}
-
-		}
-		return res;
-	}
-
 	public int chooseLevel () {
 		System.out.println("Quel niveau choisissez-vous ?");
 		
@@ -120,12 +104,13 @@ public void ColorGuide() {
 		}
 	    return (int) reponse;
 	}
+
 	   public void Play() throws FileNotFoundException {
 		   
 System.out.println("***********************Pet Rescue Saga ******************************");
 		this.AfficherVides(6);
-		if(Level==1) J.nom=J.demanderNom(); 
-		 J.AfficherNom(J.nom);
+		if(Level==1) J.setNom(J.demanderNom());
+		 J.AfficherNom(J.getNom());
 		System.out.println("**__Commencons une partie du niveau__** "+this.Level);
 		this.AfficherVides(2);
 		if(Level==1)this.initializeBoard(Level);
@@ -137,41 +122,36 @@ System.out.println("***********************Pet Rescue Saga *********************
 		this.veutJouer=J.veutJouer();
 		while(veutJouer && !this.plateau.jeuGagne(this.plateau.getAnimalsNumber()))
 		  {
-			plateau.reinit_tab();
+			plateau.reinitTab();
 			System.out.println("Voulez vous utiliser une fusée pour ce coup ?");
             boolean b=J.Fusee();
             //On demande les coordonnees de la case à éliminer
            int [] tab = J.demanderCoordonnes();
 		  if(b==true) {
 	if(plateau.getStockFusee()<=0)System.out.println("Vous n'avez plus de fusées");
-	else{plateau.AppliquerFusee(tab[0], tab[1], true);
+	else{plateau.applyRocket(tab[0], tab[1], true);
 		plateau.setStockFusee(plateau.getStockFusee() - 1);}
 		    }
-		    else {plateau.eliminer_Voisines(tab[0],tab[1]);
+		    else {plateau.deleteNeighbours(tab[0],tab[1]);
 		    for(int i=0;i<iter;i++) {
-				plateau.use_tab();}
+				plateau.useTab();}
 		    }
 		    
 		
 			//Partie réorganisation du Plateau
-		    
-		    
-			
+
 			plateau.reorganisation();
-			//System.out.println("apres suppression");
-			//plateau.getTab();
-			//plateau.displayColors1();
 			plateau.goDown();
 		    // On élimine les animaux qui arrivent en bas
-		   plateau.removeAnimal1();
-		    // Réorgniser le plateau en poussant à gauche
+		   plateau.removeAnimal();
+		    // Réorganiser le plateau en poussant à gauche
 		   plateau.pushToLeftbis();
 		   System.out.println("Après la réorganisation du plateau");
 		    plateau.getTab();
 		    plateau.displayColors1();
 		    this.AfficherFusees(plateau.getStockFusee());
-		    this.SaveScore=this.SaveScore+plateau.CalculerScoreCoup();
-		    this.AfficherScore(this.SaveScore+ plateau.CalculerScoreCoup());
+		    this.SaveScore=this.SaveScore+plateau.calculateScore();
+		    this.AfficherScore(this.SaveScore+ plateau.calculateScore());
 		    System.out.println("Voulez vous jouer ?");
 		   	 veutJouer= J.veutJouer();}
 		  if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level>5) {
@@ -184,13 +164,10 @@ System.out.println("***********************Pet Rescue Saga *********************
     System.out.println("____Félicitations ! Vous avez gagné ce niveau____ ");
     System.out.println("____Voulez vous passer au niveau suivant ? oui/non____");
     if(J.veutContinuer()) {
-    this.plateau.Erase();
+    this.plateau.erase();
   initializeBoard(Level);this.Play();}
   
 		    }
-	   
-
-		  
 	   }    	
 		   
 		    	

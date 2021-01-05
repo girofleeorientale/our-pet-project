@@ -1,27 +1,19 @@
 package controller;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.Plateau;
 import util.SerializationUtil;
 import view.BoardView;
-import view.CellView;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
-
-
 
 
 public class Launch extends JFrame {
@@ -55,25 +47,9 @@ public class Launch extends JFrame {
         EventQueue.invokeLater(()-> {
 
             Plateau p= new Plateau(8,8);
-//            Plateau p1= new Plateau(8,8, 2);
-//            BoardView boardView = new BoardView(p);
-            // CellView cellView = new CellView(8, 8 , new Color(0,6,0));
-            JFrame frame = new JFrame();
+            JFrame frame = new JFrame("Pet Rescue");
             JButton restore = new JButton("restore");
-//            JButton level1 = new JButton("first level");
             BackgroundPanel FirstPage= new BackgroundPanel();
-//            FirstPage.bac
-
-//            FirstPage.setBackground(new Color(0, 89, 87));
-//            BufferedImage image = null;
-//            try {
-//                image = ImageIO.read(new File("sea.png"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            JLabel label = new JLabel(new ImageIcon(image ));
-//            FirstPage.setBackgroundImage(label);
-//            frame.setContentPane(FirstPage);
 
             FirstPage.add(restore);
 
@@ -107,15 +83,6 @@ public class Launch extends JFrame {
                 }
             });
 
-//            level1.addActionListener(new MyActionListener(p1, boardView, 1));
-
-          /* Controller c= null;
-            try {
-                c = new Controller(p, boardView);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }*/
-
         });
     }
 
@@ -123,19 +90,17 @@ public class Launch extends JFrame {
         int level;
         Plateau plateau;
         BoardView boardView;
-        public  MyActionListener (Plateau plateau /*, BoardView boardView, int level*/) {
+        public  MyActionListener (Plateau plateau) {
             this.level=level;
-            this.boardView = boardView;
+//            this.boardView = boardView;
             this.plateau = plateau;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             Controller c= null;
-            c = new Controller(plateau/*boardView, level*/);
+            c = new Controller(plateau);
         }
     }
-
-
 }
 
 
