@@ -79,6 +79,10 @@ public class Plateau extends Observable implements Serializable {
         return this.colors;
     }
 
+    public boolean[][] getCases() {
+        return this.cases;
+    }
+
     public int getStockFusee () {
         return this.stockFusee;
     }
