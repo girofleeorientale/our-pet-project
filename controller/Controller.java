@@ -65,7 +65,7 @@ public class Controller extends JFrame implements MouseListener {
 
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
-			ImageIcon icon = new ImageIcon("sea.png");
+			ImageIcon icon = new ImageIcon("winner.png");
 			JLabel label2 = new JLabel(icon);
 			label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -98,7 +98,7 @@ public class Controller extends JFrame implements MouseListener {
 
 			frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 
-			ImageIcon icon = new ImageIcon("tt.jpg");
+			ImageIcon icon = new ImageIcon("looser.jpg");
 			JLabel label2 = new JLabel(icon);
 			label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 

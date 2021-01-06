@@ -2,6 +2,7 @@ package model;
 
 public class LetterL extends Shape {
 
+
     public LetterL(int x, int y) {
         super(x, y);
     }

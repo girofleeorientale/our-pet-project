@@ -1056,6 +1056,7 @@ public class Plateau extends Observable implements Serializable {
         else if (this.jeuPerdu(this.animalsNumber)) {
             isLooser = true;
         }
+        IspossibleToContinue(this);
 
         this.setChanged();
         this.notifyObservers();
@@ -1078,22 +1079,39 @@ public class Plateau extends Observable implements Serializable {
         return false;
     }
 
-    public boolean impossibleToWin (Plateau p) {
+    public boolean IspossibleToContinue (Plateau p) {
         boolean res = false;
 
         for (int i =0; i< hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
-                if (!isOneCell(i, j)) {
+                if (!isOneCell(i, j) && !colors[i][j].getColor().equals("white") &&
+                        !colors[i][j].getColor().equals("marron") && !colors[i][j].getColor().equals("orchid")
+                && !colors[i][j].getColor().equals("azure")) {
                     res = true;
                 }
             }
         }
+            return res;
+    }
 
+    public boolean onlyOneCells(Plateau p) {
+        boolean res = true;
+
+        for (int i =0; i< hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                if (!isOneCell(i, j) && !colors[i][j].getColor().equals("white") &&
+                        !colors[i][j].getColor().equals("marron") && !colors[i][j].getColor().equals("orchid")
+                        && !colors[i][j].getColor().equals("azure")) {
+                    res = false;
+                }
+            }
+        }
         return res;
     }
 
     public boolean jeuPerdu (int animals) {
-        if (!AllSaved(animals) && (stockFusee == 0) && impossibleToWin(this)) {
+        if (!AllSaved(animals) && (stockFusee == 0) && !IspossibleToContinue(this)
+        && onlyOneCells(this)) {
             return true;
         }
         return false;

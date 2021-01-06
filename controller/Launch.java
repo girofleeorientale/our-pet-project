@@ -56,7 +56,7 @@ public class Launch extends JFrame {
             try {
                 for (List<Integer> l :findLevel()){
                     Plateau pTmp= new Plateau(8,8,l.get(0), l.get(1), l.get(2), l.get(3));
-                    JButton levelTmp = new JButton(l.get(0) + " level");
+                    JButton levelTmp = new JButton("level " + l.get(0));
                     levelTmp.addActionListener(new MyActionListener(pTmp /*, boardView,l.get(0))*/));
                     FirstPage.add(levelTmp);
                 }
@@ -74,7 +74,7 @@ public class Launch extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         Plateau newPlateau = SerializationUtil.deserialize();
-                        new Controller(newPlateau /*, newPlateau.level*/);
+                        new Controller(newPlateau);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     } catch (ClassNotFoundException classNotFoundException) {
