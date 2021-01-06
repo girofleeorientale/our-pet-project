@@ -27,10 +27,11 @@ public class Partie implements Serializable {
  }  
     
  public void AfficherScore(int score) {
-	 System.out.println("                        Score:"+"|"+score +"|"); 
+	 System.out.println("                              Score:"+"|"+score +"|"); 
+	 
  }
 public void AfficherFusees(int stock) {
-	System.out.println("           Nombre de fusées     :"+"|"+stock +"|");
+	System.out.println("                              Nombre de fusées     :"+"|"+stock +"|");
 }
  
  
@@ -80,14 +81,14 @@ public void AfficherFusees(int stock) {
 
 public void ColorGuide() {
 	System.out.println("***GUIDE***");
-	System.out.println("W -> white -> Empty Cell");
-	System.out.println("P -> Blue ->  Blue Cell ");
-	System.out.println("R -> Red ->   Red Cell");
-	System.out.println("G -> Green -> Green Cell");
-	System.out.println("Y -> Yellow-> Yellow Cell");
-	System.out.println("M -> Marron -> Obstacle");
-	System.out.println("B  ->  Black -> Animal" );
-	
+	System.out.println("W -> white -> case videl");
+	System.out.println("B -> Blue ->  case blue");
+	System.out.println("R -> Red ->   case rouge");
+	System.out.println("G -> Green -> case verte");
+	System.out.println("Y -> Yellow-> case jaune");
+	System.out.println("M -> Marron -> case marron");
+	System.out.println("O  -> Orchid  -> animal" );
+	System.out.println("A  -> Azur -> animal" );
 }
 
 
@@ -106,25 +107,31 @@ public void ColorGuide() {
 	}
 
 	   public void Play() throws FileNotFoundException {
-		   
-System.out.println("***********************Pet Rescue Saga ******************************");
-		this.AfficherVides(6);
+		   boolean b = false;
+System.out.println(" **********************************Pet Rescue Saga *********************************************");
+		this.AfficherVides(2);
 		if(Level==1) J.setNom(J.demanderNom());
 		 J.AfficherNom(J.getNom());
 		System.out.println("**__Commencons une partie du niveau__** "+this.Level);
+		this.AfficherVides(1);
+		this.ColorGuide();
 		this.AfficherVides(2);
 		if(Level==1)this.initializeBoard(Level);
-		plateau.getTab();
+		
 		this.AfficherVides(1);
 		plateau.init();
-		plateau.displayColors1();
+		
+		plateau.displayColors();
+		System.out.println(" ");
 		System.out.println("Voulez vous jouer ? oui/non");
 		this.veutJouer=J.veutJouer();
-		while(veutJouer && !this.plateau.jeuGagne(this.plateau.getAnimalsNumber()))
+		
+		while(veutJouer && !this.plateau.jeuGagne(this.plateau.getAnimalsNumber()) && !this.plateau.jeuPerdu(plateau.getAnimalsNumber()))
 		  {
 			plateau.reinitTab();
+			if(this.plateau.getStockFusee() >0){
 			System.out.println("Voulez vous utiliser une fusée pour ce coup ?");
-            boolean b=J.Fusee();
+             b=J.Fusee();}
             //On demande les coordonnees de la case à éliminer
            int [] tab = J.demanderCoordonnes();
 		  if(b==true) {
@@ -147,27 +154,63 @@ System.out.println("***********************Pet Rescue Saga *********************
 		    // Réorganiser le plateau en poussant à gauche
 		   plateau.pushToLeftbis();
 		   System.out.println("Après la réorganisation du plateau");
-		    plateau.getTab();
-		    plateau.displayColors1();
+		   
+		   System.out.println(" ");
+		   plateau.displayColors();
+		   System.out.println(" ");
 		    this.AfficherFusees(plateau.getStockFusee());
 		    this.SaveScore=this.SaveScore+plateau.calculateScore();
 		    this.AfficherScore(this.SaveScore+ plateau.calculateScore());
 		    System.out.println("Voulez vous jouer ?");
-		   	 veutJouer= J.veutJouer();}
-		  if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level>5) {
-		System.out.println("Vous avez déjà joué à tous les niveaux ! Bravo");
-		  }
-		    if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level<=5 ) { 
+		   	 veutJouer= J.veutJouer();
+		   	
+		   	 }
+		if(!veutJouer) {
+			
+			 System.out.println("Merci d'avoir utilisé notre jeu !");
+		   }
+		else if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level<=5 ) { 
+			
 		    this.Level++;
 		    this.LevelUP=true;
     System.out.println("______Tous les animaux ont été sauvés_____");
     System.out.println("____Félicitations ! Vous avez gagné ce niveau____ ");
     System.out.println("____Voulez vous passer au niveau suivant ? oui/non____");
-    if(J.veutContinuer()) {
+    if(J.veutContinuer() && Level<=5) {
+    	
     this.plateau.erase();
   initializeBoard(Level);this.Play();}
-  
+    else {  System.out.println("Merci d'avoir utilisé notre jeu !");
+            
+       }
 		    }
+		   if(this.plateau.jeuGagne(plateau.getAnimalsNumber()) && Level>5) {
+				System.out.println("Vous avez déjà joué à tous les niveaux ! Bravo");
+				System.out.println("Pas de niveau supérieur pour le moment...");
+				System.out.println("Merci d'avoir joué !");
+				
+				  }
+	   
+		   else if(this.plateau.jeuPerdu(plateau.getAnimalsNumber())&& Level<=5 ) {
+			   System.out.println("Aie ...Vous avez perdu ");
+			   System.out.println("Voulez vous recommencer ce niveau ?");
+			   if(J.veutRefaireNiveau()) {
+				 
+				   this.plateau.erase();
+				   initializeBoard(Level);
+				   this.Play();
+			   }
+			   else {  System.out.println("Merci d'avoir utilisé notre jeu !");}
+			   }
+		   
+		   else if(!this.J.veutJouer()) {
+			   System.out.println("Merci d'avoir utilisé notre jeu !");
+			   
+		   }
+		   }
+		   
+		   
+		 
 	   }    	
 		   
 		    	
@@ -178,7 +221,7 @@ System.out.println("***********************Pet Rescue Saga *********************
 	
 
     
-}
+
 	
 	
 
