@@ -49,7 +49,22 @@ public class Joueur implements Serializable {
         if (reponse.equals("oui")) return true;
         return false;
     }
+    public boolean veutRefaireNiveau() {
 
+        String reponse = scanReponse.nextLine();
+        while (!reponse.equals("oui") && !reponse.equals("non")) {
+            System.out.println("Veuillez répondre par oui ou non ");
+            this.veutContinuer();
+        }
+
+        if (reponse.equals("oui")) return true;
+        return false;
+    }
+    
+    
+    
+    
+    
 
     public String demanderNom() {
         System.out.println("Quel est votre nom ?");
