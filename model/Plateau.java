@@ -790,14 +790,14 @@ public class Plateau extends Observable implements Serializable {
     }
 
     /****** Fonctions de suppression et reorganisation ******/
-
+  // Dit si la case (i,j) a une voisine gauche
     public boolean neighbourLeft(int i, int j) {
         if (j == 0) return false;
 
         if (colors[i][j].getColor().equals(colors[i][j - 1].getColor())) return true;
         return false;
     }
-
+//Dit si la case (i,j) a une voisine droite
     public boolean neighbourRight(int i, int j) {
         if (j == largeur - 1) {
             return false;
@@ -821,7 +821,7 @@ public class Plateau extends Observable implements Serializable {
         return false;
     }
 
-
+// Remplit la case (x,y) du tableau intermediare tab avec  7 quand il faut supprimer la  (x,y) du plateau
     public void deleteNeighbours(int i, int j) {
 
         if (neighbourLeft(i, j) && !colors[i][j].getColor().equals("azure") && !colors[i][j].getColor().equals("marron") &&
@@ -846,12 +846,12 @@ public class Plateau extends Observable implements Serializable {
 
     }
 
-
+//Si c'est une case seule (sans voisines)
     public boolean isOneCell(int x, int y) {
         return (!neighbourDown(x, y) && !neighbourUp(x, y) && !neighbourLeft(x, y) && !neighbourRight(x, y));
     }
 
-
+// élimine les voisines des voisines....
     public void useTab() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
@@ -861,7 +861,7 @@ public class Plateau extends Observable implements Serializable {
             }
         }
     }
-
+// rénitialiser le tableau intérmediare tab
     public void reinitTab() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
@@ -870,7 +870,7 @@ public class Plateau extends Observable implements Serializable {
         }
     }
 
-
+//Supprimer les cases correspondantes en remplissant par "white"
     @SuppressWarnings("deprecation")
     public void reorganisation() {
         for (int i = 0; i < largeur; i++) {
@@ -882,7 +882,7 @@ public class Plateau extends Observable implements Serializable {
             }
         }
     }
-
+// Retourne vrai si il n y a pas de cases remplies suivies de cases vides dans une colonne (bien rangée)
     public boolean noGaps(int col) {
         for (int i = 1; i < hauteur; i++) {
             if (!colors[i - 1][col].getColor().equals("white") &&
@@ -891,7 +891,8 @@ public class Plateau extends Observable implements Serializable {
         }
         return true;
     }
-
+// Pour réorganiser en bas si on trouve des colonnes mal rangées
+    //Cases remplies au dessus de cases vides
     public void reorganizeDown(int col) {
 
         int i = 0;
@@ -980,7 +981,7 @@ public class Plateau extends Observable implements Serializable {
         }
     }
 
-
+//Pour réorganiser à gauche, si une colonne vide est suivie d'une colonne non vide
     @SuppressWarnings("deprecation")
 
     public void reorganizeToLeft(int col) {
@@ -1009,7 +1010,7 @@ public class Plateau extends Observable implements Serializable {
         if (i < hauteur && !this.colors[i][col].getColor().equals("white")) return false;
         return true;
     }
-
+//Pour réorganiser en bas dans tout le plateau
     public void goDown() {
         for (int j = 0; j < largeur; j++)
         //Si cette colonne a des vides(mal rangée)(il faut descendre)
@@ -1026,9 +1027,9 @@ public class Plateau extends Observable implements Serializable {
         this.init();
         this.reinitTab();
         this.displayColors();
-//        if(apply== true && this.stockFusee<=0)System.out.println("Plus de fusees !");
+
         if (apply == true && this.stockFusee >= 1) {
-//        	System.out.println("il ya des fusées"+this.stockFusee);
+
             this.applyRocket(i, j, apply);
             this.stockFusee--;
         }
@@ -1040,9 +1041,9 @@ public class Plateau extends Observable implements Serializable {
             }
         }
         this.reorganisation();
-//        System.out.println("Voilà votre score pour ce Coup" + this.CalculerScoreCoup());
+
         this.saveScore = this.saveScore + this.calculateScore();
-//        System.out.println("Voilà votre Score Totale" + this.saveScore);
+
         this.goDown();
 
         this.shiftAnimal();
@@ -1061,7 +1062,7 @@ public class Plateau extends Observable implements Serializable {
         this.setChanged();
         this.notifyObservers();
     }
-
+// Retourne vrai si tous les animaux sont sauvés
     public boolean AllSaved(int nb) {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
@@ -1071,14 +1072,14 @@ public class Plateau extends Observable implements Serializable {
         }
         return true;
     }
-
+// Si on gagne
     public boolean jeuGagne(int animals) {
         if (this.AllSaved(animals)) {
             return true;
         }
         return false;
     }
-
+// REtourne vrai si il reste toujours des cases qu'on peut éliminer
     public boolean IspossibleToContinue (Plateau p) {
         boolean res = false;
 
@@ -1093,7 +1094,7 @@ public class Plateau extends Observable implements Serializable {
         }
             return res;
     }
-
+// retourne vrai si une case est seule (sans voisines)
     public boolean onlyOneCells(Plateau p) {
         boolean res = true;
 
@@ -1108,7 +1109,8 @@ public class Plateau extends Observable implements Serializable {
         }
         return res;
     }
-
+//On perds si on n'a pas sauvé les animaux sachant que toutes les fusées sont utilisées et qu'on ne peut plus éliminer plus rien
+    //(il ne reste que des cases seules(sans voisines)
     public boolean jeuPerdu (int animals) {
         if (!AllSaved(animals) && (stockFusee == 0) && !IspossibleToContinue(this)
         && onlyOneCells(this)) {
@@ -1118,11 +1120,12 @@ public class Plateau extends Observable implements Serializable {
     }
 
     /*****Fonction Fusee*****//* <>*/
+    //Si on reste dans les bords du plateau
     public boolean respectsBounds(int x, int y) {
         if (x < hauteur && x >= 0 && y >= 0 && y < largeur) return true;
         return false;
     }
-
+//Pour calculer le score
     public int calculateScore() {
         int Score = 0;
         for (int i = 0; i < hauteur; i++) {
@@ -1133,7 +1136,7 @@ public class Plateau extends Observable implements Serializable {
 
         return Score;
     }
-
+//Pour appliquer la fusee
     public void applyRocket(int x, int y, boolean apply) {
         if (apply) {
             if (respectsBounds(x, y)) {
@@ -1175,7 +1178,7 @@ public class Plateau extends Observable implements Serializable {
         }
     }
 
-
+//Pour mettre des obstacles
     public void fillObstacles(int nombre) {
 
         int cpt = nombre;
@@ -1189,7 +1192,7 @@ public class Plateau extends Observable implements Serializable {
             }
         }
     }
-
+// Pour descendre après shiftAnimal
     public void pushAndGoDown(int i, int j) {
         String res = colors[i][j].getColor();
         colors[i][j].setColor("white");
@@ -1211,7 +1214,7 @@ public class Plateau extends Observable implements Serializable {
     }
 
     /***************** Fonctions pour les animaux *******/
-
+//Sauter d'un obstacle pour descendre
     public void shiftAnimal() {
 
         for (int i = 1; i < hauteur; i++) {
@@ -1222,11 +1225,11 @@ public class Plateau extends Observable implements Serializable {
             }
         }
     }
-
+//teste si l'animal est arrivé en bas
     public boolean animalCameDown(int x, int y) {
         return ((colors[x][y].getColor().equals("azure") || colors[x][y].getColor().equals("orchid")) && x == hauteur - 1);
     }
-
+//Fiat disparaitre l'animal
     public void removeAnimal() {
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
