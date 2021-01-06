@@ -1024,30 +1024,36 @@ public class Plateau extends Observable implements Serializable {
     @SuppressWarnings("deprecation")
 
     public void play(boolean apply, int i, int j) {
+        //initialise les dimensions du tableau intermediare tab
         this.init();
+        //réintialise ses valeurs après un coup du joueur(faudrait qu'il soit vide au début de chaque coup)
         this.reinitTab();
-        this.displayColors();
-
+        
+        //this.displayColors();
+     // si apply==true appliquer la fusee
         if (apply == true && this.stockFusee >= 1) {
 
             this.applyRocket(i, j, apply);
             this.stockFusee--;
         }
-
+//Sinon faire une élimination ordinaire avec deleteNeighbours
         if (apply == false) {
             this.deleteNeighbours(i, j);
             for (int x = 0; x < hauteur * largeur; x++) {
                 this.useTab();
             }
         }
+        //eliminer ce qu'il faut(les cases des meme couleur et leurs voisines)
         this.reorganisation();
-
+       //Sauvegarder le score gagné avec le coup du joueur
         this.saveScore = this.saveScore + this.calculateScore();
-
+// reorganiser en bas
         this.goDown();
-
+//l'animal saute de l'obstacle si les conditions sont verifiees
         this.shiftAnimal();
+        //faire disparaitre les animaux sauvés
         this.removeAnimal();
+        //reorganiser à gauche
         this.pushToLeftbis();
 
         if (this.jeuGagne(this.animalsNumber)) {
