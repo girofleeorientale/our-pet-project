@@ -36,8 +36,8 @@ public class Launch extends JFrame {
         for (List<Integer> l :findLevel()) {
             if (l.get(0) == level + 1) {
                 Plateau pTmp = new Plateau(8, 8, l.get(0), l.get(1), l.get(2), l.get(3));
-                BoardView boardView = new BoardView(pTmp /*, l.get(0)*/);
-                Controller controller = new Controller(pTmp /*boardView, l.get(0)*/);
+                BoardView boardView = new BoardView(pTmp);
+                Controller controller = new Controller(pTmp);
             }
         }
     }
@@ -46,7 +46,6 @@ public class Launch extends JFrame {
 
         EventQueue.invokeLater(()-> {
 
-            Plateau p= new Plateau(8,8);
             JFrame frame = new JFrame("Pet Rescue");
             JButton restore = new JButton("restore");
             BackgroundPanel FirstPage= new BackgroundPanel();
